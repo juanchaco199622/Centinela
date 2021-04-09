@@ -12,9 +12,9 @@ class Splash extends Component {
     }, 1500);
   }
 
-  componentWillUnmount() {
+  /*componentWillUnmount() {
     auth().onAuthStateChanged((user));
-  }
+  }*/
 
   render() {
     return (

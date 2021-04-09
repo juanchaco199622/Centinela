@@ -7,6 +7,7 @@ import Splash from '../Layout/Auth/Splash';
 import Login from '../Layout/Auth/Login';
 import Home from '../Layout/Auth/Home/Home';
 import Profile from '../Layout/Auth/Profile/Profile';
+import Exit from '../Layout/Exit/Exit';
 
 const AuthStack = createStackNavigator();
 
@@ -25,22 +26,33 @@ const AppTabs = createBottomTabNavigator();
 
 const AppTabsScreen =() =>(
      <AppTabs.Navigator>
-         <AppTabs.Screen
-            name = 'home'
-            component={Home}
-            options={{
-                tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'black'} size={30}/>
-                )
-            }}
-         />
-
+        
         <AppTabs.Screen
             name = 'profile'
             component={Profile}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'black'} size={30}/>
+                    <MaterialCommunityIcons name='account-circle' color={'#673ab7'} size={30}/>
+                )
+            }}
+         />
+
+        <AppTabs.Screen
+            name = 'home'
+            component={Home}
+            options={{
+                tabBarIcon:() =>(
+                    <MaterialCommunityIcons name='home' color={'#673ab7'} size={30}/>
+                )
+            }}
+         />
+         
+        <AppTabs.Screen
+            name = 'Exit'
+            component={Exit}
+            options={{
+                tabBarIcon:() =>(
+                    <MaterialCommunityIcons name='close' color={'#673ab7'} size={30}/>
                 )
             }}
          />
