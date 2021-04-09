@@ -88,7 +88,7 @@ function Login({navigation}){
   
     
         <View style={styles.containerButtonSignUp}>
-          <Subheading stylye={{fontSize:40}}>No tienes cuenta? <Subheading style={{color:'#007a6f'}} onPress={() => navigation.navigate('SignUp')}>Registrate</Subheading></Subheading>
+          <Subheading stylye={{fontSize:40}}>Desarrollado por <Subheading style={{color:'#007a6f'}} onPress={() => navigation.navigate('SignUp')}>CentinelAPP</Subheading></Subheading>
         </View>
       </View>
     </Surface>
