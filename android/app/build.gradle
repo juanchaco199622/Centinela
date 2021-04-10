@@ -189,7 +189,8 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-    implementation platform('com.google.firebase:firebase-bom:26.8.0')
+    
+    implementation platform('com.google.firebase:firebase-bom:27.0.0')
     implementation 'com.google.firebase:firebase-analytics'
     
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

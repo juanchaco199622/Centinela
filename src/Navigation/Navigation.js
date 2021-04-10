@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -9,6 +9,7 @@ import Home from '../Layout/Auth/Home/Home';
 import Profile from '../Layout/Auth/Profile/Profile';
 import Exit from '../Layout/Exit/Exit';
 import CreateUser from '../Layout/Auth/CreateUser';
+import ListUsers from '../Layout/Auth/ListUsers';
 
 const AuthStack = createStackNavigator();
 
@@ -21,6 +22,12 @@ const AuthStackScreen = () =>(
              <AuthStack.Screen name="Login" component={Login} />
         </AuthStack.Navigator>
 )
+
+const Mystack = () =>{
+    <Stack.Navigator>
+        <Stack.Screen name='ListUsers' component={ListUsers} />
+    </Stack.Navigator>
+}
 
 
 const AppTabs = createBottomTabNavigator();
