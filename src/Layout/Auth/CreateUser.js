@@ -9,6 +9,8 @@ export default function Profile() {
     const [state, setState] = useState({
         nombres : "",
         apellidos : "",
+        email: "",
+        password :"",
     })
 
  const handleChangeText = (name,value )=>{
@@ -19,12 +21,14 @@ export default function Profile() {
      if(state.nombres === '' || state.apellidos === ''){
         alert('Campos Vacios.')
      } else {
-        await  firestore().collection('Users').doc(auth().currentUser.uid).set({
+        await  firestore().collection('Users').add({
             id: user.uid,
             nombres: state.nombres,
-            apellidos : state.apellidos
+            apellidos : state.apellidos,
+            email : state.email,
+            password : state.password,
         })
-        alert('saved')
+        alert('Datos Guardados')
      }
     // console.log(state)
  }
@@ -41,6 +45,18 @@ export default function Profile() {
                 <TextInput 
                     placeholder='Apellidos'
                     onChangeText={(value) => handleChangeText("apellidos",value)}
+                />
+            </View>
+            <View style={styles.inputGroup}>
+                <TextInput 
+                    placeholder='Email'
+                    onChangeText={(value) => handleChangeText("email",value)}
+                />
+            </View>
+            <View style={styles.inputGroup}>
+                <TextInput 
+                    placeholder='Password'
+                    onChangeText={(value) => handleChangeText("password",value)}
                 />
             </View>
             <Button title='Save User' onPress={() => saveNewUser()} ></Button>

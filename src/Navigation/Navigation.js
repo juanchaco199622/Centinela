@@ -33,7 +33,7 @@ const AppTabsScreen =() =>(
             component={Profile}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='account-circle' color={'#673ab7'} size={30}/>
+                    <MaterialCommunityIcons name='account-circle' color={'black'} size={30}/>
                 )
             }}
          />
@@ -43,7 +43,7 @@ const AppTabsScreen =() =>(
             component={Home}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'#673ab7'} size={30}/>
+                    <MaterialCommunityIcons name='home' color={'black'} size={30}/>
                 )
             }}
          />
@@ -53,7 +53,7 @@ const AppTabsScreen =() =>(
                 component={CreateUser}
                 options={{
                     tabBarIcon:() =>(
-                        <MaterialCommunityIcons name='close' color={'#673ab7'} size={30}/>
+                        <MaterialCommunityIcons name='account-group' color={'black'} size={30}/>
                     )
                 }}
             />
@@ -63,7 +63,7 @@ const AppTabsScreen =() =>(
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='close' color={'#673ab7'} size={30}/>
+                    <MaterialCommunityIcons name='close' color={'black'} size={30}/>
                 )
             }}
          />
