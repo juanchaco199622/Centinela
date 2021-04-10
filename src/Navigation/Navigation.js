@@ -8,6 +8,7 @@ import Login from '../Layout/Auth/Login';
 import Home from '../Layout/Auth/Home/Home';
 import Profile from '../Layout/Auth/Profile/Profile';
 import Exit from '../Layout/Exit/Exit';
+import CreateUser from '../Layout/Auth/CreateUser';
 
 const AuthStack = createStackNavigator();
 
@@ -46,7 +47,17 @@ const AppTabsScreen =() =>(
                 )
             }}
          />
-         
+
+          <AppTabs.Screen
+                name = 'Users'
+                component={CreateUser}
+                options={{
+                    tabBarIcon:() =>(
+                        <MaterialCommunityIcons name='close' color={'#673ab7'} size={30}/>
+                    )
+                }}
+            />
+
         <AppTabs.Screen
             name = 'Exit'
             component={Exit}
@@ -56,6 +67,7 @@ const AppTabsScreen =() =>(
                 )
             }}
          />
+
 
 
      </AppTabs.Navigator>
