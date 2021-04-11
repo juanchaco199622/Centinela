@@ -15,11 +15,16 @@ function Login({navigation}){
 
   const LoginUser = async() =>{
       try {
-    
-          await auth().signInWithEmailAndPassword(email,password);
+         if(email === ''){
+            alert('Se requiere un correo electrónico.');
+         }else if(password === ''){
+            alert('Se requiere una contraseña .');
+         }else{
+             await auth().signInWithEmailAndPassword(email,password);
+         }
 
-      }catch {error} {
-        Alert.alert('Error', 'Hay un error'+  error)
+      }catch  {
+        alert('Correo o Contraseña inválida');
       }
   }
 
