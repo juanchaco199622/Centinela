@@ -16,15 +16,23 @@ function Login({navigation}){
   const LoginUser = async() =>{
       try {
          if(email === ''){
-            alert('Se requiere un correo electrónico.');
+            Alert.alert('Se requiere un correo electrónico.');
          }else if(password === ''){
-            alert('Se requiere una contraseña .');
+           Alert.alert('Se requiere una contraseña .');
          }else{
              await auth().signInWithEmailAndPassword(email,password);
          }
 
       }catch  {
-        alert('Correo o Contraseña inválida');
+          Alert.alert('Correo o Contraseña inválida');
+      }
+  }
+
+  const restablecerContraseña = async() => {
+      if(email === ''){
+        alert('Se requiere un correo electrónico.');
+      }else{
+        firebase.auth().sendPasswordResetEmail(email)
       }
   }
 
@@ -68,7 +76,7 @@ function Login({navigation}){
           <View style={styles.containerForgotPass}>
               <Subheading 
                 style={{color:'#007a6f'}}
-                onPress={() => navigation.navigate('ForgotPassword')}
+                onPress={restablecerContraseña}
               >
                  Olvidaste la contraseña?
               </Subheading>
