@@ -8,7 +8,7 @@ export default function Exit() {
 
     auth()
   .signOut()
-  .then( Alert.alert('Hasta luego CentinelAPP'));
+  .then( Alert.alert('Hasta luego CentinelAPP.'));
     return (
         <View>
             <Text>Terminado</Text>
