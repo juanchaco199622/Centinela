@@ -1,32 +1,42 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import { Avatar, Card, IconButton, Title, Paragraph, FAB, Portal, Provider } from 'react-native-paper';
-//import auth from '@react-native-firebase/auth'
+import { Card, IconButton, Title, Paragraph, FAB, Portal, Provider } from 'react-native-paper';
+import auth from '@react-native-firebase/auth'
+import { Avatar } from 'react-native-elements';
 
 export default function Profile() {
 
-   //const user = auth().signOut().then(() => console.log('User signed out!'))
+  const user = auth().currentUser
     return (
         <View>
-            <Text>Este es el perfil</Text>
-    <Card.Title
-    title="Lino Zamora"
-    subtitle="Cachorro"
-    left={(props) => <Avatar.Icon {...props} icon="folder" />}
-    right={(props) => <IconButton {...props} icon="more-vert" onPress={() => {}} />}
-  />
-   <Card>
-    <Card.Content>
-      <Title>Edad</Title>
-      <Paragraph>12 años</Paragraph>
-    </Card.Content>
-  </Card>
-  <Card>
-    <Card.Content>
-      <Title>Datos medicos</Title>
-      <Paragraph>14 años</Paragraph>
-    </Card.Content>
-  </Card>
+
+            <Card>
+             <Avatar
+                rounded
+                source={{
+                  uri:
+                    'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
+                }}
+                size={100}
+              />
+               <Card.Content>
+                <Title>Email</Title>
+                <Paragraph>{user.email}</Paragraph>
+                <Paragraph>{user.email}</Paragraph>
+              </Card.Content>
+            
+              <Card.Content>
+                <Title>Edad</Title>
+                <Paragraph>24 años</Paragraph>
+              </Card.Content>
+
+            </Card>
+            <Card>
+              <Card.Content>
+                <Title>Datos medicos</Title>
+                <Paragraph>N/A</Paragraph>
+              </Card.Content>
+            </Card>
         </View>
     )
 }
