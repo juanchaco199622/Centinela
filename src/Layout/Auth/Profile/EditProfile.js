@@ -8,11 +8,8 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import EditProfile from './EditProfile'; 
 
-export default function Profile() {
-  const navigation = useNavigation();
+export default function EditProfile() {
   const admin = 'qvmIaejtqxpPGQQYegC5';
   const [state, setState] = useState({
       nombres : "",
@@ -64,18 +61,15 @@ export default function Profile() {
         <Divider/>
         <View style={{flexDirection:"row", padding:10}}>
           <Icon name="account" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ state.rol }</Text>
+          <Text style={{marginLeft:10,marginTop:2}}>Editar</Text>
         </View>
         <View style={{flexDirection:"row", padding:10}}>
           <Icon name="email" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ state.correo }</Text>
+          <Text style={{marginLeft:10,marginTop:2}}>Editar</Text>
         </View>
         <Divider/>
         <View style={{alignItems:"flex-end", padding:10}}>
-        <Button icon="pencil" color = "#fff" uppercase={false} 
-          style={styles.roundButton} 
-          onPress={()=>navigation.navigate('EditProfile')}
-        >Editar perfil</Button>
+        <Button icon="pencil" color = "#fff" uppercase={false} style={styles.roundButton} onPress={()=>console.log('Si')}>Editar perfil</Button>
         </View>
         
       </SafeAreaView>

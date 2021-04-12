@@ -36,7 +36,7 @@ const AppTabsScreen =() =>(
      <AppTabs.Navigator>
         
         <AppTabs.Screen
-            name = 'profile'
+            name = 'Perfil'
             component={Profile}
             options={{
                 tabBarIcon:() =>(
