@@ -22,7 +22,6 @@ export default function Profile() {
                <Card.Content>
                 <Title>Email</Title>
                 <Paragraph>{user.email}</Paragraph>
-                <Paragraph>{user.email}</Paragraph>
               </Card.Content>
             
               <Card.Content>

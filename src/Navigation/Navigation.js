@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -9,6 +9,7 @@ import Home from '../Layout/Auth/Home/Home';
 import Profile from '../Layout/Auth/Profile/Profile';
 import Exit from '../Layout/Exit/Exit';
 import CreateUser from '../Layout/Auth/CreateUser';
+import ListUsers from '../Layout/Auth/ListUsers';
 
 const AuthStack = createStackNavigator();
 
@@ -22,6 +23,12 @@ const AuthStackScreen = () =>(
         </AuthStack.Navigator>
 )
 
+const Mystack = () =>{
+    <Stack.Navigator>
+        <Stack.Screen name='ListUsers' component={ListUsers} />
+    </Stack.Navigator>
+}
+
 
 const AppTabs = createBottomTabNavigator();
 
@@ -33,7 +40,7 @@ const AppTabsScreen =() =>(
             component={Profile}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='account-circle' color={'#673ab7'} size={30}/>
+                    <MaterialCommunityIcons name='account-circle' color={'black'} size={30}/>
                 )
             }}
          />
@@ -43,7 +50,7 @@ const AppTabsScreen =() =>(
             component={Home}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'#673ab7'} size={30}/>
+                    <MaterialCommunityIcons name='home' color={'black'} size={30}/>
                 )
             }}
          />
@@ -53,7 +60,7 @@ const AppTabsScreen =() =>(
                 component={CreateUser}
                 options={{
                     tabBarIcon:() =>(
-                        <MaterialCommunityIcons name='close' color={'#673ab7'} size={30}/>
+                        <MaterialCommunityIcons name='account-group' color={'black'} size={30}/>
                     )
                 }}
             />
@@ -63,7 +70,7 @@ const AppTabsScreen =() =>(
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='close' color={'#673ab7'} size={30}/>
+                    <MaterialCommunityIcons name='close' color={'black'} size={30}/>
                 )
             }}
          />
