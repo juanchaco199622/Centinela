@@ -1,6 +1,7 @@
 import React, { useState, useContext  } from 'react';
 import { TextInput, Surface, Button, Headline, Text, Subheading} from 'react-native-paper';
-import { StyleSheet, View, ScrollView, Alert} from 'react-native';
+import { StyleSheet, View, ScrollView, Alert, Image, ImageBackground} from 'react-native';
+import {Font} from 'expo-font';
 import auth from '@react-native-firebase/auth'
 
 
@@ -37,76 +38,88 @@ function Login({navigation}){
   }
 
   return (
-    <Surface style={styles.surface}>
-      <View style={styles.container}>
-
-        <View style={styles.containerText}>
-          <Headline style={{marginTop:'5%',color:'#007a6f', fontSize:33, fontFamily:'ProductSans-Bold'}}>Bienvenid@,</Headline>
-          <Text style={{color:'grey', fontSize:19,color:'#007a6f'}}>
-              Ingresa para continuar a la app!
-          </Text>
-        </View> 
-     
-  
-        <View style={styles.containerLogin}>
-          <TextInput
-            style={styles.input}
-            mode='outlined'
-            label='Correo Electrónico'
-            autoCapitalize='none'
-            value={email}
-            onChangeText={(email) => setEmail(email)}
-          />
-
-          <TextInput
-            style={styles.input}
-            mode='outlined'
-            label='Contraseña'
-            secureTextEntry={isSecureEntry}
-            right={
-              <TextInput.Icon 
-                name = {isSecureEntry ?  'eye-off-outline' : 'eye-outline'} 
-                color={"#c8c8c8"} 
-                onPress={() => {setIsSecureEntry((prev) => !prev)}} 
-            />}
-            value={password}
-            onChangeText={(password) => setPassword(password)}
-          />
-
-          <View style={styles.containerForgotPass}>
-              <Subheading 
-                style={{color:'#007a6f'}}
-                onPress={restablecerContraseña}
-              >
-                 Olvidaste la contraseña?
-              </Subheading>
-          </View>
-        </View>
-
-        <View style={styles.containerButtonLogin}>
-          <View style={{marginBottom:'5%'}}>
-            <Button 
-              //onPress={() => login(email, password)}
-              onPress={LoginUser}
-              contentStyle={styles.buttonLogin}
-              mode="contained"
-              uppercase={false} 
-              labelStyle={{fontSize: 18}}
-      
-            >
-              Ingresar
-            </Button>
-          </View>
-          
-         
-        </View>
-  
     
-        <View style={styles.containerButtonSignUp}>
-          <Subheading stylye={{fontSize:40}}>Desarrollado por <Subheading style={{color:'#007a6f'}} onPress={() => navigation.navigate('SignUp')}>CentinelAPP</Subheading></Subheading>
+    <Surface style={styles.surface}>    
+        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/imagenes/Login_Background.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
+          <View style={styles.containerLogo}>
+              <Image source={require('../../../assets/imagenes/Scout_Logo.png')} style={styles.imageUp}/>
+            </View> 
+
+            <View style={styles.containerText}>
+              <Headline style={{marginTop:'10%',color:'#DEDEDE', fontSize:33, fontFamily:'ProductSans-Bold'}}>BIENVENIDO!</Headline>
+              <Text style={{fontSize:19, color:'#DEDEDE'}}>
+                  Gusto en verte de nuevo
+              </Text>
+            </View> 
+      
+          <View style={styles.containerLogin}>
+              <TextInput
+                style={styles.input}
+                mode='outlined'
+                label='Correo Electrónico'
+                autoCapitalize='none'
+                value={email}
+                onChangeText={(email) => setEmail(email)}
+              />
+
+            <TextInput
+              style={styles.input}
+              mode='outlined'
+              label='Contraseña'
+              secureTextEntry={isSecureEntry}
+              right={
+                <TextInput.Icon 
+                  name = {isSecureEntry ?  'eye-off-outline' : 'eye-outline'} 
+                  color={"#949494"} 
+                  onPress={() => {setIsSecureEntry((prev) => !prev)}} 
+              />}
+              value={password}
+              onChangeText={(password) => setPassword(password)}
+            />
+          </View>
+
+          <View style={styles.containerButtonLogin}>
+            <View style={{marginBottom:'2%'}}>
+              <Button 
+                //onPress={() => login(email, password)}
+                onPress={LoginUser}
+                contentStyle={styles.buttonLogin}
+                mode="contained"
+                uppercase={false} 
+                labelStyle={{fontSize: 21}}
+              >
+                INGRESAR
+              </Button>
+            </View>
+
+            <View style={styles.containerForgotPass}>
+                <Subheading 
+                  style={{color:'#DEDEDE'}}
+                  onPress={restablecerContraseña}
+                >
+                  Olvido su contraseña?
+                </Subheading>
+            </View>
+          </View>
+
+          <View style={styles.containerButtonSignUp}>
+            <Subheading stylye={{fontSize:12, color:'#DEDEDE'}}>
+            <Text style={{fontSize:15, color:'#DEDEDE'}}>
+                  Desarrollador por
+              </Text> 
+            <Subheading style={{color:'#FFA303'}} onPress={() => navigation.navigate('SignUp')}> CentinelAPP</Subheading></Subheading>
+          </View>
+
+          <View style={styles.containerTextCopyright}>
+              <Text style={styles.copyrightText}>
+                © CENTINELAPP 2021 - TODOS LOS DERECHOS RESERVADOS
+              </Text>
+            </View>
+            </ImageBackground>
         </View>
-      </View>
     </Surface>
+    
   );
 }
 
@@ -114,8 +127,7 @@ const styles = StyleSheet.create({
 
   surface: {
     height: '100%',
-    width: '100%',
-    backgroundColor: '#FFFFFF'
+    width: '100%'
   },
   container:{
     flex:1,
@@ -123,31 +135,30 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
   },
   containerLogin:{
-    margin:'5%',
-    borderTopStartRadius: 30,
-    borderTopEndRadius: 30,
+    margin:'6%'
   },
   input:{
     backgroundColor:'#FFFFFF',
-    marginBottom:'2%'
+    marginBottom:'1%'
   },  
   containerText:{
-    margin:'5%',
-    marginTop:'15%'
+    margin:'5%'
   },
   containerForgotPass:{
     flexDirection:'row',
-    justifyContent:'flex-end',
+    justifyContent:'center',
     fontSize:20
   },
   containerButtonLogin:{
-    margin:'5%',
-    marginTop:'-1%',
+    margin:'6%',
+    marginTop:'-3%',
     flexDirection:'column',
     justifyContent:'space-between'
   },
   buttonLogin:{
-    padding:'2%'
+    padding:'2%',
+    backgroundColor: '#8E0101',
+    borderRadius: 10,
   },
   facebookLogin:{
     padding:'2%',
@@ -157,6 +168,26 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'center',
     margin:'3%'
+  },
+  imageUp:{
+    justifyContent:'center',
+    alignItems: 'center'
+  },
+  containerTextCopyright:{
+    justifyContent:'center',
+    alignItems: 'center',
+    margin:'5%',
+    marginTop:'0%'
+  },
+  containerLogo:{
+    marginTop: '13%',
+    justifyContent:'center',
+    alignItems: 'center'
+  },
+  copyrightText:{
+    color:'#DEDEDE', 
+    fontSize:11,
+    color:'#DEDEDE'
   }
 });
 export default Login;
