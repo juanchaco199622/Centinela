@@ -9,9 +9,13 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth'
 import EditProfile from './EditProfile'; 
 
 export default function Profile() {
+
+  const user = auth().currentUser // Variable del servicio usuario
+
   const navigation = useNavigation();
   const admin = 'qvmIaejtqxpPGQQYegC5';
   const [state, setState] = useState({
@@ -50,32 +54,32 @@ export default function Profile() {
     return (
       <SafeAreaView>
         <View style={styles.profileHeader}>
-          <Avatar.Image
-            source={{
-              uri: 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
-            }}
-            size={80}
-          />
-          <View style={{marginLeft:10}}>
-            <Title style={{marginTop:10}}>{ state.nombres} {state.apellidos}</Title>
-            <Caption>{ state.grupo}</Caption>
-          </View>
+            <Avatar.Image
+              source={{
+                uri: 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
+              }}
+              size={80}
+            />
+            <View style={{marginLeft:10}}>
+              <Title style={{marginTop:10}}>{ state.nombres} {state.apellidos}</Title>
+              <Caption>{ state.grupo}</Caption>
+            </View>
         </View>
         <Divider/>
-        <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="account" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ state.rol }</Text>
-        </View>
-        <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="email" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ state.correo }</Text>
-        </View>
+          <View style={{flexDirection:"row", padding:10}}>
+            <Icon name="account" size={25}/>
+            <Text style={{marginLeft:10,marginTop:2}}>{ state.rol }</Text>
+          </View>
+          <View style={{flexDirection:"row", padding:10}}>
+            <Icon name="email" size={25}/>
+            <Text style={{marginLeft:10,marginTop:2}}>{ user.email }</Text>
+          </View>
         <Divider/>
         <View style={{alignItems:"flex-end", padding:10}}>
-        <Button icon="pencil" color = "#fff" uppercase={false} 
-          style={styles.roundButton} 
-          onPress={()=>navigation.navigate('EditProfile')}
-        >Editar perfil</Button>
+          <Button icon="pencil" color = "#fff" uppercase={false} 
+            style={styles.roundButton} 
+            onPress={()=>navigation.navigate('EditProfile')}
+          >Editar perfil</Button>
         </View>
         
       </SafeAreaView>
