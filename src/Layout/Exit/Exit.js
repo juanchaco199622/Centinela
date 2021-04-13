@@ -4,14 +4,13 @@ import auth from '@react-native-firebase/auth'
 
 export default function Exit() {
 
-    //const user = auth().signOut().then(() => console.log('User signed out!'));
+    const user = auth().currentUser
 
     auth()
   .signOut()
-  .then( Alert.alert('Hasta luego CentinelAPP.'));
+  .then( Alert.alert('Hasta luego : '+ user.email));
     return (
         <View>
-            <Text>Terminado</Text>
         </View>
 
     )

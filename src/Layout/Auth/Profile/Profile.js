@@ -16,13 +16,14 @@ export default function Profile() {
 
   const user = auth().currentUser // Variable del servicio usuario
 
-  const navigation = useNavigation();
-  const admin = 'qvmIaejtqxpPGQQYegC5';
+  //const navigation = useNavigation();
+  //const admin = 'qvmIaejtqxpPGQQYegC5';// valor quemado Uid
+  const admin = user.uid;
   const [state, setState] = useState({
       nombres : "",
       apellidos : "",
       correo: "",
-      rol :"",
+      id_rol :"",
       grupo :""
   })
   
@@ -35,8 +36,17 @@ export default function Profile() {
           nombres:doc.data().nombres, 
           apellidos:doc.data().apellidos,
           correo:doc.data().correo,
-          rol:doc.data().id_rol,
+          id_rol:doc.data().id_rol,
           grupo:doc.data().id_grupo
+        });
+      }else{
+        //alert('no datos')
+        setState({
+          nombres:"", 
+          apellidos:"",
+          correo:"",
+          rol:"",
+          grupo:""
         });
       }
     });
@@ -52,7 +62,7 @@ export default function Profile() {
     });
 
     return (
-      <SafeAreaView>
+      <SafeAreaView>  
         <View style={styles.profileHeader}>
             <Avatar.Image
               source={{
@@ -68,17 +78,21 @@ export default function Profile() {
         <Divider/>
           <View style={{flexDirection:"row", padding:10}}>
             <Icon name="account" size={25}/>
-            <Text style={{marginLeft:10,marginTop:2}}>{ state.rol }</Text>
+            <Text style={{marginLeft:10,marginTop:2}}>{ state.id_rol }</Text>
           </View>
           <View style={{flexDirection:"row", padding:10}}>
             <Icon name="email" size={25}/>
             <Text style={{marginLeft:10,marginTop:2}}>{ user.email }</Text>
           </View>
+          <View style={{flexDirection:"row", padding:10}}>
+            <Icon name="account" size={25}/>
+            <Text style={{marginLeft:10,marginTop:2}}>{ user.uid }</Text>
+          </View>
         <Divider/>
         <View style={{alignItems:"flex-end", padding:10}}>
           <Button icon="pencil" color = "#fff" uppercase={false} 
             style={styles.roundButton} 
-            onPress={()=>navigation.navigate('EditProfile')}
+            //onPress={()=>navigation.navigate('EditProfile')}
           >Editar perfil</Button>
         </View>
         
