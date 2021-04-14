@@ -7,7 +7,7 @@ export default function Exit() {
    // const user = auth().signOut().then(() => console.log('User signed out!'));
     return (
         <View>
-            <Text>Terminado</Text>
+            <Text>Pase de un lugar a otro </Text>
         </View>
 
     )

@@ -18,7 +18,7 @@ export default function Profile() {
 
   //const navigation = useNavigation();
   //const admin = 'qvmIaejtqxpPGQQYegC5';// valor quemado Uid
-  const admin = user.uid;
+  const admin = + user.uid;
   const [state, setState] = useState({
       nombres : "",
       apellidos : "",

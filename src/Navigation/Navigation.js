@@ -23,11 +23,13 @@ const AuthStackScreen = () =>(
         </AuthStack.Navigator>
 )
 
+/*const Stack = createStackNavigator();
+
 const Mystack = () =>{
     <Stack.Navigator>
         <Stack.Screen name='ListUsers' component={ListUsers} />
     </Stack.Navigator>
-}
+}*/
 
 
 const AppTabs = createBottomTabNavigator();
@@ -93,6 +95,7 @@ const RootStackScreen = () =>{
              <RootStack.Screen name="Splash" component={Splash} />
              <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} />
              <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} />
+             <RootStack.Screen name="ListUsers" component={ListUsers} />
         </RootStack.Navigator>
     )
 }

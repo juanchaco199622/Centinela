@@ -1,16 +1,18 @@
 import React ,{ useEffect, useState} from 'react'
 import auth from '@react-native-firebase/auth'
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper'
-import { StyleSheet, View} from 'react-native';
+import { Avatar, Button, Card} from 'react-native-paper'
+import { StyleSheet, View, ImageBackground} from 'react-native';
 
-export default function Home() {
+export default function Home({navigation}) {
 
     const user = auth().currentUser
     const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
 
+    
+
     return (
         <View>
-            
+            <ImageBackground source={require('../../../../assets/imagenes/Login_Background.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}></ImageBackground>
             <Card>
                 <Card.Title title={user.email} subtitle="admin" left={LeftContent} />
             </Card>
@@ -24,7 +26,7 @@ export default function Home() {
                 </Card.Content>
 
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="account-group" mode="contained" color={'#6c757d'} onPress={() => console.log('Pressed')}>
+                    <Button icon="account-group" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('ListUsers')}>
                     Listar usuarios
                     </Button>
                 </Card.Content>
