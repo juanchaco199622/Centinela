@@ -1,7 +1,6 @@
 import React, { useState, useContext  } from 'react';
 import { TextInput, Surface, Button, Headline, Text, Subheading} from 'react-native-paper';
 import { StyleSheet, View, ScrollView, Alert, Image, ImageBackground} from 'react-native';
-import {Font} from 'expo-font';
 import auth from '@react-native-firebase/auth'
 
 

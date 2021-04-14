@@ -12,7 +12,6 @@ export default function Home({navigation}) {
 
     return (
         <View>
-            <ImageBackground source={require('../../../../assets/imagenes/Login_Background.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}></ImageBackground>
             <Card>
                 <Card.Title title={user.email} subtitle="admin" left={LeftContent} />
             </Card>
