@@ -59,6 +59,7 @@ function Login({navigation}){
                 mode='outlined'
                 label='Correo Electrónico'
                 autoCapitalize='none'
+                theme={{colors: {primary: 'black'}}}
                 value={email}
                 onChangeText={(email) => setEmail(email)}
               />
@@ -67,11 +68,12 @@ function Login({navigation}){
               style={styles.input}
               mode='outlined'
               label='Contraseña'
+              theme={{colors: {primary: 'black'}}}
               secureTextEntry={isSecureEntry}
               right={
                 <TextInput.Icon 
                   name = {isSecureEntry ?  'eye-off-outline' : 'eye-outline'} 
-                  color={"#949494"} 
+                  color={"#949494"}                   
                   onPress={() => {setIsSecureEntry((prev) => !prev)}} 
               />}
               value={password}
@@ -87,6 +89,7 @@ function Login({navigation}){
                 contentStyle={styles.buttonLogin}
                 mode="contained"
                 uppercase={false} 
+                theme={{colors: {primary: '#8E0101'}}}
                 labelStyle={{fontSize: 21}}
               >
                 INGRESAR
@@ -138,8 +141,8 @@ const styles = StyleSheet.create({
     margin:'6%'
   },
   input:{
-    backgroundColor:'#FFFFFF',
-    marginBottom:'1%'
+    backgroundColor:'white',
+    marginBottom:'1%'    
   },  
   containerText:{
     margin:'5%'
