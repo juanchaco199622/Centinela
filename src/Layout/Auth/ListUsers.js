@@ -6,21 +6,19 @@ import { View, Text } from 'react-native'
 export default function Exit() {
 
 
-    const UsuariosCollection = firestore().collection('Usuario');
+   /* const UsuariosCollection = firestore().collection('Usuario');*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         Usuarios()
-     },[]);
+     },[]);*/
 
-    const Usuarios = async () => {
+    /*const Usuarios = async () => {
         const response = await UsuariosCollection
         .onSnapshot(querySnapshot => {
             const list = [];
             querySnapshot.forEach(documentSnapshot => {
                list.push({
-                  id: documentSnapshot.data().id,
-                  name: documentSnapshot.data().name,
-                  children: documentSnapshot.data().children
+                  nombre: documentSnapshot.data().id
                });
             });
       
@@ -29,12 +27,12 @@ export default function Exit() {
         return () => response();   
     }
 
-    const [ todoAreas, setUsuarios ] = useState([]);
+    const [ todoAreas, setUsuarios ] = useState([]);*/
 
 
     return (
         <View>
-            <Text>{todoAreas} </Text>
+            <Text>Hola </Text>
         </View>
 
     )

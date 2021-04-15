@@ -14,13 +14,13 @@ import ListUsers from '../Layout/Auth/ListUsers';
 const AuthStack = createStackNavigator();
 
 const AuthStackScreen = () =>(
-  
-        <AuthStack.Navigator
-            initialRouteName="Login"
-            headerMode = "none"
-        >
-             <AuthStack.Screen name="Login" component={Login} />
-        </AuthStack.Navigator>
+
+    <AuthStack.Navigator
+        initialRouteName="Login"
+        headerMode = "none"
+    >
+            <AuthStack.Screen name="Login" component={Login} />
+    </AuthStack.Navigator>
 )
 
 /*const Stack = createStackNavigator();
@@ -77,8 +77,6 @@ const AppTabsScreen =() =>(
             }}
          />
 
-
-
      </AppTabs.Navigator>
 )
 
@@ -92,10 +90,21 @@ const RootStackScreen = () =>{
             initialRouteName="Splash"
             headerMode = "none"
         >
-             <RootStack.Screen name="Splash" component={Splash} />
+             <RootStack.Screen name="Splash" component={Splash} />  
              <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} />
+             <RootStack.Screen name="ListUsers" component={ListUsers}
+                 options={{
+                    title: 'My home',
+                    headerStyle: {
+                      backgroundColor: '#f4511e',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
+             />
              <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} />
-             <RootStack.Screen name="ListUsers" component={ListUsers} />
         </RootStack.Navigator>
     )
 }

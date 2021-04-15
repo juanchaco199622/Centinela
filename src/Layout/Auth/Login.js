@@ -32,8 +32,10 @@ function Login({navigation}){
       if(email === ''){
         alert('Se requiere un correo electrónico.');
       }else{
-        firebase.auth().sendPasswordResetEmail(email)
+        auth().sendPasswordResetEmail(email)
+        Alert.alert('Envio exitoso','Se ha enviado a tu bandeja.')
       }
+     
   }
 
   return (

@@ -11,6 +11,7 @@ export default function Profile() {
         apellidos : "",
         email: "",
         password :"",
+        id_rol :"",
     })
 
  const handleChangeText = (name,value )=>{
@@ -21,12 +22,13 @@ export default function Profile() {
      if(state.nombres === '' || state.apellidos === ''){
         alert('Campos Vacios.')
      } else {
-        await  firestore().collection('Users').add({
+        await  firestore().collection('Usuario').add({
             id: user.uid,
             nombres: state.nombres,
             apellidos : state.apellidos,
             email : state.email,
             password : state.password,
+            id_rol : state.id_rol,
         })
         alert('Datos Guardados')
      }
@@ -59,6 +61,15 @@ export default function Profile() {
                     onChangeText={(value) => handleChangeText("password",value)}
                 />
             </View>
+
+            <View style={styles.inputGroup}>
+                <TextInput 
+                    placeholder='Rol'
+                    onChangeText={(value) => handleChangeText("id_rol",value)}
+                />
+            </View>
+
+
             <Button title='Save User' onPress={() => saveNewUser()} ></Button>
         </View>
 
