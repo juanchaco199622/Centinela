@@ -8,17 +8,12 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
-import EditProfile from './EditProfile'; 
 
-export default function Profile() {
+export default function Profile({navigation}) {
 
   const user = auth().currentUser // Variable del servicio usuario
 
-  //const navigation = useNavigation();
-  const admin = 'qvmIaejtqxpPGQQYegC5';// valor quemado Uid
-  //const admin = (user.uid);
   const [state, setState] = useState({
       nombres : "",
       apellidos : "",
@@ -29,7 +24,7 @@ export default function Profile() {
   
   firestore()
     .collection('Usuario')
-    .doc(admin)
+    .doc(user.uid)
     .onSnapshot((doc) => {
       if(doc.exists){
         setState({
@@ -92,7 +87,7 @@ export default function Profile() {
         <View style={{alignItems:"flex-end", padding:10}}>
           <Button icon="pencil" color = "#fff" uppercase={false} 
             style={styles.roundButton} 
-            //onPress={()=>navigation.navigate('EditProfile')}
+            onPress={()=>navigation.navigate('EditProfile')}
           >Editar perfil</Button>
         </View>
         

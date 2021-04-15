@@ -10,6 +10,7 @@ import Profile from '../Layout/Auth/Profile/Profile';
 import Exit from '../Layout/Exit/Exit';
 import CreateUser from '../Layout/Auth/CreateUser';
 import ListUsers from '../Layout/Auth/ListUsers';
+import EditProfile from '../Layout/Auth/Profile/EditProfile';
 
 const AuthStack = createStackNavigator();
 
@@ -105,6 +106,7 @@ const RootStackScreen = () =>{
                   }}
              />
              <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} />
+             <RootStack.Screen name="EditProfile" component={EditProfile} />
         </RootStack.Navigator>
     )
 }

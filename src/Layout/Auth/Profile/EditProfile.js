@@ -1,27 +1,29 @@
 import firestore from '@react-native-firebase/firestore';
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper'
+import { Title, Button, Avatar, Divider, TextInput } from 'react-native-paper'
 import {
   StyleSheet,
   Text,
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import auth from '@react-native-firebase/auth'
 
-export default function EditProfile() {
-  const admin = 'qvmIaejtqxpPGQQYegC5';
+export default function EditProfile({navigation}) {
+  const user = auth().currentUser // Variable del servicio usuario
+
   const [state, setState] = useState({
       nombres : "",
       apellidos : "",
       correo: "",
       rol :"",
       grupo :""
-  })
+  },{setNombres: ""})
   
   firestore()
     .collection('Usuario')
-    .doc(admin)
+    .doc(user.uid)
     .onSnapshot((doc) => {
       if(doc.exists){
         setState({
@@ -54,22 +56,45 @@ export default function EditProfile() {
             size={80}
           />
           <View style={{marginLeft:10}}>
-            <Title style={{marginTop:10}}>{ state.nombres} {state.apellidos}</Title>
-            <Caption>{ state.grupo}</Caption>
+            <Title style={{marginTop:25}}>Editar Perfil</Title>
           </View>
         </View>
         <Divider/>
-        <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="account" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>Editar</Text>
+        <View style={{padding:10}}>
+              <TextInput
+                mode='outlined'
+                label='Nombres'
+                autoCapitalize='none'
+                value={state.nombres}
+              />
         </View>
-        <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="email" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>Editar</Text>
+        <View style={{padding:10}}>
+              <TextInput
+                mode='outlined'
+                label='Apellidos'
+                autoCapitalize='none'
+                value={state.apellidos}
+              />
+        </View>
+        <View style={{padding:10}}>
+              <TextInput
+                mode='outlined'
+                label='Rol'
+                autoCapitalize='none'
+                value={state.rol}
+              />
+        </View>
+        <View style={{padding:10}}>
+              <TextInput
+                mode='outlined'
+                label='Rama'
+                autoCapitalize='none'
+                value={state.grupo}
+              />
         </View>
         <Divider/>
         <View style={{alignItems:"flex-end", padding:10}}>
-        <Button icon="pencil" color = "#fff" uppercase={false} style={styles.roundButton} onPress={()=>console.log('Si')}>Editar perfil</Button>
+        <Button icon="floppy" color = "#fff" uppercase={false} style={styles.roundButton} onPress={()=>navigation.navigate('Perfil')}>Guardar</Button>
         </View>
         
       </SafeAreaView>
