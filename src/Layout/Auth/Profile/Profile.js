@@ -16,6 +16,7 @@ export default function Profile({navigation}) {
 //Declaracion de variables
   const user = auth().currentUser;
   const [state, setState] = useState({
+      doc_id: "",
       nombres : "",
       apellidos : "",
       correo: "",
@@ -29,7 +30,9 @@ export default function Profile({navigation}) {
   .get()
   .then(querySnapshot => {
     const usuario = querySnapshot.docs[0].data()
+    const docId = querySnapshot.docs[0].id
     setState({
+      doc_id: docId,
       nombres:usuario.nombres, 
       apellidos:usuario.apellidos,
       correo:usuario.email,

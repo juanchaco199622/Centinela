@@ -19,6 +19,7 @@ export default function EditProfile({route, navigation}) {
   const user = auth().currentUser
   const data = route.params.state;
   const [state, setState] = useState({
+    doc_id: data.doc_id,
     nombres: data.nombres, 
     apellidos: data.apellidos,
     correo: data.correo,
@@ -88,7 +89,8 @@ export default function EditProfile({route, navigation}) {
         {cancelable: false},
       );
     } else {
-        await firestore().collection('Usuario').doc(user.uid).update(
+
+        await firestore().collection('Usuario').doc(state.doc_id).update(
           {
             nombres: state.nombres,
             apellidos: state.apellidos,
