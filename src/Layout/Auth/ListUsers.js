@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, FlatList, View, Text } from 'react-native';
+import { ActivityIndicator, FlatList, View, StyleSheet } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import { ListItem } from 'react-native-elements';
+import { ListItem , Avatar} from 'react-native-elements';
+//import {Avatar} from 'react-native-paper'
 
 export default function ListUsers(){
 //const ListUsers = props => {
@@ -35,16 +36,25 @@ export default function ListUsers(){
     <FlatList
       data={users}
       renderItem={({ item }) => (
-        <ListItem key={item.id} bottomDivider>
-           
-            <ListItem.Content>
-            <ListItem.Title>{item.nombres+' ' + item.apellidos}</ListItem.Title>
-            <ListItem.Subtitle>{item.id_grupo}</ListItem.Subtitle>
-            </ListItem.Content>
-      </ListItem>
+          <View style={styles.profileHeader}>
+            <ListItem key={item.id} bottomDivider>
+                <Avatar rounded
+                        source={{
+                        uri: item.url,
+                        }}
+                        size={80}
+                    />
+                <ListItem.Content>
+                    <ListItem.Title>{item.nombres+ ' ' + item.apellidos}</ListItem.Title>
+                    <ListItem.Subtitle>{item.id_grupo}</ListItem.Subtitle>
+                </ListItem.Content>
+          </ListItem>
+      </View>
       )}
     />
   );
   
 }
-
+const styles = StyleSheet.create({
+    
+  });
