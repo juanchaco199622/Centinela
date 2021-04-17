@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Button , TextInput} from 'react-native'
+import { View, StyleSheet, Button , Text, ScrollView} from 'react-native'
+import {TextInput} from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import RNPickerSelect from 'react-native-picker-select';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Profile() {
 
@@ -10,8 +13,8 @@ export default function Profile() {
         nombres : "",
         apellidos : "",
         email: "",
-        password :"",
         id_rol :"",
+        id_grupo : "",
     })
 
  const handleChangeText = (name,value )=>{
@@ -23,70 +26,133 @@ export default function Profile() {
         alert('Campos Vacios.')
      } else {
         await  firestore().collection('Usuario').add({
-            id: user.uid,
             nombres: state.nombres,
             apellidos : state.apellidos,
             email : state.email,
-            password : state.password,
             id_rol : state.id_rol,
+            id_grupo : state.id_grupo,
         })
         alert('Datos Guardados')
      }
     // console.log(state)
  }
 
+ const rol = [
+    { label: "Administrador", value: "Administrador" },
+    { label: "Acudiente", value: "Acudiente" },
+  ]; // array ROL
+
+
+ const [users, setUsers] = useState
+
+
+
+ /* async componentDidMount() {
+    let objectQuery = this.props.firebase.db.collection("Prioridad");
+
+    const snapshot = await objectQuery.get();
+
+    const arrayPrioridad = snapshot.docs.map(doc => {
+      let data = doc.data();
+      let id = doc.id;
+      return { id, ...data };
+    });
+
+    this.setState({
+        arregloPrioridad: arrayPrioridad
+    });
+  }*/
+
+
     return (
-        <View style={styles.container}>
-            <View style={styles.inputGroup}>
-                <TextInput 
-                    placeholder='Nombres'
-                    onChangeText={(value) => handleChangeText("nombres",value)}
-                />
-            </View>
-            <View style={styles.inputGroup}>
-                <TextInput 
-                    placeholder='Apellidos'
-                    onChangeText={(value) => handleChangeText("apellidos",value)}
-                />
-            </View>
-            <View style={styles.inputGroup}>
-                <TextInput 
-                    placeholder='Email'
-                    onChangeText={(value) => handleChangeText("email",value)}
-                />
-            </View>
-            <View style={styles.inputGroup}>
-                <TextInput 
-                    placeholder='Password'
-                    onChangeText={(value) => handleChangeText("password",value)}
-                />
-            </View>
+    <SafeAreaView>
+        <ScrollView>
+            
+                <View style={styles.inputGroup}>
+                    <Text>Nombres</Text>
+                    <TextInput
+                    mode='outlined'
+                    returnKeyType={"next"} placeholder="Nombres"
+                    onChangeText={(value) => handleChangeText('nombres', value)}
+                    //theme={{colors: {primary: 'black'}}}
+                    />
+                </View>
 
-            <View style={styles.inputGroup}>
-                <TextInput 
-                    placeholder='Rol'
-                    onChangeText={(value) => handleChangeText("id_rol",value)}
-                />
-            </View>
+                <View style={styles.inputGroup}>
+                    <Text>Apellidos</Text>
+                    <TextInput
+                    mode='outlined'
+                    returnKeyType={"next"} placeholder="Apellidos"
+                    onChangeText={(value) => handleChangeText('apellidos', value)}
+                    //theme={{colors: {primary: 'black'}}}
+                    />
+                </View> 
 
+                <View style={styles.inputGroup}>
+                    <Text>Email</Text>
+                    <TextInput
+                    mode='outlined'
+                    returnKeyType={"next"} placeholder="Email"
+                    onChangeText={(value) => handleChangeText('email', value)}
+                    //theme={{colors: {primary: 'black'}}}
+                    />
+                </View> 
 
-            <Button title='Save User' onPress={() => saveNewUser()} ></Button>
-        </View>
+                <View style={styles.inputGroup}>
+                    <Text>Rol</Text>
+                    <RNPickerSelect style={pickerSelectStyles}
+                        placeholder= {{}}
+                        onValueChange={(value) => handleChangeText('id_rol', value)}
+                        useNativeAndroidPickerStyle={false}
+                        value={state.rol}
+                        items={rol}
+                        //theme={{colors: {primary: 'black'}}}
+                    />
+                </View>
+
+                <Button title='Save User' onPress={() => saveNewUser()} ></Button>
+          
+        </ScrollView>
+    </SafeAreaView>
 
     )
     
 }
 
-const styles = StyleSheet.create({
-    container : {
-        flex : 1,
-        padding:35,
+const pickerSelectStyles = StyleSheet.create({
+    inputAndroid: {
+      fontSize: 16,
+      paddingHorizontal: 15,
+      paddingVertical: 13,
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 5,
+      color: 'black',
+      paddingRight: 30,
     },
+  });
+
+const styles = StyleSheet.create({
+   
     inputGroup : {
-        flex : 1,
-        padding:0,
-        marginBottom: 15,
-        borderBottomWidth: 1,
-        borderBottomColor : '#cccccc'
-    }
+        padding:10
+    },
+    roundButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: '#b31d1d',
+        padding:10,
+      },
+      profileHeader: {flexDirection:"row", padding:10, backgroundColor:"#fff"},
+      inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 15,
+        paddingVertical: 13,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+        color: 'black',
+        paddingRight: 30,
+      },
 })

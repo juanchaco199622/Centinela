@@ -1,39 +1,69 @@
-import React,{useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, FlatList, View, Text } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 
-import { View, Text } from 'react-native'
-//import auth from '@react-native-firebase/auth'
-
-export default function Exit() {
-
-
-   /* const UsuariosCollection = firestore().collection('Usuario');*/
-
-    /*useEffect(() => {
-        Usuarios()
-     },[]);*/
-
-    /*const Usuarios = async () => {
-        const response = await UsuariosCollection
-        .onSnapshot(querySnapshot => {
-            const list = [];
+export default function ListUsers(){
+//const ListUsers = props => {
+    const [users, setUsers] = useState([]); 
+   // const [users, setUsers] = useState(false)
+   
+   // useEffect(() =>{
+   
+    useEffect(() => {
+        const subscriber = firestore()
+          .collection('Usuario')
+          .onSnapshot(querySnapshot => {
+            const users = [];
+      
             querySnapshot.forEach(documentSnapshot => {
-               list.push({
-                  nombre: documentSnapshot.data().id
-               });
+              users.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
             });
       
-            setUsuarios(list);
-        });
-        return () => response();   
-    }
+            setUsers(users);
+            //setLoading(false);
+          });
+      
+        // Unsubscribe from events when no longer in use
+        return () => subscriber();
+      }, []);
 
-    const [ todoAreas, setUsuarios ] = useState([]);*/
 
+        /*firestore().collection('Usuario').onSnapshot(querySnapshot =>{
 
-    return (
-        <View>
-            <Text>Hola </Text>
+            const users = [];
+
+            querySnapshot.docs.forEach((doc) =>{
+
+                const {nombres, apellidos, email,id_rol,id_grupo} = doc.data();
+                    users.push({
+                        id : doc.id,
+                        nombres,
+                        apellidos,
+                        email,
+                        id_rol,
+                        id_grupo,
+                    });
+                setUsers(users)
+                //console.log(doc.data())
+            });
+        })*/
+   /* }, [])*/
+
+   return (
+    <FlatList
+      data={users}
+      renderItem={({ item }) => (
+        <View style={{ height: 50, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>User ID: {item.id}</Text>
+          <Text>User Name: {item.nombres}</Text>
+          <Text>User Apellidos: {item.apellidos}</Text>
         </View>
-
-    )
+      )}
+    />
+  );
+  
 }
+
