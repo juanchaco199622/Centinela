@@ -41,6 +41,12 @@ export default function Home({navigation}) {
                      Crear publicación
                     </Button>
                 </Card.Content>
+                <Card.Content style={styles.containerButtonLogin} >
+                    <Button icon="newspaper" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('ListPublications')}>
+                     Listar publicaciones
+                    </Button>
+                </Card.Content>
+
 
             </View>
 
