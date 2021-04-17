@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, FlatList, View, StyleSheet } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import { ListItem , Avatar} from 'react-native-elements';
+import { ListItem , Avatar, Icon } from 'react-native-elements';
 //import {Avatar} from 'react-native-paper'
 
 export default function ListUsers(){
@@ -37,7 +37,7 @@ export default function ListUsers(){
       data={users}
       renderItem={({ item }) => (
           <View style={styles.profileHeader}>
-            <ListItem key={item.id} bottomDivider>
+            <ListItem key={item.id} >
                 <Avatar rounded
                         source={{
                         uri: item.url,
@@ -48,6 +48,7 @@ export default function ListUsers(){
                     <ListItem.Title>{item.nombres+ ' ' + item.apellidos}</ListItem.Title>
                     <ListItem.Subtitle>{item.id_grupo}</ListItem.Subtitle>
                 </ListItem.Content>
+                <Icon name='page-last' />
           </ListItem>
       </View>
       )}

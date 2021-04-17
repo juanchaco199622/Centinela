@@ -42,27 +42,13 @@ export default function Profile() {
     { label: "Acudiente", value: "Acudiente" },
   ]; // array ROL
 
-
- const [users, setUsers] = useState
-
-
-
- /* async componentDidMount() {
-    let objectQuery = this.props.firebase.db.collection("Prioridad");
-
-    const snapshot = await objectQuery.get();
-
-    const arrayPrioridad = snapshot.docs.map(doc => {
-      let data = doc.data();
-      let id = doc.id;
-      return { id, ...data };
-    });
-
-    this.setState({
-        arregloPrioridad: arrayPrioridad
-    });
-  }*/
-
+  const [ramas, setRamas] = useState({
+    label:'', value:''
+  })
+  const rama = [
+    { label: "Cachorros", value: "Cachorros" },
+    { label: "Lobatos", value: "Lobatos" },
+  ];
 
     return (
     <SafeAreaView>
@@ -104,9 +90,20 @@ export default function Profile() {
                         placeholder= {{}}
                         onValueChange={(value) => handleChangeText('id_rol', value)}
                         useNativeAndroidPickerStyle={false}
-                        value={state.rol}
+                        value={state.id_rol}
                         items={rol}
                         //theme={{colors: {primary: 'black'}}}
+                    />
+                </View>
+
+                <View style={{padding:10}}>
+                    <Text>Rama</Text>
+                    <RNPickerSelect style={pickerSelectStyles}
+                    placeholder= {{}}
+                    onValueChange={(value) => handleChangeText('id_grupo', value)}
+                    useNativeAndroidPickerStyle={false}
+                    value={state.id_grupo}
+                    items={rama}
                     />
                 </View>
 
