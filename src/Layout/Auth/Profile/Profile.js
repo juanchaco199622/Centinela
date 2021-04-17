@@ -21,7 +21,8 @@ export default function Profile({navigation}) {
       apellidos : "",
       correo: "",
       id_rol :"",
-      grupo :""
+      grupo :"",
+      url :""
   });
 //Obtener datos de firestore
   firestore()
@@ -37,7 +38,8 @@ export default function Profile({navigation}) {
       apellidos:usuario.apellidos,
       correo:usuario.email,
       rol:usuario.id_rol,
-      grupo:usuario.id_grupo
+      grupo:usuario.id_grupo,
+      url:usuario.url,
     });
   });
 
@@ -57,7 +59,7 @@ export default function Profile({navigation}) {
       <View style={styles.profileHeader}>
           <Avatar.Image
             source={{
-              uri: 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
+              uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
             }}
             size={80}
           />
