@@ -16,7 +16,6 @@ import RNPickerSelect from 'react-native-picker-select';
 export default function EditProfile({route, navigation}) {
 
 //Declaracion de variables
-  const user = auth().currentUser
   const data = route.params.state;
   const [state, setState] = useState({
     doc_id: data.doc_id,
@@ -26,17 +25,8 @@ export default function EditProfile({route, navigation}) {
     rol: data.rol,
     grupo: data.grupo
   })
-  const [ramas, setRamas] = useState({
-    label:'', value:''
-  })
-  const rama = [
-    { label: "Cachorros", value: "Cachorros" },
-    { label: "Lobatos", value: "Lobatos" },
-  ];
-  const rol = [
-    { label: "Administrador", value: "Administrador" },
-    { label: "Acudiente", value: "Acudiente" },
-  ];
+  const [ramas, setRamas] = useState([{label:'',value:''}])
+  const [rol, setRol] = useState([{label:'',value:''}])
 //Obtener datos de firestore
   useEffect(()=>{
     firestore()
@@ -44,11 +34,25 @@ export default function EditProfile({route, navigation}) {
     .get()
     .then(querySnapshot => {
       let grupo
+      let datosRamas = []
       for (let i=0; i < querySnapshot.size; i++){
         grupo = querySnapshot.docs[i].data();
-        console.log(grupo.nombre);
+        datosRamas.push({ label: grupo.nombre, value: grupo.nombre });
       }
-      setRamas({ label: grupo.nombre, value: grupo.nombre })
+      setRamas(datosRamas);
+    });
+    firestore()
+    .collection('Rol')
+    .get()
+    .then(querySnapshot => {
+      let _rol
+      let datosRol = []
+      for (let i=0; i < querySnapshot.size; i++){
+        _rol = querySnapshot.docs[i].data();
+        console.log(_rol.nombre);
+        datosRol.push({ label: _rol.nombre, value: _rol.nombre });
+      }
+      setRol(datosRol);
     });
   },[])
   
@@ -89,7 +93,6 @@ export default function EditProfile({route, navigation}) {
         {cancelable: false},
       );
     } else {
-
         await firestore().collection('Usuario').doc(state.doc_id).update(
           {
             nombres: state.nombres,
@@ -169,7 +172,7 @@ export default function EditProfile({route, navigation}) {
           onValueChange={(value) => handleChangeText('grupo', value)}
           useNativeAndroidPickerStyle={false}
           value={state.grupo}
-          items={rama}
+          items={ramas}
         />
       </View>
       <Divider/>
