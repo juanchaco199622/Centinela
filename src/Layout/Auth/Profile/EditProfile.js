@@ -25,27 +25,39 @@ export default function EditProfile({route, navigation}) {
     rol: data.rol,
     grupo: data.grupo
   })
-  const [ramas, setramas] = useState('')
+  const [ramas, setRamas] = useState({
+    label:'', value:''
+  })
   const rama = [
-    { label: "Cachorros", value: "Cachorro" },
-    { label: "Lobatos", value: "Lobato" },
-    { label: "Webelos", value: "Webelo" },
-    { label: "Scouts", value: "Scout" },
-    { label: "Rovers", value: "Rover" },
+    { label: "Cachorros", value: "Cachorros" },
+    { label: "Lobatos", value: "Lobatos" },
   ];
   const rol = [
     { label: "Administrador", value: "Administrador" },
     { label: "Acudiente", value: "Acudiente" },
   ];
 //Obtener datos de firestore
-
+  useEffect(()=>{
+    firestore()
+    .collection('Grupo')
+    .get()
+    .then(querySnapshot => {
+      let grupo
+      for (let i=0; i < querySnapshot.size; i++){
+        grupo = querySnapshot.docs[i].data();
+        console.log(grupo.nombre);
+      }
+      setRamas({ label: grupo.nombre, value: grupo.nombre })
+    });
+  },[])
+  
 //Estilos
   const styles = StyleSheet.create({
     roundButton: {
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 10,
-      backgroundColor: '#6200ee',
+      backgroundColor: '#b31d1d',
     },
     profileHeader: {flexDirection:"row", padding:10, backgroundColor:"#fff"}
   });
@@ -70,7 +82,7 @@ export default function EditProfile({route, navigation}) {
         'Completa todos los campos',
         [
           {
-            text: 'OK'
+            text: 'Ok'
           },
         ],
         {cancelable: false},
@@ -80,8 +92,8 @@ export default function EditProfile({route, navigation}) {
           {
             nombres: state.nombres,
             apellidos: state.apellidos,
-            rol: state.rol,
-            grupo: state.grupo,
+            id_rol: state.rol,
+            id_grupo: state.grupo,
           }
         ).then(() => {
           error = false

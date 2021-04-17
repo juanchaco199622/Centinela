@@ -23,31 +23,28 @@ export default function Profile({navigation}) {
       grupo :""
   });
 //Obtener datos de firestore
-  useEffect(()=>{
-    let isSubscribed = true
-    firestore()
-      .collection('Usuario')
-      .doc(user.uid)
-      .onSnapshot((doc) => {
-        if(isSubscribed){
-          setState({
-            nombres:doc.data().nombres, 
-            apellidos:doc.data().apellidos,
-            correo:doc.data().correo,
-            rol:doc.data().rol,
-            grupo:doc.data().grupo
-          });
-        }
-      });
-    return () => isSubscribed = false
-  },[]) 
+  firestore()
+  .collection('Usuario')
+  .where('email', '==', user.email)
+  .get()
+  .then(querySnapshot => {
+    const usuario = querySnapshot.docs[0].data()
+    setState({
+      nombres:usuario.nombres, 
+      apellidos:usuario.apellidos,
+      correo:usuario.email,
+      rol:usuario.id_rol,
+      grupo:usuario.id_grupo
+    });
+  });
+
 //Estilos
   const styles = StyleSheet.create({
     roundButton: {
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 10,
-      backgroundColor: '#6200ee',
+      backgroundColor: '#b31d1d',
     },
     profileHeader: {flexDirection:"row", padding:10, backgroundColor:"#fff"}
   });
@@ -63,17 +60,17 @@ export default function Profile({navigation}) {
           />
           <View style={{marginLeft:10}}>
             <Title style={{marginTop:10}}>{ state.nombres} {state.apellidos}</Title>
-            <Caption>{ state.grupo}</Caption>
+            <Caption>{ state.correo}</Caption>
           </View>
       </View>
       <Divider/>
         <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="account" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ state.rol }</Text>
+          <Icon name="spa" size={25}/>
+          <Text style={{marginLeft:10,marginTop:2}}>{ state.grupo }</Text>
         </View>
         <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="email" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ user.email }</Text>
+          <Icon name="account" size={25}/>
+          <Text style={{marginLeft:10,marginTop:2}}>{ state.rol }</Text>
         </View>
         {/* <View style={{flexDirection:"row", padding:10}}>
           <Icon name="account" size={25}/>
