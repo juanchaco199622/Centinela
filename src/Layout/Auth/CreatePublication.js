@@ -10,8 +10,14 @@ const user = auth().currentUser
 const [state, setState] = useState({
     titulo : "",
     cuerpo: "",
-    destinatario :"",
 })
+const destinatario = [
+    { label: "Cachorros", value: "Cachorros" },
+    { label: "Lobatos", value: "Lobatos" },
+    { label: "Webelos", value: "Webelo" },
+    { label: "Scouts", value: "Scout" },
+    { label: "Rovers", value: "Rover" },
+  ];
 
 const handleChangeText = (name,value )=>{
     setState({...state,[name]:value})
@@ -44,20 +50,17 @@ return (
                 onChangeText={(value) => handleChangeText("titulo",value)}
             />
         </View>
-        <View>
+        <View style={styles.inputGroup}>
         <RNPickerSelect
-      placeholder= {{ label: "Selecciona el primer grupo destinatario", value: "" }}
-      onValueChange={(value) => setState(value)}
-      
-      useNativeAndroidPickerStyle={false}
-      items={[
-        { label: "Cachorros", value: "cachorro" },
-        { label: "Lobatos", value: "Lobato" },
-        { label: "Webelos", value: "Webelo" },
-        { label: "Scouts", value: "Scout" },
-        { label: "Rovers", value: "Rover" },
-      ]}
-  />
+        onValueChange={(value) => console.log(value)}
+        items={[
+            {label: 'Cachorros', value: 'cachorro'},
+            {label: 'Lobatos', value: 'lobato'},
+            {label: 'Webelos', value: 'Webelo'},
+            {label: 'Scouts', value: 'Scout'},
+            {label: 'Rovers', value: 'Rover'},
+            ]}
+        ></RNPickerSelect>
         </View>
 
       <View style={styles.inputGroup}>

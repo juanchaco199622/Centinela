@@ -1,39 +1,57 @@
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
+import { ActivityIndicator, FlatList, View, StyleSheet } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import { ListItem , Avatar} from 'react-native-elements';
 
-import { View, Text } from 'react-native'
 //import auth from '@react-native-firebase/auth'
 
 export default function ListPublications() {
 
+    const [publications, setPublications] = useState([]); 
 
-   /* const UsuariosCollection = firestore().collection('Usuario');*/
-
-    /*useEffect(() => {
-        Usuarios()
-     },[]);*/
-
-    /*const Usuarios = async () => {
-        const response = await UsuariosCollection
-        .onSnapshot(querySnapshot => {
-            const list = [];
+    useEffect(() => {
+        const subscriber = firestore()
+          .collection('Publication')
+          .onSnapshot(querySnapshot => {
+            const publications = [];
+      
             querySnapshot.forEach(documentSnapshot => {
-               list.push({
-                  nombre: documentSnapshot.data().id
-               });
+              publications.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
             });
       
-            setUsuarios(list);
-        });
-        return () => response();   
-    }
+            setPublications(publications);
+            //setLoading(false);
+          });
+          return () => subscriber();
+        }, []);    
 
-    const [ todoAreas, setUsuarios ] = useState([]);*/
-
-
-    return (
-        <View>
-            <Text>Prueba List </Text>
-        </View>
-
-    )
-}
+        return (
+            <FlatList
+              data={publications}
+              renderItem={({ item }) => (
+                  <View style={styles.profileHeader}>
+                    <ListItem key={item.id} bottomDivider>
+                        <Avatar rounded
+                                source={{
+                                uri: item.url,
+                                }}
+                                size={100}
+                            />
+                        <ListItem.Content>
+                            <ListItem.Title>{item.titulo}</ListItem.Title>
+                            <ListItem.Subtitle>{item.cuerpo}</ListItem.Subtitle>
+                        </ListItem.Content>
+                  </ListItem>
+              </View>
+              )}
+            />
+          );
+          
+        }
+        const styles = StyleSheet.create({
+            
+          });
+        

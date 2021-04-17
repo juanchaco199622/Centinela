@@ -48,6 +48,9 @@ export default function Profile() {
   const rama = [
     { label: "Cachorros", value: "Cachorros" },
     { label: "Lobatos", value: "Lobatos" },
+    {label: 'Webelos', value: 'Webelo'},
+    {label: 'Scouts', value: 'Scout'},
+    {label: 'Rovers', value: 'Rover'},
   ];
 
     return (
