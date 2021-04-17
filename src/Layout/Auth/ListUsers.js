@@ -48,7 +48,12 @@ export default function ListUsers(){
                     <ListItem.Title>{item.nombres+ ' ' + item.apellidos}</ListItem.Title>
                     <ListItem.Subtitle>{item.id_grupo}</ListItem.Subtitle>
                 </ListItem.Content>
-                <Icon name='page-last' />
+               <Icon
+               
+               icon = 'page-last'
+               
+               />
+                
           </ListItem>
       </View>
       )}

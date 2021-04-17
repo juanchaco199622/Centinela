@@ -24,7 +24,8 @@ export default function EditProfile({route, navigation}) {
     apellidos: data.apellidos,
     correo: data.correo,
     rol: data.rol,
-    grupo: data.grupo
+    grupo: data.grupo,
+    url: data.url
   })
   const [ramas, setRamas] = useState({
     label:'', value:''
@@ -96,6 +97,7 @@ export default function EditProfile({route, navigation}) {
             apellidos: state.apellidos,
             id_rol: state.rol,
             id_grupo: state.grupo,
+            url : state.url,
           }
         ).then(() => {
           error = false
@@ -125,7 +127,7 @@ export default function EditProfile({route, navigation}) {
       <View style={styles.profileHeader}>
         <Avatar.Image
           source={{
-            uri: 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
+            uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
           }}
           size={80}
         />
