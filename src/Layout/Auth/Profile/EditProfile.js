@@ -38,19 +38,7 @@ export default function EditProfile({route, navigation}) {
     { label: "Acudiente", value: "Acudiente" },
   ];
 //Obtener datos de firestore
-useEffect(()=>{
-  let isSubscribed = true
-  firestore()
-    .collection('Grupo')
-    .doc('7YmkzBGtRNw5IJK15zex')
-    .onSnapshot((doc) => {
-      if(isSubscribed){
-        const datos = doc.json();
-        console.log(datos);
-      }
-    });
-  return () => isSubscribed = false
-},[]) 
+
 //Estilos
   const styles = StyleSheet.create({
     roundButton: {
