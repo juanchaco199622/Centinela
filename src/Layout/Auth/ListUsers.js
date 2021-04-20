@@ -9,8 +9,7 @@ export default function ListUsers(){
     const [users, setUsers] = useState([]); 
    // const [users, setUsers] = useState(false)
    
-   // useEffect(() =>{
-   
+  
     useEffect(() => {
         const subscriber = firestore()
           .collection('Usuario')
