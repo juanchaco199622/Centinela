@@ -21,14 +21,15 @@ class Splash extends Component {
     return (
       <View style={styles.container}>
         <BackgroundImage source={require('../../../assets/imagenes/Login_Background.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
-          {/* <View style={styles.containerInside}> */}
+          <View style={styles.containerInside}>
             <View>
               <Image source={require('../../../assets/imagenes/Scout_Logo.png')} style={styles.imageUp}/>
             </View>
-          {/* </View> */}
+          
           <View style={{flexDirection:'column', alignContent:'flex-end'}}>
             <Text style={styles.colorVersion}>Version</Text>
             <Text style={styles.colorVersion}>1.1.20210406-1</Text>
+          </View>
           </View>
           
         </BackgroundImage>
@@ -38,6 +39,7 @@ class Splash extends Component {
 }
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
     flexDirection:'column',
     /*resizeMode: 'cover'
@@ -45,11 +47,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#00af91'*/
   },
   containerInside:{
-    flex: 1,
-    alignItems: 'center'
+    flex: 6,
+    justifyContent: 'center',
+    alignItems:'center',
   },
   imageUp:{
-    justifyContent:'center'
+    alignContent:'center'
   },
   colorVersion:{
     color:'#FFFFFF',
