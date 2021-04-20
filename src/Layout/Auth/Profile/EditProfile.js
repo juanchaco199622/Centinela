@@ -177,6 +177,7 @@ export default function EditProfile({route, navigation}) {
           items={ramas}
         />
       </View>
+      
       <Divider/>
       <View style={{alignItems:"flex-end", padding:10}}>
       <Button icon="floppy" color = "#fff" uppercase={false} style={styles.roundButton} 

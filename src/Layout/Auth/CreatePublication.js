@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 import { Picker } from '@react-native-picker/picker';
 import { List, Checkbox } from 'react-native-paper';
 import { utils } from '@react-native-firebase/app';
-import { Storage } from '@react-native-firebase/storage';
+//import { Storage } from '@react-native-firebase/storage';
 
 
 
@@ -16,7 +16,7 @@ export default function CreatePublication() {
 
     /*const reference = storage().ref('black-t-shirt-sm.png');*/
     //const reference = storage().ref('/test/black-t-shirt-sm.png');
-
+// error
     const destinatarios = [
         { key: '0', label: 'Selecciona una opcion', value: '' },
         { key: '1', label: 'Cachorro', value: 'cachorro' },
