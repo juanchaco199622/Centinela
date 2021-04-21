@@ -39,16 +39,6 @@ const AppTabs = createBottomTabNavigator();
 
 const AppTabsScreen =() =>(
      <AppTabs.Navigator>
-        
-        <AppTabs.Screen
-            name = 'Perfil'
-            component={Profile}
-            options={{
-                tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='account-circle' color={'black'} size={30}/>
-                )
-            }}
-         />
 
         <AppTabs.Screen
             name = 'home'
@@ -59,6 +49,16 @@ const AppTabsScreen =() =>(
                 )
             }}
          />
+
+        <AppTabs.Screen
+            name = 'Perfil'
+            component={Profile}
+            options={{
+                tabBarIcon:() =>(
+                    <MaterialCommunityIcons name='account-circle' color={'black'} size={30}/>
+                )
+            }}
+         /> 
 
           <AppTabs.Screen
                 name = 'Users'

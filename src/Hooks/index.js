@@ -1,0 +1,1 @@
+export {useUploadImagePreRegister} from './useUploadImagePreRegister'

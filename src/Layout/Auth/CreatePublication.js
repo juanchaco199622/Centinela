@@ -1,22 +1,57 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, Text, Alert } from 'react-native'
+import React, { useState, useRef , Text} from 'react'
+import { View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native'
+import {IconButton, Subheading, ProgressBar} from 'react-native-paper'
 import { Icon, Button } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-//import RNPickerSelect from 'react-native-picker-select';
 import { Picker } from '@react-native-picker/picker';
-import { List, Checkbox } from 'react-native-paper';
-import { utils } from '@react-native-firebase/app';
-//import { Storage } from '@react-native-firebase/storage';
-
-
+import ImagePicker from 'react-native-image-picker'
+import {imagePickerOptions} from '../../Utils';
+import RBSheet from "react-native-raw-bottom-sheet";
+import {useUploadImagePreRegister} from '../../Hooks'
+ 
 
 export default function CreatePublication() {
+    
+    const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
+    const [imageLocal, setImageLocal] = useState();
+    const refRBSheet = useRef();
+    const tomarFotoCamara = () =>{
+        refRBSheet.current.close()
+        ImagePicker.launchCamera(imagePickerOptions, response =>{
+            const {didCancel, error } = response;
+            if(didCancel){
+                console.log('Cancelaste');
+            }else{
+                console.log(response)
+                monitorUpload(response)
+                
+                setImageLocal(response.uri)
+            }
+        })
+    }
+
+    const mostrarfotoGalaria = () =>{
+        refRBSheet.current.close()
+        ImagePicker.launchImageLibrary(imagePickerOptions, response =>{
+            const {didCancel, error } = response;
+            if(didCancel){
+                console.log('Cancelaste');
+            }else{
+                console.log(response)
+                monitorUpload(response)
+                setImageLocal(response.uri)
+            }
+        })
+    }
+
+
+
+
     const user = auth().currentUser
 
     /*const reference = storage().ref('black-t-shirt-sm.png');*/
     //const reference = storage().ref('/test/black-t-shirt-sm.png');
-// error
     const destinatarios = [
         { key: '0', label: 'Selecciona una opcion', value: '' },
         { key: '1', label: 'Cachorro', value: 'cachorro' },
@@ -38,15 +73,16 @@ export default function CreatePublication() {
         setState({ ...state, [name]: value })
     }
 
-    const saveNewPublication = async () => {
+    const saveNewPublication =  () => {
         if (state.titulo === '' || state.cuerpo === '' || state.destinatario === '') {
             alert('Campos Vacios. Por favor digita la información para continuar')
         } else {
-            await firestore().collection('Publication').add({
+             firestore().collection('Publication').add({
                 id: user.uid,
                 titulo: state.titulo,
                 cuerpo: state.cuerpo,
                 destinatario: state.destinatario,
+                url :downloadURL,
             })
             alert('Datos Guardados Correctamente')
         }
@@ -68,7 +104,7 @@ export default function CreatePublication() {
                     onChangeText={(value) => handleChangeText("titulo", value)}
                 />
             </View>
-
+           
             <View style={styles.inputGroup}>
                 <Picker selectedValue={state.destinatario} 
                     onValueChange={(itemValue) => handleChangeText("destinatario", itemValue)}>
@@ -85,41 +121,83 @@ export default function CreatePublication() {
                     onChangeText={(value) => handleChangeText("cuerpo", value)}
                 />
             </View>
+            <Image
+                source = {{uri:imageLocal}}
+                style={{width: 200, height: 200}}
+
+            />
             <Button
                 title='Añadir Archivo'
                 theme={{ colors: { primary: '#8E0101' } }}
                 icon={<Icon name='file-upload' color='#ffffff' />}
                 buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10 }}
-                onPress={() => Alert.alert('ouuukkk2')} />
+                onPress={mostrarfotoGalaria} />
 
-            <Button title='Publicar' onPress={() => saveNewPublication()}  ></Button>
+            {uploading && (
+                <View>
+                    <ProgressBar progress={progress} />
+                    <Subheading>{parseInt(progress*100)+' %'}</Subheading>
+                </View>
+            )}
+            {downloadURL && (
+              <Button title='Publicar' onPress={() => saveNewPublication()}  ></Button>
+            )}
+
+
+            <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current.open()} />
+               
+
+            <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={false}
+                height={180}
+                customStyles={{
+                    
+                    wrapper: {
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                    },
+                    draggableIcon: {
+                        backgroundColor: '#ffc604'
+                    }
+                }}
+            >
+                <View style={{flexDirection:'column', justifyContent:'center', alignContent:'center', marginTop:'2%'}}>
+                    <TouchableOpacity 
+                        onPress={tomarFotoCamara}
+                        style={{
+                            flexDirection:'row', 
+                            alignItems:'center', 
+                            marginBottom:'2%'
+                        }}>
+                        <IconButton
+                            icon='camera'
+                            size={30}
+                            color={'grey'}
+                        />
+                        <Subheading style={{fontFamily:'Montserrat-Medium'}}>Tomar foto</Subheading>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        onPress={mostrarfotoGalaria}
+                        style={{
+                            flexDirection:'row',  
+                            alignItems:'center'
+                        }}
+                    >
+                        <IconButton
+                            icon='image-multiple'
+                            size={30}
+                            color={'grey'}
+
+                        />
+                        <Subheading style={{fontFamily:'Montserrat-Medium'}}>Seleccionar de galería</Subheading>
+                    </TouchableOpacity>
+                    
+                </View>
+            </RBSheet>
+            
+    
         </View >
 
     )
 }
-
-
-/*destinatarios.map((v) => {
-    return <Picker.Item testID={v.key} label={v.label} value={v.value} />
-})*/
-//onPress={() => Alert.alert('Simple Button pressed')}
-//<View style={styles.inputGroup}>
-//<RNPickerSelect
-///onValueChange={(value) => console.log(value)}
-//items={[
-//    {label: 'Cachorros', value: 'cachorro'},
-//    {label: 'Lobatos', value: 'lobato'},
-//    {label: 'Webelos', value: 'Webelo'},
-//    {label: 'Scouts', value: 'Scout'},
-//    {label: 'Rovers', value: 'Rover'},
-//]}
-//></RNPickerSelect>
-//</View>
-
-/*{[
-    { label: 'Cachorro', value: 'cachorro' },
-    { label: 'Lobato', value: 'lobato' },
-    { label: 'Webelo', value: 'Webelo' },
-    { label: 'Scout', value: 'Scout' },
-    { label: 'Rover', value: 'Rover' },
-]}*/
