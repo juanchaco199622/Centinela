@@ -19,7 +19,7 @@ export default function Home({navigation}) {
             <View style={styles.containerLogin} >
 
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="account-circle" mode="contained" color={'#6c757d'} onPress={() => console.log('Pressed')}>
+                    <Button icon="account-circle" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('CreateUser')}>
                     Crear usuarios
                     </Button>
                 </Card.Content>

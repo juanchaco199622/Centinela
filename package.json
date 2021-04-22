@@ -26,7 +26,7 @@
     "react-dom": "16.13.1",
     "react-native": "^0.63.4",
     "react-native-elements": "^3.3.2",
-    "react-native-gesture-handler": "^1.8.0",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-image-picker": "^2.3.4",
     "react-native-material-cards": "^1.0.15",
     "react-native-material-design": "^0.3.7",
