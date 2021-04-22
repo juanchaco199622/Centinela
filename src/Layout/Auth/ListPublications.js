@@ -4,8 +4,9 @@ import { ActivityIndicator, FlatList, StyleSheet, View, Text, Image, Alert, Pres
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { ListItem, Button, Icon } from 'react-native-elements';
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import Modal from 'react-native-modal';
+import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
+
 import { State } from 'react-native-gesture-handler';
 //Button, Card, Icon, Avatar
 
