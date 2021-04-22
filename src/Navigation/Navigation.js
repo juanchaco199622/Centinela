@@ -60,7 +60,7 @@ const AppTabsScreen =() =>(
             }}
          /> 
 
-          <AppTabs.Screen
+          {/**<AppTabs.Screen
                 name = 'Users'
                 component={CreateUser}
                 options={{
@@ -68,7 +68,7 @@ const AppTabsScreen =() =>(
                         <MaterialCommunityIcons name='account-group' color={'black'} size={30}/>
                     )
                 }}
-            />
+            />**/}
 
         <AppTabs.Screen
             name = 'Exit'
@@ -111,6 +111,7 @@ const RootStackScreen = () =>{
              <RootStack.Screen name="EditProfile" component={EditProfile} />
              <RootStack.Screen name="CreatePublication" component={CreatePublication} />
              <RootStack.Screen name="ListPublications" component={ListPublications} />
+             <RootStack.Screen name="CreateUser" component={CreateUser} />
         </RootStack.Navigator>
     )
 }

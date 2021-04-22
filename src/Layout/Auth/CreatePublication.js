@@ -46,13 +46,7 @@ export default function CreatePublication() {
         })
     }
 
-
-
-
     const user = auth().currentUser
-
-    /*const reference = storage().ref('black-t-shirt-sm.png');*/
-    //const reference = storage().ref('/test/black-t-shirt-sm.png');
     const destinatarios = [
         { key: '0', label: 'Selecciona una opcion', value: '' },
         { key: '1', label: 'Cachorro', value: 'cachorro' },
@@ -61,7 +55,6 @@ export default function CreatePublication() {
         { key: '4', label: 'Scout', value: 'scout' },
         { key: '5', label: 'Rover', value: 'rover' },
     ];
-
 
     const [state, setState] = useState({
         titulo: "",
@@ -91,11 +84,8 @@ export default function CreatePublication() {
     }
 
     const styles = StyleSheet.create({
-        Pheader:{
-            
+        Pheader:{  
             backgroundColor:'#b10909'
-
-
         },
         Pbody:{
             width:'85%',
@@ -104,15 +94,11 @@ export default function CreatePublication() {
             //justifyContent:'center',
             alignSelf:'center',
             backgroundColor:'#e8e8e8',
-            
-
         },
      
 
         container: {
             backgroundColor: 'white', /**'#F5FCFF' */
-            
-
         },
 
         inputGroup: {
@@ -121,10 +107,6 @@ export default function CreatePublication() {
             marginTop:10,
             alignSelf:'center',
             textAlignVertical:'top',
-            
-
-            //justifyContent:'flex-end',
-            
         },
         TextGroup:{
             width:'90%',
@@ -170,8 +152,6 @@ export default function CreatePublication() {
                         
                     </View>
 
-                
-
                     <View >
                         <Text style={styles.TextGroup}>Titulo:</Text>
                         <TextInput
@@ -203,18 +183,10 @@ export default function CreatePublication() {
                     </View>
                     <View style={{marginTop:15}}></View>
                     
-
-
                     {downloadURL && (
                     <Button title='Publicar'
                     buttonStyle={{marginTop:15, width:'70%', alignSelf:'center',borderRadius:15}}
                     onPress={() => saveNewPublication()}  ></Button> )}
-
-                    
-                    
-                    
-
-                
 
                     {uploading && (
                         <View>
@@ -223,8 +195,6 @@ export default function CreatePublication() {
                         </View>
                     )}
                     
-                    
-
                     <RBSheet
                         ref={refRBSheet}
                         closeOnDragDown={true}
@@ -278,15 +248,5 @@ export default function CreatePublication() {
                 <Subheading style={{height:50,backgroundColor:'#b10909',flex: 1, justifyContent: 'space-between'}}></Subheading>
                 
         </ScrollView  >
-        
-
     )
 }
-/*
-{downloadURL && (
-                <Button title='Publicar' onPress={() => saveNewPublication()}  ></Button>
-                )}
-
-                
-                <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current.open()} />
-                */
