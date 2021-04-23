@@ -137,7 +137,7 @@ export default function EditProfile({route, navigation}) {
         case 'listUsers':
           Alert.alert(
             null,
-            'Perfil actualizado correctamente',
+            'Usuario actualizado correctamente',
             [
               {
                 text: 'OK', 
