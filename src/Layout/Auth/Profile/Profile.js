@@ -42,7 +42,27 @@ export default function Profile({navigation}) {
       url:usuario.url,
     });
   });
-
+  const renderAvatar = () =>{
+    if(state.url===null){
+      const renderAvatarText =   () => (
+        <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#b31d1d'}}
+        size={150} 
+        label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
+        />
+      );
+      return renderAvatarText();
+    }else{
+      const renderAvatarImage = () => (
+        <Avatar.Image style={{alignSelf: 'center'}}
+        size={150} 
+        source={{
+        uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
+        }}
+        />
+      );
+      return renderAvatarImage();
+    }
+  }
 //Estilos de la pantalla 
   const styles = StyleSheet.create({
       container:{
@@ -98,12 +118,7 @@ export default function Profile({navigation}) {
       <Text style={styles.titleText}>PERFIL</Text>
       <View style={styles.body}>
         <Text style={styles.subTitleText}>Información básica</Text>
-          <Avatar.Image style={{alignSelf: 'center'}}
-            size={150} 
-            source={{
-              uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
-            }}
-          />
+          {renderAvatar()}
           <View>
             <Text style={styles.nameText}>{ state.nombres} {state.apellidos}</Text>
             <Text style={styles.infoText}>{ state.correo}</Text>
