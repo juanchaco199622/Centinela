@@ -54,17 +54,6 @@ export default function CreatePublication() {
         state.checkedItem = pItems;
     }
 
-    /*const reference = storage().ref('black-t-shirt-sm.png');*/
-    //const reference = storage().ref('/test/black-t-shirt-sm.png');
-    /*const destinatarios = [
-        { key: '0', label: 'Selecciona una opcion', value: '' },
-        { key: '1', label: 'Cachorro', value: 'cachorro' },
-        { key: '2', label: 'Lobato', value: 'lobato' },
-        { key: '3', label: 'Webelo', value: 'webelo' },
-        { key: '4', label: 'Scout', value: 'scout' },
-        { key: '5', label: 'Rover', value: 'rover' },
-    ];*/
-
     const destinatarios = [
         { itemKey: 1, itemDescription: 'Cachorro' },
         { itemKey: 2, itemDescription: 'Lobato' },
@@ -112,50 +101,6 @@ export default function CreatePublication() {
         }
         // console.log(state)
     }
-
-    const styles = StyleSheet.create({
-        Pheader: {
-
-            backgroundColor: '#b10909'
-
-
-        },
-        Pbody: {
-            width: '85%',
-            height: 750,
-            alignContent: 'center',
-            //justifyContent:'center',
-            alignSelf: 'center',
-            backgroundColor: '#e8e8e8',
-
-        },
-
-
-        container: {
-            backgroundColor: 'white', /**'#F5FCFF' */
-
-
-        },
-
-        inputGroup: {
-            width: '90%',
-            backgroundColor: 'white',
-            marginTop: 10,
-            alignSelf: 'center',
-            textAlignVertical: 'top',
-
-
-            //justifyContent:'flex-end',
-
-        },
-        TextGroup: {
-            width: '90%',
-            marginTop: 10,
-            alignSelf: 'center',
-        }
-
-
-    })
 
     return (
 
@@ -205,7 +150,7 @@ export default function CreatePublication() {
                 <View style={styles.inputGroup}>
                     <PickerCheckBox
                         data={destinatarios}
-                        headerComponent={<Text style={{ fontSize: 25 }} >items</Text>}
+                        headerComponent={<Text style={{ fontSize: 25 }} >Destinatarios</Text>}
                         OnConfirm={(pItems) => handleConfirm(pItems)}
                         ConfirmButtonTitle='OK'
                         DescriptionField='itemDescription'
@@ -221,7 +166,6 @@ export default function CreatePublication() {
                         {
                             destinatarios.map((v) => <Picker.Item key={v.key} label={v.label} value={v.value} />)
                         }
-
                     </Picker> */}
                 </View>
                 <Text style={styles.TextGroup}>Cuerpo:</Text>
@@ -244,20 +188,12 @@ export default function CreatePublication() {
                         buttonStyle={{ marginTop: 15, width: '70%', alignSelf: 'center', borderRadius: 15 }}
                         onPress={() => saveNewPublication()}  ></Button>)}
 
-
-
-
-
-
-
                 {uploading && (
                     <View>
                         <ProgressBar progress={progress} />
                         <Subheading>{parseInt(progress * 100) + ' %'}</Subheading>
                     </View>
                 )}
-
-
 
                 <RBSheet
                     ref={refRBSheet}
@@ -316,11 +252,38 @@ export default function CreatePublication() {
 
     )
 }
-/*
-{downloadURL && (
-                <Button title='Publicar' onPress={() => saveNewPublication()}  ></Button>
-                )}
+
+const styles = StyleSheet.create({
+    Pheader: {
+
+        backgroundColor: '#b10909'
 
 
-                <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current.open()} />
-                */
+    },
+    Pbody: {
+        width: '85%',
+        height: 750,
+        alignContent: 'center',
+        //justifyContent:'center',
+        alignSelf: 'center',
+        backgroundColor: '#e8e8e8',
+
+    },
+    container: {
+        backgroundColor: 'white', /**'#F5FCFF' */
+
+    },
+
+    inputGroup: {
+        width: '90%',
+        backgroundColor: 'white',
+        marginTop: 10,
+        alignSelf: 'center',
+        textAlignVertical: 'top',
+    },
+    TextGroup: {
+        width: '90%',
+        marginTop: 10,
+        alignSelf: 'center',
+    }
+})
