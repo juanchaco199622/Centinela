@@ -133,7 +133,10 @@ export default function ListPublications() {
             <CardContent text={item.cuerpo} />
             <CardAction
               separator={true}
-              inColumn={false}>
+              inColumn={false}
+              >
+
+                {item.destinatario}
               <CardButton
                 onPress={() => { }}
                 title="ver mas..."

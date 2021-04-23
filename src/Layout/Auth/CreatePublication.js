@@ -47,7 +47,6 @@ export default function CreatePublication() {
         })
     }
 
-<<<<<<< HEAD
 
     const user = auth().currentUser
 
@@ -58,10 +57,6 @@ export default function CreatePublication() {
     /*const reference = storage().ref('black-t-shirt-sm.png');*/
     //const reference = storage().ref('/test/black-t-shirt-sm.png');
     /*const destinatarios = [
-=======
-    const user = auth().currentUser
-    const destinatarios = [
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
         { key: '0', label: 'Selecciona una opcion', value: '' },
         { key: '1', label: 'Cachorro', value: 'cachorro' },
         { key: '2', label: 'Lobato', value: 'lobato' },
@@ -70,7 +65,6 @@ export default function CreatePublication() {
         { key: '5', label: 'Rover', value: 'rover' },
     ];*/
 
-<<<<<<< HEAD
     const destinatarios = [
         { itemKey: 1, itemDescription: 'Cachorro' },
         { itemKey: 2, itemDescription: 'Lobato' },
@@ -80,8 +74,6 @@ export default function CreatePublication() {
     ];
 
     const cItems = {};
-=======
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
     const [state, setState] = useState({
         titulo: "",
         cuerpo: "",
@@ -119,71 +111,6 @@ export default function CreatePublication() {
         // console.log(state)
     }
 
-    const styles = StyleSheet.create({
-<<<<<<< HEAD
-        Pheader: {
-
-            backgroundColor: '#b10909'
-
-
-=======
-        Pheader:{  
-            backgroundColor:'#b10909'
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
-        },
-        Pbody: {
-            width: '85%',
-            height: 750,
-            alignContent: 'center',
-            //justifyContent:'center',
-<<<<<<< HEAD
-            alignSelf: 'center',
-            backgroundColor: '#e8e8e8',
-
-=======
-            alignSelf:'center',
-            backgroundColor:'#e8e8e8',
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
-        },
-
-
-        container: {
-            backgroundColor: 'white', /**'#F5FCFF' */
-<<<<<<< HEAD
-
-
-        },
-
-        inputGroup: {
-            width: '90%',
-            backgroundColor: 'white',
-            marginTop: 10,
-            alignSelf: 'center',
-            textAlignVertical: 'top',
-
-
-            //justifyContent:'flex-end',
-
-=======
-        },
-
-        inputGroup: {
-            width:'90%',
-            backgroundColor:'white',
-            marginTop:10,
-            alignSelf:'center',
-            textAlignVertical:'top',
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
-        },
-        TextGroup: {
-            width: '90%',
-            marginTop: 10,
-            alignSelf: 'center',
-        }
-
-
-    })
-
     return (
 
         <ScrollView style={styles.container}>
@@ -195,17 +122,12 @@ export default function CreatePublication() {
                 }}
             />
 
-<<<<<<< HEAD
             <View style={styles.Pheader}></View>
 
             <View style={styles.Pbody}>
                 <View style={{ marginTop: 10 }}>
                     <Text style={styles.TextGroup}>Imagen:</Text>
                     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 15, alignItems: 'center' }}>
-=======
-                    <View >
-                        <Text style={styles.TextGroup}>Titulo:</Text>
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
                         <TextInput
                             style={{ width: '60%', backgroundColor: 'white', borderRadius: 10 }}
                             placeholder='Subir Imagen:'
@@ -220,7 +142,6 @@ export default function CreatePublication() {
                             source={{ uri: imageLocal }}
                             style={{ width: 255, height: 200, alignSelf: 'center', marginTop: 15, marginRight: 5 }}
                         />
-<<<<<<< HEAD
 
                     )}
 
@@ -254,7 +175,6 @@ export default function CreatePublication() {
                         {
                             destinatarios.map((v) => <Picker.Item key={v.key} label={v.label} value={v.value} />)
                         }
-
                     </Picker> */}
                 </View>
                 <Text style={styles.TextGroup}>Cuerpo:</Text>
@@ -273,22 +193,9 @@ export default function CreatePublication() {
 
 
                 {downloadURL && (
-=======
-                    </View>
-                    <View style={{marginTop:15}}></View>
-                    
-                    {downloadURL && (
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
                     <Button title='Publicar'
                         buttonStyle={{ marginTop: 15, width: '70%', alignSelf: 'center', borderRadius: 15 }}
                         onPress={() => saveNewPublication()}  ></Button>)}
-
-<<<<<<< HEAD
-
-
-
-
-
 
                 {uploading && (
                     <View>
@@ -356,75 +263,39 @@ export default function CreatePublication() {
 
     )
 }
-/*
-{downloadURL && (
-                <Button title='Publicar' onPress={() => saveNewPublication()}  ></Button>
-                )}
+
+const styles = StyleSheet.create({
+    Pheader: {
+
+        backgroundColor: '#b10909'
 
 
-                <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current.open()} />
-                */
-=======
-                    {uploading && (
-                        <View>
-                            <ProgressBar progress={progress} />
-                            <Subheading>{parseInt(progress*100)+' %'}</Subheading>
-                        </View>
-                    )}
-                    
-                    <RBSheet
-                        ref={refRBSheet}
-                        closeOnDragDown={true}
-                        closeOnPressMask={false}
-                        height={180}
-                        customStyles={{
-                            
-                            wrapper: {
-                                backgroundColor: 'rgba(0,0,0,0.5)',
-                            },
-                            draggableIcon: {
-                                backgroundColor: '#ffc604'
-                            }
-                        }}
-                    >
-                        <View style={{flexDirection:'column', justifyContent:'center', alignContent:'center', marginTop:'2%'}}>
-                            <TouchableOpacity 
-                                onPress={tomarFotoCamara}
-                                style={{
-                                    flexDirection:'row', 
-                                    alignItems:'center', 
-                                    marginBottom:'2%'
-                                }}>
-                                <IconButton
-                                    icon='camera'
-                                    size={30}
-                                    color={'grey'}
-                                />
-                                <Subheading style={{fontFamily:'Montserrat-Medium'}}>Tomar foto</Subheading>
-                            </TouchableOpacity>
-                            <TouchableOpacity 
-                                onPress={mostrarfotoGalaria}
-                                style={{
-                                    flexDirection:'row',  
-                                    alignItems:'center'
-                                }}
-                            >
-                                <IconButton
-                                    icon='image-multiple'
-                                    size={30}
-                                    color={'grey'}
+    },
+    Pbody: {
+        width: '85%',
+        height: 750,
+        alignContent: 'center',
+        //justifyContent:'center',
+        alignSelf: 'center',
+        backgroundColor: '#e8e8e8',
 
-                                />
-                                <Subheading style={{fontFamily:'Montserrat-Medium'}}>Seleccionar de galería</Subheading>
-                            </TouchableOpacity>
-                            
-                        </View>
-                    </RBSheet>
-                    
-                </View>          
-                <Subheading style={{height:50,backgroundColor:'#b10909',flex: 1, justifyContent: 'space-between'}}></Subheading>
-                
-        </ScrollView  >
-    )
-}
->>>>>>> b93638c3659525f01ddb46a718cc483c323d9778
+    },
+    container: {
+        backgroundColor: 'white', /**'#F5FCFF' */
+
+    },
+
+    inputGroup: {
+        width: '90%',
+        backgroundColor: 'white',
+        marginTop: 10,
+        alignSelf: 'center',
+        textAlignVertical: 'top',
+    },
+    TextGroup: {
+        width: '90%',
+        marginTop: 10,
+        alignSelf: 'center',
+    }
+
+})
