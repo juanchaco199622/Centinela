@@ -13,6 +13,7 @@ import ListUsers from '../Layout/Auth/ListUsers';
 import EditProfile from '../Layout/Auth/Profile/EditProfile';
 import CreatePublication from '../Layout/Auth/CreatePublication';
 import ListPublications from '../Layout/Auth/ListPublications';
+import { View } from 'react-native';
 
 const AuthStack = createStackNavigator();
 
@@ -39,13 +40,12 @@ const AppTabs = createBottomTabNavigator();
 
 const AppTabsScreen =() =>(
      <AppTabs.Navigator>
-
         <AppTabs.Screen
             name = 'home'
             component={Home}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'black'} size={30}/>
+                    <MaterialCommunityIcons name='home' color={'#949494'} size={50}/>
                 )
             }}
          />
@@ -55,7 +55,7 @@ const AppTabsScreen =() =>(
             component={Profile}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='account-circle' color={'black'} size={30}/>
+                    <MaterialCommunityIcons name='account-circle' color={'#949494'} size={50}/>
                 )
             }}
          /> 
@@ -75,7 +75,7 @@ const AppTabsScreen =() =>(
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='close' color={'black'} size={30}/>
+                    <MaterialCommunityIcons name='close' color={'#949494'} size={50}/>
                 )
             }}
          />

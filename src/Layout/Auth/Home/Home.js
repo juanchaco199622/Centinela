@@ -6,51 +6,42 @@ import { StyleSheet, View, ImageBackground} from 'react-native';
 export default function Home({navigation}) {
 
     const user = auth().currentUser
-    const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+    const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
 
     
 
     return (
-        <View>
-            <Card>
-                <Card.Title title={user.email} subtitle="admin" left={LeftContent} />
+        <View style={styles.container}>
+          
+            <Card style ={{backgroundColor:"#B10909"}}>
+                <Card.Title title={user.email} subtitle="admin" left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
             </Card>
-
+            <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
             <View style={styles.containerLogin} >
-
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="account-circle" mode="contained" color={'#BBBBBB'} onPress={() => navigation.navigate('CreateUser')}>
+                    <Button icon="account-multiple-plus" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateUser')} style={{height:45}}>
                     Crear usuarios
                     </Button>
                 </Card.Content>
 
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="account-group" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('ListUsers')}>
+                    <Button icon="account-group" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListUsers')} style={{height:45}}>
                     Listar usuarios
                     </Button>
                 </Card.Content>
 
-                {/* <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="align-horizontal-left" mode="contained" color={'#BBBBBB'} onPress={() => console.log('Pressed')}>
-                     Crear Ramas
-                    </Button>
-                </Card.Content> */}
-
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="newspaper" mode="contained" color={'#BBBBBB'} onPress={() => navigation.navigate('CreatePublication')}>
+                    <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{height:45}}>
                      Crear publicación
                     </Button>
                 </Card.Content>
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="newspaper" mode="contained" color={'#BBBBBB'} onPress={() => navigation.navigate('ListPublications')}>
+                    <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{height:45}}>
                      Listar publicaciones
                     </Button>
                 </Card.Content>
-
-
             </View>
-
-
+            </ImageBackground>
         </View>
     )
 }
@@ -67,11 +58,11 @@ const styles = StyleSheet.create({
       flexDirection:'column',
       justifyContent:'space-between',
     },
-    containerLogin:{
-      margin:'4%',
-      borderTopStartRadius: 30,
-      borderTopEndRadius: 30,
-    },
+    /*containerLogin:{
+      flex:1,
+      flexDirection:'column',
+      justifyContent:'space-between'
+    },*/
     input:{
       backgroundColor:'#FFFFFF',
       marginBottom:'2%'
@@ -89,7 +80,7 @@ const styles = StyleSheet.create({
       margin:'5%',
       marginTop:'-1%',
       flexDirection:'column',
-      justifyContent:'space-between'
+      justifyContent:'space-between',
     },
     buttonLogin:{
       padding:'2%'
