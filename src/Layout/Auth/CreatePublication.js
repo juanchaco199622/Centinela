@@ -90,15 +90,17 @@ export default function CreatePublication() {
         if (state.titulo === '' || state.cuerpo === '' || state.checkedItem.length === 0) {
             alert('Campos Vacios. Por favor digita la información para continuar')
         } else {
+            var destina = '';
             state.checkedItem.map((itemCheck) => {
-                firestore().collection('Publication').add({
-                    id: user.uid,
-                    titulo: state.titulo,
-                    cuerpo: state.cuerpo,
-                    destinatario: itemCheck.itemDescription,
-                    url: downloadURL,
-                })
+                destina = destina + itemCheck.itemDescription + ',';
             });
+            firestore().collection('Publication').add({
+                id: user.uid,
+                titulo: state.titulo,
+                cuerpo: state.cuerpo,
+                destinatario: destina, //itemCheck.itemDescription,
+                url: downloadURL,
+            })
             /*firestore().collection('Publication').add({
                 id: user.uid,
                 titulo: state.titulo,
