@@ -129,7 +129,7 @@ export default function Profile({navigation}) {
             <View style={{padding:10}}>
               <Button icon="pencil" color = "#fff" uppercase={false} 
                 style={styles.roundButton} 
-                onPress={()=>navigation.navigate('EditProfile',{state})}
+                onPress={()=>navigation.navigate('EditProfile',{state, page:'profile'})}
               >Editar usuario</Button>
             </View>
           </View>

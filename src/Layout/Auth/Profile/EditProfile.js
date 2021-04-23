@@ -17,6 +17,7 @@ export default function EditProfile({route, navigation}) {
 
 //Declaracion de variables
   const data = route.params.state;
+  const dir = route.params.page;
   const [state, setState] = useState({
     doc_id: data.doc_id,
     nombres: data.nombres, 
@@ -132,17 +133,34 @@ export default function EditProfile({route, navigation}) {
         });
       }
     if(!error){
-      Alert.alert(
-        null,
-        'Perfil actualizado correctamente',
-        [
-          {
-            text: 'OK', 
-            onPress: () => navigation.navigate('Perfil')
-          },
-        ],
-        {cancelable: false},
-      );
+      switch (dir){
+        case 'listUsers':
+          Alert.alert(
+            null,
+            'Perfil actualizado correctamente',
+            [
+              {
+                text: 'OK', 
+                onPress: () => navigation.navigate('ListUsers')
+              },
+            ],
+            {cancelable: false},
+          );
+        break
+        case 'profile':
+          Alert.alert(
+            null,
+            'Perfil actualizado correctamente',
+            [
+              {
+                text: 'OK', 
+                onPress: () => navigation.navigate('Perfil')
+              },
+            ],
+            {cancelable: false},
+          );
+        break
+      } 
     }
   }
   const handleChangeText = (name, value )=>{

@@ -4,10 +4,18 @@ import firestore from '@react-native-firebase/firestore';
 import { ListItem, Icon } from 'react-native-elements';
 import {Avatar} from 'react-native-paper'
 
-export default function ListUsers(){
+export default function ListUsers({navigation}){
 //const ListUsers = props => {
-    const [users, setUsers] = useState([]); 
-   // const [users, setUsers] = useState(false)
+    //const [users, setUsers] = useState(); 
+  const [users, setUsers] = useState({
+    doc_id: "",
+    nombres : "",
+    apellidos : "",
+    correo: "",
+    id_rol :"",
+    grupo :"",
+    url :""
+  });
    
   
     useEffect(() => {
@@ -15,12 +23,14 @@ export default function ListUsers(){
           .collection('Usuario')
           .onSnapshot(querySnapshot => {
             const users = [];
-      
+            let i = 0;
             querySnapshot.forEach(documentSnapshot => {
               users.push({
                 ...documentSnapshot.data(),
                 key: documentSnapshot.id,
+                doc_id: querySnapshot.docs[i].id
               });
+              i++;
             });
             setUsers(users);
             //setLoading(false);
@@ -31,7 +41,6 @@ export default function ListUsers(){
       }, []);
 
       const renderAvatar = (image, iniciales) =>{
-        console.log(image)
         if(image===null || image===undefined){
           const renderAvatarText = () => (
             <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#b31d1d'}}
@@ -65,11 +74,10 @@ export default function ListUsers(){
                     <ListItem.Subtitle>{item.id_grupo}</ListItem.Subtitle>
                 </ListItem.Content>
                <Icon
-               
-               icon = 'page-last'
-               
+                name = 'pencil-square-o'
+                type='font-awesome'
+                onPress={()=>navigation.navigate('EditProfile',{state:item, page:'listUsers'})}
                />
-                
           </ListItem>
       </View>
       )}
