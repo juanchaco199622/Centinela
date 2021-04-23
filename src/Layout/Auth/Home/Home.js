@@ -24,17 +24,17 @@ export default function Home({navigation}) {
                     </Button>
                 </Card.Content>
 
-                {/* <Card.Content style={styles.containerButtonLogin} >
+                <Card.Content style={styles.containerButtonLogin} >
                     <Button icon="account-group" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('ListUsers')}>
                     Listar usuarios
                     </Button>
-                </Card.Content> */}
+                </Card.Content>
 
-                <Card.Content style={styles.containerButtonLogin} >
+                {/* <Card.Content style={styles.containerButtonLogin} >
                     <Button icon="align-horizontal-left" mode="contained" color={'#BBBBBB'} onPress={() => console.log('Pressed')}>
                      Crear Ramas
                     </Button>
-                </Card.Content>
+                </Card.Content> */}
 
                 <Card.Content style={styles.containerButtonLogin} >
                     <Button icon="newspaper" mode="contained" color={'#BBBBBB'} onPress={() => navigation.navigate('CreatePublication')}>
