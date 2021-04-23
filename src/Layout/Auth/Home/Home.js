@@ -19,30 +19,30 @@ export default function Home({navigation}) {
             <View style={styles.containerLogin} >
 
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="account-circle" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('CreateUser')}>
+                    <Button icon="account-circle" mode="contained" color={'#BBBBBB'} onPress={() => navigation.navigate('CreateUser')}>
                     Crear usuarios
                     </Button>
                 </Card.Content>
 
-                <Card.Content style={styles.containerButtonLogin} >
+                {/* <Card.Content style={styles.containerButtonLogin} >
                     <Button icon="account-group" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('ListUsers')}>
                     Listar usuarios
                     </Button>
-                </Card.Content>
+                </Card.Content> */}
 
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="align-horizontal-left" mode="contained" color={'#6c757d'} onPress={() => console.log('Pressed')}>
+                    <Button icon="align-horizontal-left" mode="contained" color={'#BBBBBB'} onPress={() => console.log('Pressed')}>
                      Crear Ramas
                     </Button>
                 </Card.Content>
 
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="newspaper" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('CreatePublication')}>
+                    <Button icon="newspaper" mode="contained" color={'#BBBBBB'} onPress={() => navigation.navigate('CreatePublication')}>
                      Crear publicación
                     </Button>
                 </Card.Content>
                 <Card.Content style={styles.containerButtonLogin} >
-                    <Button icon="newspaper" mode="contained" color={'#6c757d'} onPress={() => navigation.navigate('ListPublications')}>
+                    <Button icon="newspaper" mode="contained" color={'#BBBBBB'} onPress={() => navigation.navigate('ListPublications')}>
                      Listar publicaciones
                     </Button>
                 </Card.Content>
