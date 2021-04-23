@@ -205,7 +205,7 @@ export default function CreatePublication() {
                 <View style={styles.inputGroup}>
                     <PickerCheckBox
                         data={destinatarios}
-                        headerComponent={<Text style={{ fontSize: 25 }} >items</Text>}
+                        headerComponent={<Text style={{ fontSize: 25 }} >Destinatarios</Text>}
                         OnConfirm={(pItems) => handleConfirm(pItems)}
                         ConfirmButtonTitle='OK'
                         DescriptionField='itemDescription'
