@@ -54,17 +54,6 @@ export default function CreatePublication() {
         state.checkedItem = pItems;
     }
 
-    /*const reference = storage().ref('black-t-shirt-sm.png');*/
-    //const reference = storage().ref('/test/black-t-shirt-sm.png');
-    /*const destinatarios = [
-        { key: '0', label: 'Selecciona una opcion', value: '' },
-        { key: '1', label: 'Cachorro', value: 'cachorro' },
-        { key: '2', label: 'Lobato', value: 'lobato' },
-        { key: '3', label: 'Webelo', value: 'webelo' },
-        { key: '4', label: 'Scout', value: 'scout' },
-        { key: '5', label: 'Rover', value: 'rover' },
-    ];*/
-
     const destinatarios = [
         { itemKey: 1, itemDescription: 'Cachorro' },
         { itemKey: 2, itemDescription: 'Lobato' },
@@ -90,15 +79,17 @@ export default function CreatePublication() {
         if (state.titulo === '' || state.cuerpo === '' || state.checkedItem.length === 0) {
             alert('Campos Vacios. Por favor digita la información para continuar')
         } else {
+            var destina = '';
             state.checkedItem.map((itemCheck) => {
-                firestore().collection('Publication').add({
-                    id: user.uid,
-                    titulo: state.titulo,
-                    cuerpo: state.cuerpo,
-                    destinatario: itemCheck.itemDescription,
-                    url: downloadURL,
-                })
+                destina = destina + itemCheck.itemDescription + ',';
             });
+            firestore().collection('Publication').add({
+                id: user.uid,
+                titulo: state.titulo,
+                cuerpo: state.cuerpo,
+                destinatario: destina, //itemCheck.itemDescription,
+                url: downloadURL,
+            })
             /*firestore().collection('Publication').add({
                 id: user.uid,
                 titulo: state.titulo,
@@ -204,8 +195,6 @@ export default function CreatePublication() {
                     </View>
                 )}
 
-
-
                 <RBSheet
                     ref={refRBSheet}
                     closeOnDragDown={true}
@@ -297,5 +286,4 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'center',
     }
-
 })
