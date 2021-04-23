@@ -56,29 +56,54 @@ export default function EditProfile({route, navigation}) {
       setRol(datosRol);
     });
   },[])
-  
-//Estilos
-  const styles = StyleSheet.create({
-    roundButton: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10,
-      backgroundColor: '#b31d1d',
-    },
-    profileHeader: {flexDirection:"row", padding:10, backgroundColor:"#fff"}
-  });
-  const pickerSelectStyles = StyleSheet.create({
-    inputAndroid: {
-      fontSize: 16,
-      paddingHorizontal: 15,
-      paddingVertical: 13,
-      borderWidth: 1,
-      borderColor: 'gray',
-      borderRadius: 5,
-      color: 'black',
-      paddingRight: 30,
-    },
-  });
+    //Estilos de la pantalla 
+    const styles = StyleSheet.create({
+      container:{
+          backgroundColor:'#fff'
+      },
+      titleText:{
+          alignSelf:'center', 
+          padding:20, 
+          fontSize:25, 
+          fontWeight:'bold'
+      },
+      subTitleText:{
+          padding:10, 
+          fontSize:20, 
+          fontWeight:'bold'
+      },
+      body: {
+          width: '85%',
+          alignContent: 'center',
+          alignSelf: 'center',
+          backgroundColor: '#e8e8e8',
+          borderRadius: 8,
+          borderWidth: 0.5
+      },
+      inputText:{
+          height:40, 
+          backgroundColor:'#fff'
+      },
+      roundButton: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 10,
+          backgroundColor: '#b31d1d',
+      },
+    })
+    const pickerSelectStyles = StyleSheet.create({
+        inputAndroid: {
+            fontSize: 16,
+            paddingHorizontal: 15,
+            paddingVertical: 7,
+            borderWidth: 1,
+            borderColor: 'gray',
+            borderRadius: 5,
+            color: '#000',
+            paddingRight: 30,
+            backgroundColor: '#fff'
+        },
+    });
 //Funciones de acciones
   const updateProfile = async () =>{
     let error = true
@@ -127,62 +152,54 @@ export default function EditProfile({route, navigation}) {
   return (
     <SafeAreaView>
       <ScrollView>
-      <View style={styles.profileHeader}>
-        <Avatar.Image
-          source={{
-            uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
-          }}
-          size={80}
-        />
-        <View style={{marginLeft:10}}>
-          <Title style={{marginTop:25}}>Editar Perfil</Title>
+        <Text style={styles.titleText}>EDITAR USUARIO</Text>
+        <View style={styles.body}>
+          <Text style={styles.subTitleText}>Información básica</Text>
+          <View style={{padding:10}}>
+            <Text>Nombres</Text>
+            <TextInput
+              style={styles.inputText}
+              mode='outlined'
+              returnKeyType={"next"} placeholder="Nombres"
+              onChangeText={(text) => handleChangeText('nombres', text)}
+              value={state.nombres}
+            />
+          </View>
+          <View style={{padding:10}}>
+            <Text>Apellidos</Text>
+            <TextInput
+              style={styles.inputText}
+              mode='outlined'
+              returnKeyType={"next"} placeholder="Apellidos"
+              onChangeText={(text) => handleChangeText('apellidos', text)}
+              value={state.apellidos}
+            />
+          </View>
+          <View style={{padding:10}}>
+            <Text>Rol</Text>
+            <RNPickerSelect style={pickerSelectStyles}
+              placeholder= {{}}
+              onValueChange={(value) => handleChangeText('rol', value)}
+              useNativeAndroidPickerStyle={false}
+              value={state.rol}
+              items={rol}
+            />
+          </View>
+          <View style={{padding:10}}>
+            <Text>Rama</Text>
+            <RNPickerSelect style={pickerSelectStyles}
+              placeholder= {{}}
+              onValueChange={(value) => handleChangeText('grupo', value)}
+              useNativeAndroidPickerStyle={false}
+              value={state.grupo}
+              items={ramas}
+            />
+          </View>
+          <View style={{padding:10}}>
+            <Button icon="floppy" color = "#fff" uppercase={false} style={styles.roundButton} 
+            onPress={()=>updateProfile()}>Guardar</Button>
+          </View>
         </View>
-      </View>
-      <Divider/>
-      <View style={{padding:10}}>
-        <Text>Nombres</Text>
-        <TextInput
-          mode='outlined'
-          returnKeyType={"next"} placeholder="Nombres"
-          onChangeText={(text) => handleChangeText('nombres', text)}
-          value={state.nombres}
-        />
-      </View>
-      <View style={{padding:10}}>
-        <Text>Apellidos</Text>
-        <TextInput
-          mode='outlined'
-          returnKeyType={"next"} placeholder="Apellidos"
-          onChangeText={(text) => handleChangeText('apellidos', text)}
-          value={state.apellidos}
-        />
-      </View> 
-      <View style={{padding:10}}>
-        <Text>Rol</Text>
-        <RNPickerSelect style={pickerSelectStyles}
-          placeholder= {{}}
-          onValueChange={(value) => handleChangeText('rol', value)}
-          useNativeAndroidPickerStyle={false}
-          value={state.rol}
-          items={rol}
-        />
-      </View>
-      <View style={{padding:10}}>
-        <Text>Rama</Text>
-        <RNPickerSelect style={pickerSelectStyles}
-          placeholder= {{}}
-          onValueChange={(value) => handleChangeText('grupo', value)}
-          useNativeAndroidPickerStyle={false}
-          value={state.grupo}
-          items={ramas}
-        />
-      </View>
-      
-      <Divider/>
-      <View style={{alignItems:"flex-end", padding:10}}>
-      <Button icon="floppy" color = "#fff" uppercase={false} style={styles.roundButton} 
-      onPress={()=>updateProfile()}>Guardar</Button>
-      </View>
       </ScrollView> 
     </SafeAreaView>
   )    

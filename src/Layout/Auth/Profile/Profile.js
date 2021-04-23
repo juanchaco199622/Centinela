@@ -43,50 +43,81 @@ export default function Profile({navigation}) {
     });
   });
 
-//Estilos
+//Estilos de la pantalla 
   const styles = StyleSheet.create({
-    roundButton: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10,
-      backgroundColor: '#b31d1d',
-    },
-    profileHeader: {flexDirection:"row", padding:10, backgroundColor:"#fff"}
-  });
+      container:{
+          backgroundColor:'#fff'
+      },
+      titleText:{
+          alignSelf:'center', 
+          padding:20, 
+          fontSize:25, 
+          fontWeight:'bold'
+      },
+      subTitleText:{
+          padding:10, 
+          fontSize:20, 
+          fontWeight:'bold'
+      },
+      body: {
+          width: '85%',
+          alignContent: 'center',
+          alignSelf: 'center',
+          backgroundColor: '#e8e8e8',
+          borderRadius: 8,
+          borderWidth: 0.5
+      },
+      nameText:{
+        alignSelf: 'center', 
+        fontSize:20, 
+        color:'#000', 
+        fontWeight:'bold', 
+        paddingTop:10
+      },
+      infoText:{
+        alignSelf: 'center', 
+        fontSize:15, 
+        color:'#000', 
+        paddingBottom:10
+      },
+      titleInfoText:{
+        alignSelf: 'center', 
+        fontSize:15, 
+        color:'#999'
+      },
+      roundButton: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 10,
+          backgroundColor: '#b31d1d',
+      },
+  })
 //Render
   return (
     <SafeAreaView>
-      <View style={styles.profileHeader}>
-          <Avatar.Image
+      <Text style={styles.titleText}>PERFIL</Text>
+      <View style={styles.body}>
+        <Text style={styles.subTitleText}>Información básica</Text>
+          <Avatar.Image style={{alignSelf: 'center'}}
+            size={150} 
             source={{
               uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg',
             }}
-            size={80}
           />
-          <View style={{marginLeft:10}}>
-            <Title style={{marginTop:10}}>{ state.nombres} {state.apellidos}</Title>
-            <Caption>{ state.correo}</Caption>
+          <View>
+            <Text style={styles.nameText}>{ state.nombres} {state.apellidos}</Text>
+            <Text style={styles.infoText}>{ state.correo}</Text>
+            <Text style={styles.titleInfoText}>Rama:</Text>
+            <Text style={styles.infoText}>{ state.grupo }</Text>
+            <Text style={styles.titleInfoText}>Rol:</Text>
+            <Text style={styles.infoText}>{ state.rol }</Text>
+            <View style={{padding:10}}>
+              <Button icon="pencil" color = "#fff" uppercase={false} 
+                style={styles.roundButton} 
+                onPress={()=>navigation.navigate('EditProfile',{state})}
+              >Editar usuario</Button>
+            </View>
           </View>
-      </View>
-      <Divider/>
-        <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="spa" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ state.grupo }</Text>
-        </View>
-        <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="account" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ state.rol }</Text>
-        </View>
-        {/* <View style={{flexDirection:"row", padding:10}}>
-          <Icon name="account" size={25}/>
-          <Text style={{marginLeft:10,marginTop:2}}>{ user.uid }</Text>
-        </View> */} 
-      <Divider/>
-      <View style={{alignItems:"flex-end", padding:10}}>
-        <Button icon="pencil" color = "#fff" uppercase={false} 
-          style={styles.roundButton} 
-          onPress={()=>navigation.navigate('EditProfile',{state})}
-        >Editar perfil</Button>
       </View>
     </SafeAreaView>
   )    
