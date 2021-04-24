@@ -15,13 +15,13 @@ function Login({navigation}){
 
   const LoginUser = async() =>{
       try {
-         if(email === ''){
+        if(email === ''){
             Alert.alert('Se requiere un correo electrónico.');
-         }else if(password === ''){
-           Alert.alert('Se requiere una contraseña .');
-         }else{
-             await auth().signInWithEmailAndPassword(email,password);
-         }
+        }else if(password === ''){
+          Alert.alert('Se requiere una contraseña .');
+        }else{
+            await auth().signInWithEmailAndPassword(email,password);
+        }
 
       }catch  {
           Alert.alert('Correo o Contraseña inválida');
@@ -35,7 +35,7 @@ function Login({navigation}){
         auth().sendPasswordResetEmail(email)
         Alert.alert('Envio exitoso','Se ha enviado a tu bandeja.')
       }
-     
+    
   }
 
   return (
