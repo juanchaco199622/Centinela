@@ -18,9 +18,12 @@ const [state, setState] = useState({
   grupo :"",
   url :""
 });
-
+/*if(auth().onAuthStateChanged){
+  console.log('error')
+  navigation.navigate('AppTabsScreen');
+}*/
 //Obtener datos de firestore
-firestore()
+/*firestore()
 .collection('Usuario')
 .where('email', '==', user.email)
 .get()
@@ -36,13 +39,17 @@ firestore()
     grupo:usuario.id_grupo,
     url:usuario.url,
   });
-});
+});*/
+
+
 const renderAvatar = () =>{
   if(state.url===null){
     const renderAvatarText =   () => (
       <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#EEEEEE'}}
       size={20} 
-      label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
+      //label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
+       label={auth().email}
+      
       />
     );
     return renderAvatarText();
