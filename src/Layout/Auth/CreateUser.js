@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
-import {Button, TextInput} from 'react-native-paper';
+import React, { useState, useEffect, useRef } from 'react'
+import { View, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, Image} from 'react-native';
+import { TextInput, IconButton, Subheading, ProgressBar} from 'react-native-paper';
+import {Button} from 'react-native-elements'
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
+//import auth from '@react-native-firebase/auth';
 import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+// LIBRERIAS PARA LAS FOTOS INICIO
+import ImagePicker from 'react-native-image-picker'
+import { imagePickerOptions } from '../../Utils';
+import RBSheet from "react-native-raw-bottom-sheet";
+import { useUploadImageCrearUsuario } from '../../Hooks'
+// LIBRERIAS PARA LA FOTO FIN
+
 export default function CreateUser({navigation}) {
     //Declaracion de variables
-    const user = auth().currentUser;
+    //const user = auth().currentUser;
     const [state, setState] = useState({
         nombres : "",
         apellidos : "",
@@ -46,59 +54,49 @@ export default function CreateUser({navigation}) {
           setRol(datosRol);
         });
       },[])
-    //Estilos de la pantalla 
-    const styles = StyleSheet.create({
-        container:{
-            backgroundColor:'#fff'
-        },
-        titleText:{
-            alignSelf:'center', 
-            padding:20, 
-            fontSize:25, 
-            fontWeight:'bold'
-        },
-        subTitleText:{
-            padding:10, 
-            fontSize:20, 
-            fontWeight:'bold'
-        },
-        body: {
-            width: '85%',
-            alignContent: 'center',
-            alignSelf: 'center',
-            backgroundColor: '#e8e8e8',
-            borderRadius: 8,
-            borderWidth: 0.5
-        },
-        inputText:{
-            height:40, 
-            backgroundColor:'#fff'
-        },
-        roundButton: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
-            backgroundColor: '#b31d1d',
-        },
-    })
-    const pickerSelectStyles = StyleSheet.create({
-        inputAndroid: {
-            fontSize: 16,
-            paddingHorizontal: 15,
-            paddingVertical: 7,
-            borderWidth: 1,
-            borderColor: 'gray',
-            borderRadius: 5,
-            color: 'gray',
-            paddingRight: 30,
-            backgroundColor: '#fff'
-        },
-    });
+
+      // LOGICA PARA OBTENER LA FOTO
+      const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImageCrearUsuario();
+        const [imageLocal, setImageLocal] = useState();
+        const refRBSheet = useRef();
+            
+        const tomarFotoCamara = () => {
+            refRBSheet.current.close()
+            ImagePicker.launchCamera(imagePickerOptions, response => {
+                const { didCancel, error } = response;
+                if (didCancel) {
+                    console.log('Cancelaste');
+                } else {
+                    console.log(response)
+                    monitorUpload(response)
+
+                    setImageLocal(response.uri)
+                }
+            })
+        }
+
+        const mostrarfotoGalaria = () => {
+            refRBSheet.current.close()
+            ImagePicker.launchImageLibrary(imagePickerOptions, response => {
+                const { didCancel, error } = response;
+                if (didCancel) {
+                    console.log('Cancelaste');
+                } else {
+                    console.log(response)
+                    monitorUpload(response)
+                    setImageLocal(response.uri)
+                }
+            })
+        }
+
+    // TERMINA LA LOGICA DE LA FOTO
+
+
     //Funciones
     const handleChangeText = (name,value )=>{
         setState({...state,[name]:value})
     };
-    const saveNewUser = async () =>{
+    const saveNewUser= () =>{
         let error = true
         if(state.nombres === '' || state.apellidos === '' || state.email === ''){
             Alert.alert(
@@ -112,12 +110,13 @@ export default function CreateUser({navigation}) {
                 {cancelable: false},
             );
         } else {
-            await  firestore().collection('Usuario').add({
+            firestore().collection('Usuario').add({
                 nombres: state.nombres,
                 apellidos : state.apellidos,
                 email : state.email,
                 id_rol : state.id_rol,
                 id_grupo : state.id_grupo,
+                url : downloadURL,
             }).then(()=>{
                 error = false
             });
@@ -146,6 +145,28 @@ export default function CreateUser({navigation}) {
                 <Text style={styles.titleText}>CREAR USUARIO</Text>
                 <View style={styles.body}>
                     <Text style={styles.subTitleText}>Información básica</Text>
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={styles.TextGroup}>Imagen:</Text>
+                        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 15, alignItems: 'center' }}>
+                            <TextInput
+                                style={{ width: '60%', backgroundColor: 'white', borderRadius: 10 }}
+                                placeholder='Subir Imagen:'
+                            />
+
+                            <Button title="Subir..."
+                                buttonStyle={{ height: 30, width: 70, marginLeft: 10, borderRadius: 12, color:'black' }}
+                                onPress={() => refRBSheet.current.open()} />
+                        </View>
+                        {downloadURL && (
+                            <Image
+                                source={{ uri: imageLocal }}
+                                style={{ width: 255, height: 200, alignSelf: 'center', marginTop: 15, marginRight: 5 }}
+                            />
+
+                        )}
+
+                    </View>
+
                     <View style={{padding:10}}>
                         <Text>Nombres</Text>
                         <TextInput
@@ -194,7 +215,7 @@ export default function CreateUser({navigation}) {
                         items={ramas}
                         />
                     </View>
-                    <View style={{padding:10}}>
+                   {/**<View style={{padding:10}}>
                         <Button 
                         icon="floppy" 
                         color = "#fff" 
@@ -203,9 +224,129 @@ export default function CreateUser({navigation}) {
                         onPress={()=>saveNewUser()}
                         >Guardar
                         </Button>
-                    </View>
+                    </View>**/}
+                    <View style={{ marginTop: 15 }}></View>
+
+                    {downloadURL && (
+                        <Button title='Guardar'
+                            buttonStyle={{ marginTop: 15, width: '70%', alignSelf: 'center', borderRadius: 15 }}
+                            style={styles.roundButton}
+                            onPress={() => saveNewUser()}  ></Button>)}
+
+                    {uploading && (
+                        <View>
+                            <ProgressBar progress={progress} />
+                            <Subheading>{parseInt(progress * 100) + ' %'}</Subheading>
+                        </View>
+                    )}
+
+                    <RBSheet
+                        ref={refRBSheet}
+                        closeOnDragDown={true}
+                        closeOnPressMask={false}
+                        height={180}
+                        customStyles={{
+
+                            wrapper: {
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                            },
+                            draggableIcon: {
+                                backgroundColor: '#ffc604'
+                            }
+                        }}
+                    >
+                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginTop: '2%' }}>
+                            <TouchableOpacity
+                                onPress={tomarFotoCamara}
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginBottom: '2%'
+                                }}>
+                                <IconButton
+                                    icon='camera'
+                                    size={30}
+                                    color={'grey'}
+                                />
+                                <Subheading style={{ fontFamily: 'Montserrat-Medium' }}>Tomar foto</Subheading>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={mostrarfotoGalaria}
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <IconButton
+                                    icon='image-multiple'
+                                    size={30}
+                                    color={'grey'}
+
+                                />
+                                <Subheading style={{ fontFamily: 'Montserrat-Medium' }}>Seleccionar de galería</Subheading>
+                            </TouchableOpacity>
+                        </View>
+                    </RBSheet>
+                    <Subheading style={{ height: 50, backgroundColor: '#b10909', flex: 1, justifyContent: 'space-between' }}></Subheading>
                 </View>
             </ScrollView>
         </SafeAreaView>
     ) 
 }
+
+
+ //Estilos de la pantalla 
+ const styles = StyleSheet.create({
+    container:{
+        backgroundColor:'#fff'
+    },
+    titleText:{
+        alignSelf:'center', 
+        padding:20, 
+        fontSize:25, 
+        fontWeight:'bold'
+    },
+    subTitleText:{
+        padding:10, 
+        fontSize:20, 
+        fontWeight:'bold'
+    },
+    body: {
+        width: '85%',
+        alignContent: 'center',
+        alignSelf: 'center',
+        backgroundColor: '#e8e8e8',
+        borderRadius: 8,
+        borderWidth: 0.5
+    },
+    inputText:{
+        height:40, 
+        backgroundColor:'#fff'
+    },
+    roundButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: '#b31d1d',
+    },
+    TextGroup: {
+        width: '90%',
+        marginTop: 10,
+        alignSelf: 'center',
+    },
+})
+const pickerSelectStyles = StyleSheet.create({
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 15,
+        paddingVertical: 7,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+        color: 'gray',
+        paddingRight: 30,
+        backgroundColor: '#fff'
+    },
+    
+});
+// FIN DE LOS ESTILOS
