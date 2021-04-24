@@ -210,7 +210,7 @@ export default function CreatePublication() {
                     <TextInput
                         style={styles.inputGroup}
                         multiline
-                        numberOfLines={12}
+                        numberOfLines={8}
                         placeholder='Cuerpo:'
                         onChangeText={(value) => handleChangeText("cuerpo", value)}
                     />
