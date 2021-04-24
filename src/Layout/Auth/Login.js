@@ -48,7 +48,7 @@ function Login({navigation}){
             </View> 
 
             <View style={styles.containerText}>
-              <Headline style={{marginTop:'10%',color:'#DEDEDE', fontSize:33, fontFamily:'ProductSans-Bold'}}>BIENVENIDO!</Headline>
+              <Headline style={{marginTop:'10%',color:'#DEDEDE', fontSize:33, fontFamily:'ProductSans-Bold'}}>¡BIENVENIDO!</Headline>
               <Text style={{fontSize:19, color:'#DEDEDE'}}>
                   Gusto en verte de nuevo
               </Text>
@@ -102,7 +102,7 @@ function Login({navigation}){
                   style={{color:'#DEDEDE'}}
                   onPress={restablecerContraseña}
                 >
-                  Olvido su contraseña?
+                  ¿Olvido su contraseña?
                 </Subheading>
             </View>
           </View>
