@@ -10,61 +10,6 @@ export default function Home({navigation}) {
 //Declaracion de variables
 const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
 const user = auth().currentUser;
-const [state, setState] = useState({
-  doc_id: "",
-  nombres : "",
-  correo: "",
-  id_rol :"",
-  grupo :"",
-  url :""
-});
-/*if(auth().onAuthStateChanged){
-  console.log('error')
-  navigation.navigate('AppTabsScreen');
-}*/
-//Obtener datos de firestore
-/*firestore()
-.collection('Usuario')
-.where('email', '==', user.email)
-.get()
-.then(querySnapshot => {
-  const usuario = querySnapshot.docs[0].data()
-  const docId = querySnapshot.docs[0].id
-  setState({
-    doc_id: docId,
-    nombres:usuario.nombres, 
-    apellidos:usuario.apellidos,
-    correo:usuario.email,
-    rol:usuario.id_rol,
-    grupo:usuario.id_grupo,
-    url:usuario.url,
-  });
-});*/
-
-
-const renderAvatar = () =>{
-  if(state.url===null){
-    const renderAvatarText =   () => (
-      <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#EEEEEE'}}
-      size={20} 
-      //label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
-       label={auth().email}
-      
-      />
-    );
-    return renderAvatarText();
-  }else{
-    const renderAvatarImage = () => (
-      <Avatar.Image style={{alignSelf: 'center'}}
-      size={20} 
-      source={{
-      uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
-      }}
-      />
-    );
-    return renderAvatarImage();
-  }
-}
     
 //--------------------------------VISTAS
     return (
@@ -77,7 +22,7 @@ const renderAvatar = () =>{
 
         {/* Header */}
         <Card style ={{backgroundColor:"#B10909"}}>
-            <Card.Title title={state.nombres} subtitle={state.rol} left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
+            <Card.Title left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
         </Card>
 
         {/* Fondo de pantalla */}

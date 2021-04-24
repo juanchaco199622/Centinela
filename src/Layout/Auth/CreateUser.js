@@ -34,31 +34,31 @@ export default function CreateUser({navigation}) {
         .collection('Grupo')
         .get()
         .then(querySnapshot => {
-          let grupo
-          let datosRamas = []
-          for (let i=0; i < querySnapshot.size; i++){
+        let grupo
+        let datosRamas = []
+        for (let i=0; i < querySnapshot.size; i++){
             grupo = querySnapshot.docs[i].data();
             datosRamas.push({ label: grupo.nombre, value: grupo.nombre });
-          }
-          setRamas(datosRamas);
+        }
+        setRamas(datosRamas);
         });
         firestore()
         .collection('Rol')
         .get()
         .then(querySnapshot => {
-          let _rol
-          let datosRol = []
-          for (let i=0; i < querySnapshot.size; i++){
+        let _rol
+        let datosRol = []
+        for (let i=0; i < querySnapshot.size; i++){
             _rol = querySnapshot.docs[i].data();
             //console.log(_rol.nombre);
             datosRol.push({ label: _rol.nombre, value: _rol.nombre });
-          }
-          setRol(datosRol);
+        }
+        setRol(datosRol);
         });
-      },[])
+    },[])
 
       // LOGICA PARA OBTENER LA FOTO
-      const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImageCrearUsuario();
+    const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImageCrearUsuario();
         const [imageLocal, setImageLocal] = useState();
         const refRBSheet = useRef();
             
@@ -107,21 +107,21 @@ export default function CreateUser({navigation}) {
             const users = [];
             let i = 0;
             querySnapshot.forEach(documentSnapshot => {
-              users.push({
+            users.push({
                 ...documentSnapshot.data(),
                 key: documentSnapshot.id,
                 doc_id: querySnapshot.docs[i].id
-              });
-              i++;
+            });
+            i++;
             });
            // setUsers(users);
-           const validation = users.map(x=>(x.email))
-           if(validation == state.email){
+            const validation = users.map(x=>(x.email))
+            if(validation == state.email){
                 alert('El correo ya existe')
-           }else{
+            }else{
             let error = true
                //console.log('nuevo correo')
-               firestore().collection('Usuario').add({
+            firestore().collection('Usuario').add({
                 nombres: state.nombres,
                 apellidos : state.apellidos,
                 email : state.email,
@@ -130,7 +130,7 @@ export default function CreateUser({navigation}) {
                 url : downloadURL,
                 }).then(()=>{
                     error = false
-                });
+            });
 
             Alert.alert(
                 null,
@@ -143,9 +143,9 @@ export default function CreateUser({navigation}) {
                 ],
                 {cancelable: false},
                 );
-           }
+            }
         });
-                  
+        
     };
     //Render
     return (
@@ -156,14 +156,9 @@ export default function CreateUser({navigation}) {
                     <Text style={styles.subTitleText}>Información básica</Text>
                     <View style={{ marginTop: 10 }}>
                         <Text style={styles.TextGroup}>Imagen:</Text>
-                        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 15, alignItems: 'center' }}>
-                            <TextInput
-                                style={{ width: '60%', backgroundColor: 'white', borderRadius: 10 }}
-                                placeholder='Subir Imagen:'
-                            />
-
-                            <Button title="Subir..."
-                                buttonStyle={{ height: 30, width: 70, marginLeft: 10, borderRadius: 12, color:'black' }}
+                        <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
+                        <Button title='Subir Imagen'
+                                buttonStyle={{ height: 30, width: '100%', borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}
                                 onPress={() => refRBSheet.current.open()} />
                         </View>
                         {downloadURL && (
@@ -226,7 +221,7 @@ export default function CreateUser({navigation}) {
                         items={ramas}
                         />
                     </View>
-                   {/**<View style={{padding:10}}>
+                    {/**<View style={{padding:10}}>
                         <Button 
                         icon="floppy" 
                         color = "#fff" 
@@ -310,7 +305,7 @@ export default function CreateUser({navigation}) {
 
 
  //Estilos de la pantalla 
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container:{
         backgroundColor:'#fff'
     },
@@ -341,7 +336,7 @@ export default function CreateUser({navigation}) {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        backgroundColor: '#b31d1d',
+        backgroundColor: '#2289DC',
     },
     TextGroup: {
         width: '90%',

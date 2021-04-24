@@ -26,48 +26,6 @@ export default function ListUsers({navigation}){
     contador:0,
   });
 
-  //Funcion para traer los datos del usuario loggeado
-    //Obtener datos de firestore
-    firestore()
-    .collection('Usuario')
-    .where('email', '==', user.email)
-    .get()
-    .then(querySnapshot => {
-      const usuario = querySnapshot.docs[0].data()
-      const docId = querySnapshot.docs[0].id
-      setState({
-        doc_id: docId,
-        nombres:usuario.nombres, 
-        apellidos:usuario.apellidos,
-        correo:usuario.email,
-        rol:usuario.id_rol,
-        grupo:usuario.id_grupo,
-        url:usuario.url,
-      });
-    });
-    //Obtener la imagen del usuario logeadi
-    const renderAvatar1 = () =>{
-      if(users.url===null){
-        const renderAvatarText =   () => (
-          <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#EEEEEE'}}
-          size={20} 
-          label={users.nombres.charAt(0) + users.apellidos.charAt(0)}
-          />
-        );
-        return renderAvatar1Text();
-      }else{
-        const renderAvatar1Image = () => (
-          <Avatar.Image style={{alignSelf: 'center'}}
-          size={20} 
-          source={{
-          uri: users.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
-          }}
-          />
-        );
-        return renderAvatar1Image();
-      }
-    }
-
   //Funcion Para traer los datos de todos los usuarios
   useEffect(() => {
     const subscriber = firestore()
@@ -127,9 +85,6 @@ export default function ListUsers({navigation}){
 
   return (
     <View>
-      <Card style ={{backgroundColor:"#B10909"}}>
-            <Card.Title title={users.nombres} subtitle={users.rol} left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
-      </Card>
 
       <FlatList
         data={users}
