@@ -2,7 +2,6 @@ import React ,{ useEffect, useState} from 'react'
 import auth from '@react-native-firebase/auth'
 import { Avatar, Button, Card} from 'react-native-paper'
 import { StyleSheet, View, ImageBackground} from 'react-native';
-import {Header, Tab} from 'react-native-elements'
 
 export default function Home({navigation}) {
 
@@ -13,15 +12,6 @@ export default function Home({navigation}) {
       <View style={styles.container}>
         <Card style ={{backgroundColor:"#B10909"}}>
             <Card.Title title={user.email} subtitle="admin" left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
-        </Card>
-
-        <Header
-          leftComponent={{ icon: 'menu', color: '#fff' }}
-          centerComponent={{ text: 'Home', style: { color: '#fff' } }}
-        />
-
-        <Card>
-            <Card.Title title={user.email} subtitle="admin" left={LeftContent} />
         </Card>
 
         <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>

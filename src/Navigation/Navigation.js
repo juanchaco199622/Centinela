@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { NavigationContainer, StackActions, ThemeProvider } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -13,8 +13,7 @@ import ListUsers from '../Layout/Auth/ListUsers';
 import EditProfile from '../Layout/Auth/Profile/EditProfile';
 import CreatePublication from '../Layout/Auth/CreatePublication';
 import ListPublications from '../Layout/Auth/ListPublications';
-import { View } from 'react-native';
-
+import auth from '@react-native-firebase/auth'
 const AuthStack = createStackNavigator();
 
 const AuthStackScreen = () =>(
@@ -39,13 +38,13 @@ const Mystack = () =>{
 const AppTabs = createBottomTabNavigator();
 
 const AppTabsScreen =() =>(
-     <AppTabs.Navigator>
+     <AppTabs.Navigator style={{color: 'red'}}>
         <AppTabs.Screen
             name = 'home'
             component={Home}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'#949494'} size={50}/>
+                    <MaterialCommunityIcons name='home' color={'#949494'} size={35}/>
                 )
             }}
          />
@@ -55,7 +54,7 @@ const AppTabsScreen =() =>(
             component={Profile}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='account-circle' color={'#949494'} size={50}/>
+                    <MaterialCommunityIcons name='account-circle' color={'#949494'} size={35}/>
                 )
             }}
          /> 
@@ -71,13 +70,14 @@ const AppTabsScreen =() =>(
             />**/}
 
         <AppTabs.Screen
-            name = 'Exit'
+            name='Exit'
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='close' color={'#949494'} size={50}/>
+                    <MaterialCommunityIcons name='close' color={'#949494'} size={35}/>
                 )
             }}
+            
          />
 
      </AppTabs.Navigator>
