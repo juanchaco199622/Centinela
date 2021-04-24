@@ -173,11 +173,11 @@ export default function CreateUser({navigation}) {
 
             Alert.alert(
                 null,
-                'Perfil actualizado correctamente',
+                'Usuario creado correctamente',
                 [
                     {
                     text: 'OK', 
-                    onPress: () => navigation.navigate('Perfil')
+                    onPress: () => navigation.navigate('Home')
                     },
                 ],
                 {cancelable: false},
