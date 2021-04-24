@@ -69,7 +69,7 @@ const AppTabsScreen =() =>(
                 }}
             />**/}
 
-       {/**<AppTabs.Screen
+       <AppTabs.Screen
             name='Exit'
             component={Exit}
             options={{
@@ -78,7 +78,7 @@ const AppTabsScreen =() =>(
                 )
             }}
             
-         />**/}
+         />
 
      </AppTabs.Navigator>
 )

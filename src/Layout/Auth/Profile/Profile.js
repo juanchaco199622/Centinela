@@ -12,7 +12,9 @@ import auth from '@react-native-firebase/auth'
 
 //Inicio de funcion
 export default function Profile({navigation}) {
-
+  auth().onAuthStateChanged(user => {
+    this.props.navigation.navigate(user ? 'AppTabsScreen' : 'AuthStackScreen');
+  });
 //Declaracion de variables
   const user = auth().currentUser;
 
@@ -138,10 +140,12 @@ export default function Profile({navigation}) {
                 style={styles.roundButton} 
                 onPress={()=>navigation.navigate('EditProfile',{state, page:'profile'})}
               >Editar usuario</Button>
-              <Button icon="pencil" color = "#fff" uppercase={false} 
-                style={styles.roundButton} 
-                onPress={()=>auth().signOut()}
-              >Cerrar </Button>
+            </View>
+            <View style={{padding:10}}>
+              <Button icon="exit" color = "#fff" uppercase={false} 
+                  style={styles.roundButton} 
+                  onPress={()=>auth().signOut()}
+                >Cerrar </Button>
             </View>
           </View>
       </View>
