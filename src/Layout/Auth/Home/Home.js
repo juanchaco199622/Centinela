@@ -19,7 +19,7 @@ export default function Home({navigation}) {
         /> */}
 
         <Card style ={{backgroundColor:"#B10909"}}>
-            <Card.Title title={user.nombres} subtitle="admin" left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
+            <Card.Title title={user.email} subtitle="admin" left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
         </Card>
 
         <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
