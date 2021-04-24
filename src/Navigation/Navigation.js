@@ -74,7 +74,7 @@ const AppTabsScreen =() =>(
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='exit-to-app' color={'#949494'} size={50}/>
+                    <MaterialCommunityIcons name='exit-to-app' color={'#949494'} size={35}/>
                 )
             }}
         />

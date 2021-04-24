@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, Image} from 'react-native';
-import { TextInput, IconButton, Subheading, ProgressBar} from 'react-native-paper';
+import { View, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, Image, ImageBackground} from 'react-native';
+import { TextInput, IconButton, Subheading, ProgressBar, Card, Avatar} from 'react-native-paper';
 import {Button} from 'react-native-elements'
 import firestore from '@react-native-firebase/firestore';
-//import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -15,8 +15,60 @@ import { useUploadImageCrearUsuario } from '../../Hooks'
 // LIBRERIAS PARA LA FOTO FIN
 
 export default function CreateUser({navigation}) {
+
     //Declaracion de variables
-    //const user = auth().currentUser;
+const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
+const user = auth().currentUser;
+const [states, setStates] = useState({
+  doc_id: "",
+  nombres : "",
+  correo: "",
+  id_rol :"",
+  grupo :"",
+  url :""
+});
+
+//Obtener datos de firestore
+firestore()
+.collection('Usuario')
+.where('email', '==', user.email)
+.get()
+.then(querySnapshot => {
+  const usuario = querySnapshot.docs[0].data()
+  const docId = querySnapshot.docs[0].id
+  setStates({
+    doc_id: docId,
+    nombres:usuario.nombres, 
+    apellidos:usuario.apellidos,
+    correo:usuario.email,
+    rol:usuario.id_rol,
+    grupo:usuario.id_grupo,
+    url:usuario.url,
+  });
+});
+const renderAvatar = () =>{
+  if(states.url===null){
+    const renderAvatarText =   () => (
+      <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#EEEEEE'}}
+      size={20} 
+      label={states.nombres.charAt(0) + states.apellidos.charAt(0)}
+      />
+    );
+    return renderAvatarText();
+  }else{
+    const renderAvatarImage = () => (
+      <Avatar.Image style={{alignSelf: 'center'}}
+      size={20} 
+      source={{
+      uri: states.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
+      }}
+      />
+    );
+    return renderAvatarImage();
+  }
+}
+
+    //Declaracion de variables
     const [state, setState] = useState({
         nombres : "",
         apellidos : "",
@@ -32,28 +84,28 @@ export default function CreateUser({navigation}) {
         .collection('Grupo')
         .get()
         .then(querySnapshot => {
-          let grupo
-          let datosRamas = []
-          for (let i=0; i < querySnapshot.size; i++){
+        let grupo
+        let datosRamas = []
+        for (let i=0; i < querySnapshot.size; i++){
             grupo = querySnapshot.docs[i].data();
             datosRamas.push({ label: grupo.nombre, value: grupo.nombre });
-          }
-          setRamas(datosRamas);
+        }
+        setRamas(datosRamas);
         });
         firestore()
         .collection('Rol')
         .get()
         .then(querySnapshot => {
-          let _rol
-          let datosRol = []
-          for (let i=0; i < querySnapshot.size; i++){
+        let _rol
+        let datosRol = []
+        for (let i=0; i < querySnapshot.size; i++){
             _rol = querySnapshot.docs[i].data();
             console.log(_rol.nombre);
             datosRol.push({ label: _rol.nombre, value: _rol.nombre });
-          }
-          setRol(datosRol);
+        }
+        setRol(datosRol);
         });
-      },[])
+    },[])
 
       // LOGICA PARA OBTENER LA FOTO
       const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImageCrearUsuario();
@@ -103,9 +155,9 @@ export default function CreateUser({navigation}) {
                 null,
                 'Completa todos los campos',
                 [
-                  {
+                {
                     text: 'Ok'
-                  },
+                },
                 ],
                 {cancelable: false},
             );
@@ -123,9 +175,9 @@ export default function CreateUser({navigation}) {
         }
         if(!error){
             Alert.alert(
-              null,
-              'Usuario creado correctamente',
-              [
+            null,
+            'Usuario creado correctamente',
+            [
                 {
                     text: 'Crear otro',
                 },
@@ -133,28 +185,31 @@ export default function CreateUser({navigation}) {
                     text: 'OK', 
                     onPress: () => navigation.navigate('home')
                 },
-              ],
-              {cancelable: false},
+            ],
+            {cancelable: false},
             );
         }
     };
     //Render
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView>
+        <View style={styles.container}>
+        {/* /*<Card style ={{backgroundColor:"#B10909"}}>
+            <Card.Title title={states.nombres} subtitle={states.rol} left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
+        </Card>*/ }
+        <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ resizeMode:'cover', justifyContent: 'center'}}>
+        <View style={styles.container}>
+            {/* Fondo de pantalla */}
+            
+            <SafeAreaView>
+                <ScrollView>
                 <Text style={styles.titleText}>CREAR USUARIO</Text>
                 <View style={styles.body}>
                     <Text style={styles.subTitleText}>Información básica</Text>
                     <View style={{ marginTop: 10 }}>
                         <Text style={styles.TextGroup}>Imagen:</Text>
-                        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 15, alignItems: 'center' }}>
-                            <TextInput
-                                style={{ width: '60%', backgroundColor: 'white', borderRadius: 10 }}
-                                placeholder='Subir Imagen:'
-                            />
-
-                            <Button title="Subir..."
-                                buttonStyle={{ height: 30, width: 70, marginLeft: 10, borderRadius: 12, color:'black' }}
+                        <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
+                        <Button title='Subir Imagen'
+                            buttonStyle={{ height: 30, width: '100%', borderRadius: 10,justifyContent: 'center',alignItems: 'center'}}
                                 onPress={() => refRBSheet.current.open()} />
                         </View>
                         {downloadURL && (
@@ -162,11 +217,8 @@ export default function CreateUser({navigation}) {
                                 source={{ uri: imageLocal }}
                                 style={{ width: 255, height: 200, alignSelf: 'center', marginTop: 15, marginRight: 5 }}
                             />
-
                         )}
-
                     </View>
-
                     <View style={{padding:10}}>
                         <Text>Nombres</Text>
                         <TextInput
@@ -215,38 +267,24 @@ export default function CreateUser({navigation}) {
                         items={ramas}
                         />
                     </View>
-                   {/**<View style={{padding:10}}>
-                        <Button 
-                        icon="floppy" 
-                        color = "#fff" 
-                        uppercase={false} 
-                        style={styles.roundButton} 
-                        onPress={()=>saveNewUser()}
-                        >Guardar
-                        </Button>
-                    </View>**/}
                     <View style={{ marginTop: 15 }}></View>
-
                     {downloadURL && (
                         <Button title='Guardar'
                             buttonStyle={{ marginTop: 15, width: '70%', alignSelf: 'center', borderRadius: 15 }}
                             style={styles.roundButton}
                             onPress={() => saveNewUser()}  ></Button>)}
-
                     {uploading && (
                         <View>
                             <ProgressBar progress={progress} />
                             <Subheading>{parseInt(progress * 100) + ' %'}</Subheading>
                         </View>
                     )}
-
                     <RBSheet
                         ref={refRBSheet}
                         closeOnDragDown={true}
                         closeOnPressMask={false}
                         height={180}
                         customStyles={{
-
                             wrapper: {
                                 backgroundColor: 'rgba(0,0,0,0.5)',
                             },
@@ -281,7 +319,6 @@ export default function CreateUser({navigation}) {
                                     icon='image-multiple'
                                     size={30}
                                     color={'grey'}
-
                                 />
                                 <Subheading style={{ fontFamily: 'Montserrat-Medium' }}>Seleccionar de galería</Subheading>
                             </TouchableOpacity>
@@ -289,16 +326,18 @@ export default function CreateUser({navigation}) {
                     </RBSheet>
                     <Subheading style={{ height: 50, backgroundColor: '#b10909', flex: 1, justifyContent: 'space-between' }}></Subheading>
                 </View>
-            </ScrollView>
-        </SafeAreaView>
+                </ScrollView>
+            </SafeAreaView>
+        </View>
+        </ImageBackground>
+        </View>
     ) 
 }
 
 
  //Estilos de la pantalla 
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#fff'
     },
     titleText:{
         alignSelf:'center', 

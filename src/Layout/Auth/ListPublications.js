@@ -133,19 +133,19 @@ export default function ListPublications() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
-            <Text style={styles.modalText}>Acciones</Text>
+            <Text style={styles.modalText}>ACCIONES</Text>
 
             <Button
               title='Eliminar'
-              theme={{ colors: { primary: '#FB2C00' } }}
-              icon={<Icon name='delete' color='#ffffff' />}
-              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10 }}
+              theme={{ colors: { primary: '#B10000' } }}
+              icon={<Icon name='delete' color='#FFFFFF' />}
+              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width:'100%' }}
               onPress={() => alertAction(1)} />
             <Button
               title='Reenviar'
-              theme={{ colors: { primary: '#0C3473' } }}
-              icon={<Icon name='send' color='#ffffff' />}
-              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10 }}
+              theme={{ colors: { primary: '#0080FF' } }}
+              icon={<Icon name='send' color='#FFFFFF' />}
+              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width:'100%', alignItems:'center', justifyContent:'center'}}
               onPress={() => alertAction(2)} />
 
             <Pressable
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   modalView: {
     //margin: 50,
     color: "black",
-    backgroundColor: "white",
+    backgroundColor: "#C1C1C1",
     borderRadius: 5,
     padding: 100,
     paddingBottom: 20,
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FB2C00",
   },
   buttonClose: {
-    backgroundColor: "#FB2C00",
+    backgroundColor: "#878787",
   },
   textStyle: {
     color: "white",
@@ -299,10 +299,11 @@ const styles = StyleSheet.create({
 
   },
   modalText: {
+    color: "#4C4C4C",
     marginBottom: 15,
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 25
   }
 
 });

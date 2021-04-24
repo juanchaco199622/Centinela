@@ -1,9 +1,8 @@
-import React ,{ useEffect, useState} from 'react'
-import auth from '@react-native-firebase/auth'
-import { Avatar, Button, Card} from 'react-native-paper'
+import React ,{ useEffect, useState} from 'react';
+import auth from '@react-native-firebase/auth';
+import { Avatar, Button, Card} from 'react-native-paper';
 import { StyleSheet, View, ImageBackground} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import {Header, Tab} from 'react-native-elements'
 
 //Inicio de la Funcion
 export default function Home({navigation}) {
@@ -80,24 +79,24 @@ const renderAvatar = () =>{
           {/* Botones y Direccionamiento */}
           <View style={styles.containerLogin} >
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="account-multiple-plus" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateUser')} style={{height:45}}>
+              <Button icon="account-multiple-plus" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateUser')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
                 Crear usuarios
               </Button>
             </Card.Content>
 
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="account-group" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListUsers')} style={{height:45}}>
+              <Button icon="account-group" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListUsers')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
                 Listar usuarios
               </Button>
             </Card.Content>
 
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{height:45}}>
+              <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
                 Crear publicación
               </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{height:45}}>
+              <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
                 Listar publicaciones
               </Button>
             </Card.Content>
@@ -110,7 +109,6 @@ const renderAvatar = () =>{
 
 //--------------------------------ESTILOS
 const styles = StyleSheet.create({
-
     surface: {
       height: '100%',
       width: '100%',

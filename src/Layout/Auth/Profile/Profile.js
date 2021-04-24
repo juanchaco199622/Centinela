@@ -1,14 +1,16 @@
 import firestore from '@react-native-firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper'
+import {Button, Avatar} from 'react-native-paper'
 import {
   StyleSheet,
   Text,
   View,
+  ImageBackground
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth'
+import color from 'color';
 
 //Inicio de funcion
 export default function Profile({navigation}) {
@@ -42,6 +44,7 @@ export default function Profile({navigation}) {
       url:usuario.url,
     });
   });
+  //Funcion para traer la iamgen de usuario
   const renderAvatar = () =>{
     if(state.url===null){
       const renderAvatarText =   () => (
@@ -63,61 +66,15 @@ export default function Profile({navigation}) {
       return renderAvatarImage();
     }
   }
-//Estilos de la pantalla 
-  const styles = StyleSheet.create({
-      container:{
-          backgroundColor:'#fff'
-      },
-      titleText:{
-          alignSelf:'center', 
-          padding:20, 
-          fontSize:25, 
-          fontWeight:'bold'
-      },
-      subTitleText:{
-          padding:10, 
-          fontSize:20, 
-          fontWeight:'bold'
-      },
-      body: {
-          width: '85%',
-          alignContent: 'center',
-          alignSelf: 'center',
-          backgroundColor: '#e8e8e8',
-          borderRadius: 8,
-          borderWidth: 0.5
-      },
-      nameText:{
-        alignSelf: 'center', 
-        fontSize:20, 
-        color:'#000', 
-        fontWeight:'bold', 
-        paddingTop:10
-      },
-      infoText:{
-        alignSelf: 'center', 
-        fontSize:15, 
-        color:'#000', 
-        paddingBottom:10
-      },
-      titleInfoText:{
-        alignSelf: 'center', 
-        fontSize:15, 
-        color:'#999'
-      },
-      roundButton: {
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 10,
-          backgroundColor: '#b31d1d',
-      },
-  })
-//Render
+
+//--------------------------------VISTAS
   return (
+    <View style={styles.container}>
+    <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
     <SafeAreaView>
       <Text style={styles.titleText}>PERFIL</Text>
       <View style={styles.body}>
-        <Text style={styles.subTitleText}>Información básica</Text>
+        <Text style={styles.subTitleText}>INFORMACIÓN BÁSICA</Text>
           {renderAvatar()}
           <View>
             <Text style={styles.nameText}>{ state.nombres} {state.apellidos}</Text>
@@ -135,5 +92,62 @@ export default function Profile({navigation}) {
           </View>
       </View>
     </SafeAreaView>
+    </ImageBackground>
+    </View>
   )    
 }
+
+//--------------------------------ESTILOS
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    flexDirection:'column',
+    marginTop:-150
+  },
+  titleText:{
+      alignSelf:'center', 
+      padding:20, 
+      fontSize:35,
+      fontWeight:'bold',
+      color: '#515151',
+  },
+  subTitleText:{
+      padding:10, 
+      fontSize:20, 
+      fontWeight:'bold',
+      alignSelf: 'center',
+      color: '#6D6D6D',
+  },
+  body: {
+      width: '85%',
+      alignContent: 'center',
+      alignSelf: 'center',
+      backgroundColor: '#e8e8e8',
+      borderRadius: 8,
+      borderWidth: 0.5
+  },
+  nameText:{
+    alignSelf: 'center', 
+    fontSize:20, 
+    color:'#000', 
+    fontWeight:'bold', 
+    paddingTop:10
+  },
+  infoText:{
+    alignSelf: 'center', 
+    fontSize:15, 
+    color:'#000', 
+    paddingBottom:10
+  },
+  titleInfoText:{
+    alignSelf: 'center', 
+    fontSize:15, 
+    color:'#999'
+  },
+  roundButton: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10,
+      backgroundColor: '#b31d1d',
+  }
+})

@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react'
-import { View, StyleSheet, TextInput, TouchableOpacity, Image, Text } from 'react-native'
-import { IconButton, Subheading, ProgressBar } from 'react-native-paper'
-import { Icon, Button, Header } from 'react-native-elements';
+import React, { useState, useRef, Component } from 'react'
+import { View, StyleSheet, TextInput, TouchableOpacity, Image, Text, ImageBackground} from 'react-native'
+import { IconButton, Subheading, ProgressBar, Card, Avatar } from 'react-native-paper'
+import { Button, Header } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Picker } from '@react-native-picker/picker';
@@ -15,7 +15,9 @@ import PickerCheckBox from 'react-native-picker-checkbox';
 
 export default function CreatePublication() {
 
+    //Declaracion de variables
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
+    const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
     const [imageLocal, setImageLocal] = useState();
     const refRBSheet = useRef();
     const tomarFotoCamara = () => {
@@ -67,9 +69,53 @@ export default function CreatePublication() {
         titulo: "",
         cuerpo: "",
         destinatario: "",
-        checkedItem: []
+        checkedItem: [],
+        nombres : "",
+        correo: "",
+        id_rol :"",
+        grupo :"",
+        url :""
     })
 
+    //Obtener datos de firestore
+    firestore()
+    .collection('Usuario')
+    .where('email', '==', user.email)
+    .get()
+    .then(querySnapshot => {
+    const usuario = querySnapshot.docs[0].data()
+    const docId = querySnapshot.docs[0].id
+    setState({
+        doc_id: docId,
+        nombres:usuario.nombres, 
+        apellidos:usuario.apellidos,
+        correo:usuario.email,
+        rol:usuario.id_rol,
+        grupo:usuario.id_grupo,
+        url:usuario.url,
+    });
+    });
+    const renderAvatar = () =>{
+    if(state.url===null){
+        const renderAvatarText =   () => (
+        <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#EEEEEE'}}
+        size={20} 
+        label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
+        />
+        );
+        return renderAvatarText();
+    }else{
+        const renderAvatarImage = () => (
+        <Avatar.Image style={{alignSelf: 'center'}}
+        size={20} 
+        source={{
+        uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
+        }}
+        />
+        );
+        return renderAvatarImage();
+    }
+    }
 
     const handleChangeText = (name, value) => {
         setState({ ...state, [name]: value })
@@ -90,43 +136,39 @@ export default function CreatePublication() {
                 destinatario: destina, //itemCheck.itemDescription,
                 url: downloadURL,
             })
-            /*firestore().collection('Publication').add({
-                id: user.uid,
-                titulo: state.titulo,
-                cuerpo: state.cuerpo,
-                destinatario: state.destinatario,
-                url: downloadURL,
-            })*/
             alert('Datos Guardados Correctamente')
         }
-        // console.log(state)
     }
 
     return (
+        <View>
 
+        {/* Header */}
+        <Card style ={{backgroundColor:"#B10909"}}>
+            <Card.Title title={state.nombres} subtitle={state.rol} left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
+        </Card>
+        
         <ScrollView style={styles.container}>
-            <Header style={{ color: '#b10909' }}
+        
+            <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
+
+            {/* <Header style={{ color: '#b10909' }}
                 centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
                 containerStyle={{
                     backgroundColor: '#b10909',
                     justifyContent: 'space-around',
                 }}
-            />
+            /> */}
 
             <View style={styles.Pheader}></View>
 
             <View style={styles.Pbody}>
                 <View style={{ marginTop: 10 }}>
                     <Text style={styles.TextGroup}>Imagen:</Text>
-                    <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 15, alignItems: 'center' }}>
-                        <TextInput
-                            style={{ width: '60%', backgroundColor: 'white', borderRadius: 10 }}
-                            placeholder='Subir Imagen:'
-                        />
-
-                        <Button title="Subir..."
-                            buttonStyle={{ height: 30, width: 70, marginLeft: 10, borderRadius: 12 }}
-                            onPress={() => refRBSheet.current.open()} />
+                    <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
+                        <Button title='Subir Imagen'
+                            buttonStyle={{ height: 30, width: '100%', borderRadius: 10,justifyContent: 'center',alignItems: 'center'}}
+                            onPress={() => refRBSheet.current.open()}/>
                     </View>
                     {downloadURL && (
                         <Image
@@ -156,17 +198,11 @@ export default function CreatePublication() {
                         DescriptionField='itemDescription'
                         KeyField='itemKey'
                         placeholder='seleccionar destinatario'
-                        arrowColor='#FFD740'
-                        arrowSize={10}
+                        arrowColor='#949494F'
+                        arrowSize={35}
                         placeholderSelectedItems='$count selected item(s)'
 
                     />
-                    {/* <Picker selectedValue={state.destinatario}
-                        onValueChange={(itemValue) => handleChangeText("destinatario", itemValue)}>
-                        {
-                            destinatarios.map((v) => <Picker.Item key={v.key} label={v.label} value={v.value} />)
-                        }
-                    </Picker> */}
                 </View>
                 <Text style={styles.TextGroup}>Cuerpo:</Text>
                 <View>
@@ -174,7 +210,7 @@ export default function CreatePublication() {
                     <TextInput
                         style={styles.inputGroup}
                         multiline
-                        numberOfLines={8}
+                        numberOfLines={12}
                         placeholder='Cuerpo:'
                         onChangeText={(value) => handleChangeText("cuerpo", value)}
                     />
@@ -246,19 +282,15 @@ export default function CreatePublication() {
 
             </View>
             <Subheading style={{ height: 50, backgroundColor: '#b10909', flex: 1, justifyContent: 'space-between' }}></Subheading>
-
+            </ImageBackground>
         </ScrollView  >
-
-
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     Pheader: {
-
         backgroundColor: '#b10909'
-
-
     },
     Pbody: {
         width: '85%',
@@ -266,7 +298,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         //justifyContent:'center',
         alignSelf: 'center',
-        backgroundColor: '#e8e8e8',
+        backgroundColor: '#DFDFDF',
 
     },
     container: {
