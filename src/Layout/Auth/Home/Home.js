@@ -8,8 +8,15 @@ export default function Home({navigation}) {
     const user = auth().currentUser
     const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
     
+//--------------------------------VISTAS
     return (
       <View style={styles.container}>
+        {/* <Header
+          headerStyle ={{backgroundColor:"#B10909"}}
+          leftComponent={{ icon: 'menu', color: '#EEEEEE' }}
+          centerComponent={{ text: 'Home', style: { color: '#EEEEEE'} }}
+        /> */}
+
         <Card style ={{backgroundColor:"#B10909"}}>
             <Card.Title title={user.email} subtitle="admin" left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
         </Card>
@@ -44,6 +51,7 @@ export default function Home({navigation}) {
     )
 }
 
+//--------------------------------ESTILOS
 const styles = StyleSheet.create({
 
     surface: {

@@ -18,7 +18,6 @@ export default function ListUsers({navigation}){
     url :"",
     contador:0,
   });
-   
   
     useEffect(() => {
         const subscriber = firestore()
@@ -77,7 +76,7 @@ export default function ListUsers({navigation}){
     }
   }
 
-   return (
+  return (
     <View>
       <Header style={{color:'#b10909'}}
           centerComponent={{ text: 'USUARIOS', style: { color: '#fff' } }}
@@ -208,9 +207,9 @@ export default function ListUsers(){
   }
 
     
-   return (
-     <View>
-       <Header style={{color:'#b10909'}}
+  return (
+    <View>
+      <Header style={{color:'#b10909'}}
                 centerComponent={{ text: 'USUARIOS', style: { color: '#fff' } }}
                 containerStyle={{
                     backgroundColor: '#b10909',
