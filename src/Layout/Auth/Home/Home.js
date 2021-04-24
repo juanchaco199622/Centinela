@@ -9,19 +9,17 @@ export default function Home({navigation}) {
     const user = auth().currentUser
     const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
     
+//--------------------------------VISTAS
     return (
       <View style={styles.container}>
+        {/* <Header
+          headerStyle ={{backgroundColor:"#B10909"}}
+          leftComponent={{ icon: 'menu', color: '#EEEEEE' }}
+          centerComponent={{ text: 'Home', style: { color: '#EEEEEE'} }}
+        /> */}
+
         <Card style ={{backgroundColor:"#B10909"}}>
-            <Card.Title title={user.email} subtitle="admin" left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
-        </Card>
-
-        <Header
-          leftComponent={{ icon: 'menu', color: '#fff' }}
-          centerComponent={{ text: 'Home', style: { color: '#fff' } }}
-        />
-
-        <Card>
-            <Card.Title title={user.email} subtitle="admin" left={LeftContent} />
+            <Card.Title title={user.nombres} subtitle="admin" left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
         </Card>
 
         <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
@@ -54,6 +52,7 @@ export default function Home({navigation}) {
     )
 }
 
+//--------------------------------ESTILOS
 const styles = StyleSheet.create({
 
     surface: {
