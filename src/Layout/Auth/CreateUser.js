@@ -96,7 +96,6 @@ export default function CreateUser({navigation}) {
     const handleChangeText = (name,value )=>{
         setState({...state,[name]:value})
     };
-    
     const saveNewUser= () =>{
         
         console.log(state.email);
@@ -139,7 +138,7 @@ export default function CreateUser({navigation}) {
                 [
                     {
                     text: 'OK', 
-                    onPress: () => navigation.navigate('Home')
+                    onPress: () => navigation.navigate('Perfil')
                     },
                 ],
                 {cancelable: false},
