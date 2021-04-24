@@ -16,7 +16,7 @@ import { useUploadImageCrearUsuario } from '../../Hooks'
 
 export default function CreateUser({navigation}) {
     //Declaracion de variables
-    //const user = auth().currentUser;
+    
     const [state, setState] = useState({
         nombres : "",
         apellidos : "",
@@ -24,6 +24,8 @@ export default function CreateUser({navigation}) {
         id_rol :"",
         id_grupo : "",
     });
+
+    
     const [ramas, setRamas] = useState([{label:'',value:''}]);
     const [rol, setRol] = useState([{label:'',value:''}]);
     //Obtener datos desde firestore
@@ -48,7 +50,7 @@ export default function CreateUser({navigation}) {
           let datosRol = []
           for (let i=0; i < querySnapshot.size; i++){
             _rol = querySnapshot.docs[i].data();
-            console.log(_rol.nombre);
+            //console.log(_rol.nombre);
             datosRol.push({ label: _rol.nombre, value: _rol.nombre });
           }
           setRol(datosRol);
@@ -90,53 +92,99 @@ export default function CreateUser({navigation}) {
         }
 
     // TERMINA LA LOGICA DE LA FOTO
-
-
     //Funciones
     const handleChangeText = (name,value )=>{
         setState({...state,[name]:value})
     };
-    const saveNewUser= () =>{
-        let error = true
-        if(state.nombres === '' || state.apellidos === '' || state.email === ''){
+
+    const guardar = () =>{
+        firestore().collection('Usuario_prueba').add({
+            nombres: state.nombres,
+            apellidos : state.apellidos,
+            email : state.email,
+            id_rol : state.id_rol,
+            id_grupo : state.id_grupo,
+            url : downloadURL,
+        }).then(()=>{
+            error = false
+        });
+        /*if(!error){
             Alert.alert(
                 null,
-                'Completa todos los campos',
+                'Usuario creado correctamente, valida tu buzon de mensajes',
                 [
                   {
-                    text: 'Ok'
+                    text: 'OK', 
+                    onPress: () => navigation.navigate('Home')
                   },
                 ],
                 {cancelable: false},
-            );
-        } else {
-            firestore().collection('Usuario').add({
+              );
+            
+        }*/
+        console.log('Error', 'Este correo si se puede.')
+
+    }
+    /*const [users, setUsers] = useState({
+        doc_id: "",
+        nombres : "",
+        apellidos : "",
+        correo: "",
+        id_rol :"",
+        grupo :"",
+        url :"",
+      });*/
+      
+    const saveNewUser= () =>{
+        
+        console.log(state.email);
+        firestore()
+        .collection('Usuario')
+        .where('email', '==', state.email)
+        .get()
+        .then(querySnapshot => {
+            const users = [];
+            let i = 0;
+            querySnapshot.forEach(documentSnapshot => {
+              users.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+                doc_id: querySnapshot.docs[i].id
+              });
+              i++;
+            });
+           // setUsers(users);
+           const validation = users.map(x=>(x.email))
+           if(validation == state.email){
+                alert('El correo ya existe')
+           }else{
+            let error = true
+               //console.log('nuevo correo')
+               firestore().collection('Usuario').add({
                 nombres: state.nombres,
                 apellidos : state.apellidos,
                 email : state.email,
                 id_rol : state.id_rol,
                 id_grupo : state.id_grupo,
                 url : downloadURL,
-            }).then(()=>{
-                error = false
-            });
-        }
-        if(!error){
+                }).then(()=>{
+                    error = false
+                });
+
             Alert.alert(
-              null,
-              'Usuario creado correctamente',
-              [
-                {
-                    text: 'Crear otro',
-                },
-                {
+                null,
+                'Perfil actualizado correctamente',
+                [
+                    {
                     text: 'OK', 
-                    onPress: () => navigation.navigate('home')
-                },
-              ],
-              {cancelable: false},
-            );
-        }
+                    onPress: () => navigation.navigate('Perfil')
+                    },
+                ],
+                {cancelable: false},
+                );
+           }
+        });
+                  
     };
     //Render
     return (
@@ -193,6 +241,8 @@ export default function CreateUser({navigation}) {
                         autoCapitalize='none'
                         returnKeyType={"next"} placeholder="Correo"
                         onChangeText={(value) => handleChangeText('email', value)}
+                        //value={email}
+                        //onChangeText={(email) => setEmail(email)}
                         />
                     </View> 
                     <View style={{padding:10}}>
@@ -231,7 +281,10 @@ export default function CreateUser({navigation}) {
                         <Button title='Guardar'
                             buttonStyle={{ marginTop: 15, width: '70%', alignSelf: 'center', borderRadius: 15 }}
                             style={styles.roundButton}
-                            onPress={() => saveNewUser()}  ></Button>)}
+                            onPress={() => saveNewUser()} 
+                            disabled={(state.nombres =='' || state.apellidos=='') ? true:false }
+                            ></Button>)}
+                            
 
                     {uploading && (
                         <View>

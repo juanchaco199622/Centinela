@@ -15,6 +15,10 @@ export default function Profile({navigation}) {
 
 //Declaracion de variables
   const user = auth().currentUser;
+
+
+  // User is signed in.
+
   const [state, setState] = useState({
       doc_id: "",
       nombres : "",
@@ -24,6 +28,7 @@ export default function Profile({navigation}) {
       grupo :"",
       url :""
   });
+ 
 //Obtener datos de firestore
   firestore()
   .collection('Usuario')
@@ -42,6 +47,7 @@ export default function Profile({navigation}) {
       url:usuario.url,
     });
   });
+
   const renderAvatar = () =>{
     if(state.url===null){
       const renderAvatarText =   () => (
@@ -63,6 +69,7 @@ export default function Profile({navigation}) {
       return renderAvatarImage();
     }
   }
+
 //Estilos de la pantalla 
   const styles = StyleSheet.create({
       container:{
@@ -131,6 +138,10 @@ export default function Profile({navigation}) {
                 style={styles.roundButton} 
                 onPress={()=>navigation.navigate('EditProfile',{state, page:'profile'})}
               >Editar usuario</Button>
+              <Button icon="pencil" color = "#fff" uppercase={false} 
+                style={styles.roundButton} 
+                onPress={()=>auth().signOut()}
+              >Cerrar </Button>
             </View>
           </View>
       </View>

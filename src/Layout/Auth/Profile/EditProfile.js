@@ -51,7 +51,7 @@ export default function EditProfile({route, navigation}) {
       let datosRol = []
       for (let i=0; i < querySnapshot.size; i++){
         _rol = querySnapshot.docs[i].data();
-        console.log(_rol.nombre);
+        //console.log(_rol.nombre);
         datosRol.push({ label: _rol.nombre, value: _rol.nombre });
       }
       setRol(datosRol);
