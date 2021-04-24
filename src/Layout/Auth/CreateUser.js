@@ -96,45 +96,7 @@ export default function CreateUser({navigation}) {
     const handleChangeText = (name,value )=>{
         setState({...state,[name]:value})
     };
-
-    const guardar = () =>{
-        firestore().collection('Usuario_prueba').add({
-            nombres: state.nombres,
-            apellidos : state.apellidos,
-            email : state.email,
-            id_rol : state.id_rol,
-            id_grupo : state.id_grupo,
-            url : downloadURL,
-        }).then(()=>{
-            error = false
-        });
-        /*if(!error){
-            Alert.alert(
-                null,
-                'Usuario creado correctamente, valida tu buzon de mensajes',
-                [
-                  {
-                    text: 'OK', 
-                    onPress: () => navigation.navigate('Home')
-                  },
-                ],
-                {cancelable: false},
-              );
-            
-        }*/
-        console.log('Error', 'Este correo si se puede.')
-
-    }
-    /*const [users, setUsers] = useState({
-        doc_id: "",
-        nombres : "",
-        apellidos : "",
-        correo: "",
-        id_rol :"",
-        grupo :"",
-        url :"",
-      });*/
-      
+    
     const saveNewUser= () =>{
         
         console.log(state.email);
@@ -282,7 +244,7 @@ export default function CreateUser({navigation}) {
                             buttonStyle={{ marginTop: 15, width: '70%', alignSelf: 'center', borderRadius: 15 }}
                             style={styles.roundButton}
                             onPress={() => saveNewUser()} 
-                            disabled={(state.nombres =='' || state.apellidos=='') ? true:false }
+                            disabled={(state.nombres =='' || state.apellidos=='' || state.email=='') ? true:false }
                             ></Button>)}
                             
 
