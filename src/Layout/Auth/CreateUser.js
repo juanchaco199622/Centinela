@@ -138,7 +138,7 @@ export default function CreateUser({navigation}) {
                 [
                     {
                     text: 'OK', 
-                    onPress: () => navigation.navigate('Perfil')
+                    onPress: () => navigation.navigate('home')
                     },
                 ],
                 {cancelable: false},

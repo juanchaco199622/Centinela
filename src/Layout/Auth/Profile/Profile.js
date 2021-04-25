@@ -17,7 +17,7 @@ export default function Profile({navigation}) {
     this.props.navigation.navigate(user ? 'AppTabsScreen' : 'AuthStackScreen');
   });*/
 //Declaracion de variables
-  const user = auth().currentUser;
+
 
 
   // User is signed in.
@@ -31,25 +31,41 @@ export default function Profile({navigation}) {
       grupo :"",
       url :""
   });
+    auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+    } else {
+      // No user is signed in.
+      navigation.navigate('AuthStackScreen');
+    }
+  });
+
+useEffect(()=>{
+  
+  const user = auth().currentUser;
+  console.log(user.email)
+    firestore()
+    .collection('Usuario')
+    .where('email', '==', user.email)
+    .get()
+    .then(querySnapshot => {
+      const usuario = querySnapshot.docs[0].data()
+      const docId = querySnapshot.docs[0].id
+      setState({
+        doc_id: docId,
+        nombres:usuario.nombres, 
+        apellidos:usuario.apellidos,
+        correo:usuario.email,
+        rol:usuario.id_rol,
+        grupo:usuario.id_grupo,
+        url:usuario.url,
+      });
+    });
+  },[])
+    
 
 //Obtener datos de firestore
-  firestore()
-  .collection('Usuario')
-  .where('email', '==', user.email)
-  .get()
-  .then(querySnapshot => {
-    const usuario = querySnapshot.docs[0].data()
-    const docId = querySnapshot.docs[0].id
-    setState({
-      doc_id: docId,
-      nombres:usuario.nombres, 
-      apellidos:usuario.apellidos,
-      correo:usuario.email,
-      rol:usuario.id_rol,
-      grupo:usuario.id_grupo,
-      url:usuario.url,
-    });
-  });
+
 
   const renderAvatar = () =>{
     if(state.url===null){
