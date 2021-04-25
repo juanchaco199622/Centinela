@@ -8,7 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 export default function Home({navigation}) {
 
 //Declaracion de variables
-const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
+//const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
 const user = auth().currentUser;
     
 //--------------------------------VISTAS
@@ -21,9 +21,9 @@ const user = auth().currentUser;
         /> */}
 
         {/* Header */}
-        <Card style ={{backgroundColor:"#B10909"}}>
-            <Card.Title left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
-        </Card>
+       {/* <Card style ={{backgroundColor:"#B10909"}}>
+            <Card.Title left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}} name={user.email}/>
+        </Card>**/}
 
         {/* Fondo de pantalla */}
         <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>

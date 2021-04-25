@@ -1,5 +1,5 @@
-import React, { useState, useRef, Component } from 'react'
-import { View, StyleSheet, TextInput, TouchableOpacity, Image, Text, ImageBackground } from 'react-native'
+import React, { useState, useRef } from 'react'
+import { View, StyleSheet, TextInput, TouchableOpacity, Image, Text, ImageBackground, Alert } from 'react-native'
 import { IconButton, Subheading, ProgressBar, Card, Avatar } from 'react-native-paper'
 import { Button, Header } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
@@ -13,11 +13,11 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
 
 
-export default function CreatePublication() {
+export default function CreatePublication({navigation}) {
 
     //Declaracion de variables
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
-    const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
+    //const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
     const [imageLocal, setImageLocal] = useState();
     //const [checkedItem, setICheckedItem] = useState();
     const refRBSheet = useRef();
@@ -88,7 +88,7 @@ export default function CreatePublication() {
 
 
     //Obtener datos de firestore
-    firestore()
+   /* firestore()
         .collection('Usuario')
         .where('email', '==', user.email)
         .get()
@@ -125,15 +125,16 @@ export default function CreatePublication() {
             );
             return renderAvatarImage();
         }
-    }
+    }*/
 
     const handleChangeText = (name, value) => {
         setPublicar({ ...publicar, [name]: value })
         //setState({ ...state, [name]: value })
     }
 
-    const saveNewPublication = () => {
+    const saveNewPublication = async () => {
         console.log(publicar.checkedItem);
+        let error = true
         if (publicar.titulo === '' || publicar.cuerpo === '' || publicar.checkedItem.length === 0) {
             alert('Campos Vacios. Por favor digita la información para continuar')
         } else {
@@ -141,14 +142,32 @@ export default function CreatePublication() {
             publicar.checkedItem.map((itemCheck) => {
                 destina = destina + itemCheck.itemDescription + ',';
             });
-            firestore().collection('Publication').add({
+
+            await firestore().collection('Publication').add({
                 id: user.uid,
                 titulo: publicar.titulo,
                 cuerpo: publicar.cuerpo,
                 destinatario: destina, //itemCheck.itemDescription,
                 url: downloadURL,
-            })
-            alert('Datos Guardados Correctamente')
+            }).then(() => {
+                error = false
+              });
+            
+            //alert('Datos Guardados Correctamente')
+        }
+        if(!error){
+
+            Alert.alert(
+                null,
+                'Datos Guardados Correctamente',
+                [
+                  {
+                    text: 'OK', 
+                    onPress: () => navigation.navigate('home')
+                  },
+                ],
+                {cancelable: false},
+              );
         }
     }
 
@@ -156,9 +175,9 @@ export default function CreatePublication() {
         <View>
 
             {/* Header */}
-            <Card style={{ backgroundColor: "#B10909" }}>
+            {/**<Card style={{ backgroundColor: "#B10909" }}>
                 <Card.Title title={state.nombres} subtitle={state.rol} left={LeftContent} titleStyle={{ color: "#EEEEEE" }} subtitleStyle={{ color: "#EEEEEE" }} />
-            </Card>
+            </Card>**/}
 
             <ScrollView style={styles.container}>
 
