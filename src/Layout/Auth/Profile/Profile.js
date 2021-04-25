@@ -18,7 +18,7 @@ export default function Profile({navigation}) {
   });*/
 //Declaracion de variables
 
-
+const user = auth().currentUser;
 
   // User is signed in.
 
@@ -31,6 +31,11 @@ export default function Profile({navigation}) {
       grupo :"",
       url :""
   });
+
+
+  if (user.email === null){
+    navigation.navigate('AuthStackScreen');
+  }
     auth().onAuthStateChanged(function(user) {
     if (user) {
       // User is signed in.
@@ -42,7 +47,7 @@ export default function Profile({navigation}) {
 
 useEffect(()=>{
   
-  const user = auth().currentUser;
+  
   console.log(user.email)
     firestore()
     .collection('Usuario')
