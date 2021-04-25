@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper'
 import {
@@ -22,15 +22,7 @@ const user = auth().currentUser;
 
   // User is signed in.
 
-  const [state, setState] = useState({
-      doc_id: "",
-      nombres : "",
-      apellidos : "",
-      correo: "",
-      id_rol :"",
-      grupo :"",
-      url :""
-  });
+ 
 
 
   if (user.email === null){
@@ -38,35 +30,48 @@ const user = auth().currentUser;
   }
     auth().onAuthStateChanged(function(user) {
     if (user) {
-      // User is signed in.
+      //navigation.navigate('Perfil');
+     
     } else {
       // No user is signed in.
       navigation.navigate('AuthStackScreen');
     }
   });
+  const [state, setState] = useState({
+    doc_id: "",
+    nombres : "",
+    apellidos : "",
+    correo: "",
+    id_rol :"",
+    grupo :"",
+    url :""
+});
 
-useEffect(()=>{
-  
-  
-  console.log(user.email)
-    firestore()
-    .collection('Usuario')
-    .where('email', '==', user.email)
-    .get()
-    .then(querySnapshot => {
-      const usuario = querySnapshot.docs[0].data()
-      const docId = querySnapshot.docs[0].id
-      setState({
-        doc_id: docId,
-        nombres:usuario.nombres, 
-        apellidos:usuario.apellidos,
-        correo:usuario.email,
-        rol:usuario.id_rol,
-        grupo:usuario.id_grupo,
-        url:usuario.url,
-      });
+useLayoutEffect(()=>{
+ 
+ // console.log(user.email)
+
+  firestore()
+  .collection('Usuario')
+  .where('email', '==', user.email)
+  .get()
+  .then(querySnapshot => {
+    const usuario = querySnapshot.docs[0].data()
+    const docId = querySnapshot.docs[0].id
+    setState({
+      doc_id: docId,
+      nombres:usuario.nombres, 
+      apellidos:usuario.apellidos,
+      correo:usuario.email,
+      rol:usuario.id_rol,
+      grupo:usuario.id_grupo,
+      url:usuario.url,
     });
-  },[])
+    console.log(user.email)
+  });
+
+});
+
     
 
 //Obtener datos de firestore
