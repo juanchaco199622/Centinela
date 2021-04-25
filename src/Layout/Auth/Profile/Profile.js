@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ImageBackground
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth'
@@ -30,7 +31,7 @@ export default function Profile({navigation}) {
       grupo :"",
       url :""
   });
- 
+
 //Obtener datos de firestore
   firestore()
   .collection('Usuario')
@@ -75,7 +76,9 @@ export default function Profile({navigation}) {
 //Estilos de la pantalla 
   const styles = StyleSheet.create({
       container:{
-          backgroundColor:'#fff'
+        flex:1,
+        flexDirection:'column',
+        marginTop:-150
       },
       titleText:{
           alignSelf:'center', 
@@ -123,10 +126,12 @@ export default function Profile({navigation}) {
   })
 //Render
   return (
+    <View style={styles.container}>
+    <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
     <SafeAreaView>
       <Text style={styles.titleText}>PERFIL</Text>
       <View style={styles.body}>
-        <Text style={styles.subTitleText}>Información básica</Text>
+        <Text style={styles.subTitleText}>INFORMACIÓN BÁSICA</Text>
           {renderAvatar()}
           <View>
             <Text style={styles.nameText}>{ state.nombres} {state.apellidos}</Text>
@@ -147,8 +152,10 @@ export default function Profile({navigation}) {
                   onPress={()=>auth().signOut()}
                 >Cerrar </Button>
             </View>**/}
-         </View>
+        </View>
       </View>
     </SafeAreaView>
+    </ImageBackground>
+    </View>
   )    
 }

@@ -38,7 +38,7 @@ const Mystack = () =>{
 const AppTabs = createBottomTabNavigator();
 
 const AppTabsScreen =() =>(
-     <AppTabs.Navigator style={{color: 'red'}}>
+    <AppTabs.Navigator style={{color: 'red'}}>
         <AppTabs.Screen
             name = 'home'
             component={Home}
@@ -47,7 +47,7 @@ const AppTabsScreen =() =>(
                     <MaterialCommunityIcons name='home' color={'#949494'} size={35}/>
                 )
             }}
-         />
+        />
 
         <AppTabs.Screen
             name = 'Perfil'
@@ -57,9 +57,9 @@ const AppTabsScreen =() =>(
                     <MaterialCommunityIcons name='account-circle' color={'#949494'} size={35}/>
                 )
             }}
-         /> 
+        /> 
 
-          {/**<AppTabs.Screen
+            {/**<AppTabs.Screen
                 name = 'Users'
                 component={CreateUser}
                 options={{
@@ -69,7 +69,7 @@ const AppTabsScreen =() =>(
                 }}
             />**/}
 
-       <AppTabs.Screen
+        <AppTabs.Screen
             name='Exit'
             component={Exit}
             options={{
@@ -78,9 +78,9 @@ const AppTabsScreen =() =>(
                 )
             }}
             
-         />
+        />
 
-     </AppTabs.Navigator>
+    </AppTabs.Navigator>
 )
 
 // Stack root (Principal)
@@ -93,25 +93,25 @@ const RootStackScreen = () =>{
             initialRouteName="Splash"
             headerMode = "none"
         >
-             <RootStack.Screen name="Splash" component={Splash} />  
-             <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} />
-             <RootStack.Screen name="ListUsers" component={ListUsers}
-                 options={{
+            <RootStack.Screen name="Splash" component={Splash} />  
+            <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} />
+            <RootStack.Screen name="ListUsers" component={ListUsers}
+                options={{
                     title: 'My home',
                     headerStyle: {
-                      backgroundColor: '#f4511e',
+                    backgroundColor: '#f4511e',
                     },
                     headerTintColor: '#fff',
                     headerTitleStyle: {
-                      fontWeight: 'bold',
+                    fontWeight: 'bold',
                     },
-                  }}
-             />
-             <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} />
-             <RootStack.Screen name="EditProfile" component={EditProfile} />
-             <RootStack.Screen name="CreatePublication" component={CreatePublication} />
-             <RootStack.Screen name="ListPublications" component={ListPublications} />
-             <RootStack.Screen name="CreateUser" component={CreateUser} />
+                }}
+            />
+            <RootStack.Screen name="AppTabsScreen" component={AppTabsScreen} />
+            <RootStack.Screen name="EditProfile" component={EditProfile} />
+            <RootStack.Screen name="CreatePublication" component={CreatePublication} />
+            <RootStack.Screen name="ListPublications" component={ListPublications} />
+            <RootStack.Screen name="CreateUser" component={CreateUser} />
         </RootStack.Navigator>
     )
 }
