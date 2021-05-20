@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList, StyleSheet, View, Text, Image, Alert, Pres
 //Modal,
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { ListItem, Button, Icon } from 'react-native-elements';
+import { ListItem, Button, Icon,Header } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 
@@ -11,7 +11,7 @@ import { State } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
 //Button, Card, Icon, Avatar
 
-export default function ListPublications() {
+export default function ListPublications({navigation}) {
 
   const user = auth().currentUser
   var checkedItem = [];
@@ -129,6 +129,23 @@ export default function ListPublications() {
   return (
 
     <View style={{ flex: 1 }}>
+      <Header
+               containerStyle={{
+                backgroundColor: '#b10909',
+                justifyContent: 'space-around',
+              }}
+              //leftComponent={{ icon: 'reply', color: '#fff', }}
+              leftComponent={<Icon 
+                name= 'reply'
+                color='#fff'
+                iconStyle={{fontSize:27}}
+                onPress={()=>navigation.navigate('home')}
+                />
+
+              }
+              centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
+
+            />
       <Modal isVisible={isModalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -187,7 +204,9 @@ export default function ListPublications() {
             <CardAction
               separator={true}
               inColumn={false}>
-              <CardTitle
+              <CardTitle 
+
+                titleStyle={styles.txtTitulo}  
                 title={item.titulo}
               />
 
@@ -204,12 +223,20 @@ export default function ListPublications() {
             //source={{ uri: 'http://placehold.it/480x270' }}
             />
 
-            <CardContent text={item.cuerpo} />
+            <CardContent textStyle={{color:'black', fontSize:15, width:'100%'}}  >
+              <Text numberOfLines={5} style={{width:'100%'}}>{item.cuerpo}</Text>
+            </CardContent>
             <CardAction
               separator={true}
               inColumn={false}>
               <CardButton
-                onPress={() => { }}
+                onPress={()=>navigation.navigate('ListPublicationDetail',{items:{
+                  id: item.id,
+                  title: item.titulo,
+                  cuerpo: item.cuerpo,
+                  url: item.url
+                }
+              })}
                 title="ver mas..."
                 color="#8E0101"
               />
@@ -217,6 +244,7 @@ export default function ListPublications() {
           </Card>
         )}
       />
+      
     </View>
   );
 }
@@ -304,6 +332,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 25
-  }
+  },
+  txtTitulo:{
+    textAlign:'center',
+    fontSize:25,
+    fontWeight:'bold',
+  //  color:'black',
+    marginTop:8}
 
 });

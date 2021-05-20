@@ -172,7 +172,7 @@ export default function CreatePublication({navigation}) {
     }
 
     return (
-        <View>
+        <ScrollView>
 
             {/* Header */}
             {/**<Card style={{ backgroundColor: "#B10909" }}>
@@ -236,16 +236,18 @@ export default function CreatePublication({navigation}) {
                             />
                         </View>
                         <Text style={styles.TextGroup}>Cuerpo:</Text>
-                        <View>
-
+                        
+                        <ScrollView>
                             <TextInput
                                 style={styles.inputGroup}
-                                multiline
+                                row={5}
+                                multiline={true}
                                 numberOfLines={8}
+                                maxLines={10}
                                 placeholder='Cuerpo:'
                                 onChangeText={(value) => handleChangeText("cuerpo", value)}
                             />
-                        </View>
+                        </ScrollView>
                         <View style={{ marginTop: 15 }}></View>
 
 
@@ -312,10 +314,10 @@ export default function CreatePublication({navigation}) {
                         </RBSheet>
 
                     </View>
-                    <Subheading style={{ height: 50, backgroundColor: '#b10909', flex: 1, justifyContent: 'space-between' }}></Subheading>
+                    <Subheading style={{ height: 50, backgroundColor: '#b10909', justifyContent: 'space-between' }}></Subheading>
                 </ImageBackground>
             </ScrollView  >
-        </View>
+        </ScrollView>
     )
 }
 
