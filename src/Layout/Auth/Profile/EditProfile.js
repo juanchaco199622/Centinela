@@ -47,6 +47,8 @@ export default function EditProfile({ route, navigation }) {
         }
         setRamas(datosRamas);
       },);
+  },[]);
+  useEffect(() => {
     firestore()
       .collection('Rol')
       .get()
@@ -59,7 +61,7 @@ export default function EditProfile({ route, navigation }) {
         }
         setRol(datosRol);
       });
-  },[])
+  },[]);
 
   //Funciones de acciones
   // LOGICA PARA OBTENER LA FOTO
