@@ -61,6 +61,7 @@ useEffect(() => {
     });
   });
 },[isFocused]);
+
 //Obtener datos de firestore
   const renderAvatar = () =>{
     if(state.url===null){
