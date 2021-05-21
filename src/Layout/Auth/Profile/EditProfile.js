@@ -37,6 +37,7 @@ export default function EditProfile({ route, navigation }) {
   useEffect(() => {
     firestore()
       .collection('Grupo')
+      .orderBy('nombre')
       .get()
       .then(querySnapshot => {
         let grupo
@@ -51,6 +52,7 @@ export default function EditProfile({ route, navigation }) {
   useEffect(() => {
     firestore()
       .collection('Rol')
+      .orderBy('nombre')
       .get()
       .then(querySnapshot => {
         let _rol
