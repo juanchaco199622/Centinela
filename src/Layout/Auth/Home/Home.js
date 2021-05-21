@@ -4,6 +4,7 @@ import { Avatar, Button, Card, Surface, Subheading} from 'react-native-paper';
 import { StyleSheet, View, ImageBackground, Image} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { useIsFocused } from '@react-navigation/native'
+import { Header,Icon } from 'react-native-elements';
 
 //Inicio de la Funcion
 export default function Home({navigation}) {
@@ -85,9 +86,17 @@ useEffect(() => {
           
         <View style={styles.container}>
           {/* Fondo de pantalla */}
-          <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
+          <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>  
             <Surface style={styles.surface} >
+              <Header
+                  containerStyle={{
+                    backgroundColor: '#b10909',
+                    justifyContent: 'space-around',
+                  }}
+                  centerComponent={{ text: state.rol, style: { color: '#fff' } }}
+                />
               <View style={styles.containerSecundary}>
+                      
                   <Image
                       source={require('../../../../assets/images/icons/2.png')}
                       style={styles.imageBackground}
