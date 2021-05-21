@@ -47,6 +47,8 @@ const CreateUser = ({ navigation }) => {
                 }
                 setRamas(datosRamas);
             });
+    }, []);
+    useEffect(() => {
         //ROLES
         firestore()
             .collection('Rol')
@@ -61,7 +63,7 @@ const CreateUser = ({ navigation }) => {
                 }
                 setRol(datosRol);
             });
-    }, [])
+    }, []);
     // LOGICA PARA OBTENER LA FOTO
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImageCrearUsuario();
     const [imageLocal, setImageLocal] = useState(null);

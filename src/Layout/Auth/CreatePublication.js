@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { View, StyleSheet, TextInput, TouchableOpacity, Image, Text, ImageBackground, Alert } from 'react-native'
-import { IconButton, Subheading, ProgressBar, Card, Avatar } from 'react-native-paper'
-import { Button, Header } from 'react-native-elements';
+import { Button, IconButton, Subheading, ProgressBar, Card, Avatar } from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Picker } from '@react-native-picker/picker';
@@ -11,9 +10,10 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { useUploadImagePreRegister } from '../../Hooks'
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-export default function CreatePublication({navigation}) {
+export default function CreatePublication({ navigation }) {
 
     //Declaracion de variables
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
@@ -26,9 +26,7 @@ export default function CreatePublication({navigation}) {
         ImagePicker.launchCamera(imagePickerOptions, response => {
             const { didCancel, error } = response;
             if (didCancel) {
-                console.log('Cancelaste');
             } else {
-                console.log(response)
                 monitorUpload(response)
 
                 setImageLocal(response.uri)
@@ -41,9 +39,7 @@ export default function CreatePublication({navigation}) {
         ImagePicker.launchImageLibrary(imagePickerOptions, response => {
             const { didCancel, error } = response;
             if (didCancel) {
-                console.log('Cancelaste');
             } else {
-                console.log(response)
                 monitorUpload(response)
                 setImageLocal(response.uri)
             }
@@ -58,14 +54,6 @@ export default function CreatePublication({navigation}) {
         var name = "checkedItem";
         setPublicar({ ...publicar, [name]: pItems })
     }
-
-    const destinatarios = [
-        { itemKey: 1, itemDescription: 'Cachorro' },
-        { itemKey: 2, itemDescription: 'Lobato' },
-        { itemKey: 3, itemDescription: 'Webelo' },
-        { itemKey: 4, itemDescription: 'Scout' },
-        { itemKey: 5, itemDescription: 'Rover' },
-    ];
 
     const cItems = {};
     const [state, setState] = useState({
@@ -83,49 +71,27 @@ export default function CreatePublication({navigation}) {
         cuerpo: "",
         checkedItem: [],
         destinatario: "",
-
     })
 
+    const [destinatarios, setDestinatarios] = useState([{ itemKey: '', itemDescription: '' }]);
 
     //Obtener datos de firestore
-   /* firestore()
-        .collection('Usuario')
-        .where('email', '==', user.email)
-        .get()
-        .then(querySnapshot => {
-            const usuario = querySnapshot.docs[0].data()
-            const docId = querySnapshot.docs[0].id
-            setState({
-                doc_id: docId,
-                nombres: usuario.nombres,
-                apellidos: usuario.apellidos,
-                correo: usuario.email,
-                rol: usuario.id_rol,
-                grupo: usuario.id_grupo,
-                url: usuario.url
+    useEffect(() => {
+        //DESTINATARIOS
+        firestore()
+            .collection('Grupo')
+            .orderBy('nombre')
+            .get()
+            .then(querySnapshot => {
+                let grupo
+                let datosRamas = []
+                for (let i = 0; i < querySnapshot.size; i++) {
+                    grupo = querySnapshot.docs[i].data();
+                    datosRamas.push({ itemKey: i, itemDescription: grupo.nombre });
+                }
+                setDestinatarios(datosRamas);
             });
-        });
-    const renderAvatar = () => {
-        if (state.url === null) {
-            const renderAvatarText = () => (
-                <Avatar.Text style={{ alignSelf: 'center', backgroundColor: '#EEEEEE' }}
-                    size={20}
-                    label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
-                />
-            );
-            return renderAvatarText();
-        } else {
-            const renderAvatarImage = () => (
-                <Avatar.Image style={{ alignSelf: 'center' }}
-                    size={20}
-                    source={{
-                        uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
-                    }}
-                />
-            );
-            return renderAvatarImage();
-        }
-    }*/
+    }, [])
 
     const handleChangeText = (name, value) => {
         setPublicar({ ...publicar, [name]: value })
@@ -133,10 +99,9 @@ export default function CreatePublication({navigation}) {
     }
 
     const saveNewPublication = async () => {
-        console.log(publicar.checkedItem);
         let error = true
         if (publicar.titulo === '' || publicar.cuerpo === '' || publicar.checkedItem.length === 0) {
-            alert('Campos Vacios. Por favor digita la información para continuar')
+            alert('Complete todos los campos')
         } else {
             var destina = '';
             publicar.checkedItem.map((itemCheck) => {
@@ -151,204 +116,195 @@ export default function CreatePublication({navigation}) {
                 url: downloadURL,
             }).then(() => {
                 error = false
-              });
-            
+            });
+
             //alert('Datos Guardados Correctamente')
         }
-        if(!error){
+        if (!error) {
 
             Alert.alert(
                 null,
                 'Datos Guardados Correctamente',
                 [
-                  {
-                    text: 'OK', 
-                    onPress: () => navigation.navigate('home')
-                  },
+                    {
+                        text: 'OK',
+                        onPress: () => navigation.navigate('home')
+                    },
                 ],
-                {cancelable: false},
-              );
+                { cancelable: false },
+            );
         }
     }
 
     return (
-        <ScrollView>
-
-            {/* Header */}
-            {/**<Card style={{ backgroundColor: "#B10909" }}>
-                <Card.Title title={state.nombres} subtitle={state.rol} left={LeftContent} titleStyle={{ color: "#EEEEEE" }} subtitleStyle={{ color: "#EEEEEE" }} />
-            </Card>**/}
-
-            <ScrollView style={styles.container}>
-
-                <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
-
-                    {/* <Header style={{ color: '#b10909' }}
-                centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
-                containerStyle={{
-                    backgroundColor: '#b10909',
-                    justifyContent: 'space-around',
-                }}
-            /> */}
-
-                    <View style={styles.Pheader}></View>
-
-                    <View style={styles.Pbody}>
-                        <View style={{ marginTop: 10 }}>
-                            <Text style={styles.TextGroup}>Imagen:</Text>
-                            <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
-                                <Button title='Subir Imagen'
-                                    buttonStyle={{ height: 30, width: '100%', borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}
-                                    onPress={() => refRBSheet.current.open()} />
-                            </View>
-                            {downloadURL && (
-                                <Image
-                                    source={{ uri: imageLocal }}
-                                    style={{ width: 255, height: 200, alignSelf: 'center', marginTop: 15, marginRight: 5 }}
-                                />
-
-                            )}
-
-                        </View>
-
-                        <View >
-                            <Text style={styles.TextGroup}>Titulo:</Text>
-                            <TextInput
-                                style={styles.inputGroup}
-                                placeholder='Titulo:'
-                                onChangeText={(value) => handleChangeText("titulo", value)}
-                            />
-                        </View>
-
-                        <View style={styles.inputGroup}>
-                            <PickerCheckBox
-                                data={destinatarios}
-                                headerComponent={<Text style={{ fontSize: 25 }} >Destinatarios</Text>}
-                                OnConfirm={(pItems) => handleConfirm(pItems)}
-                                ConfirmButtonTitle='OK'
-                                DescriptionField='itemDescription'
-                                KeyField='itemKey'
-                                placeholder='seleccionar destinatario'
-                                arrowColor='#949494F'
-                                arrowSize={35}
-                                placeholderSelectedItems='$count selected item(s)'
-
-                            />
-                        </View>
-                        <Text style={styles.TextGroup}>Cuerpo:</Text>
-                        
-                        <ScrollView>
-                            <TextInput
-                                style={styles.inputGroup}
-                                row={5}
-                                multiline={true}
-                                numberOfLines={8}
-                                maxLines={10}
-                                placeholder='Cuerpo:'
-                                onChangeText={(value) => handleChangeText("cuerpo", value)}
-                            />
-                        </ScrollView>
-                        <View style={{ marginTop: 15 }}></View>
-
-
-
-                        {downloadURL && (
-                            <Button title='Publicar'
-                                buttonStyle={{ marginTop: 15, width: '70%', alignSelf: 'center', borderRadius: 15 }}
-                                onPress={() => saveNewPublication()}  ></Button>)}
-
-                        {uploading && (
-                            <View>
-                                <ProgressBar progress={progress} />
-                                <Subheading>{parseInt(progress * 100) + ' %'}</Subheading>
-                            </View>
-                        )}
-
-                        <RBSheet
-                            ref={refRBSheet}
-                            closeOnDragDown={true}
-                            closeOnPressMask={false}
-                            height={180}
-                            customStyles={{
-
-                                wrapper: {
-                                    backgroundColor: 'rgba(0,0,0,0.5)',
-                                },
-                                draggableIcon: {
-                                    backgroundColor: '#ffc604'
-                                }
-                            }}
-                        >
-                            <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginTop: '2%' }}>
-                                <TouchableOpacity
-                                    onPress={tomarFotoCamara}
-                                    style={{
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        marginBottom: '2%'
-                                    }}>
-                                    <IconButton
-                                        icon='camera'
-                                        size={30}
-                                        color={'grey'}
-                                    />
-                                    <Subheading style={{ fontFamily: 'Montserrat-Medium' }}>Tomar foto</Subheading>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    onPress={mostrarfotoGalaria}
-                                    style={{
-                                        flexDirection: 'row',
-                                        alignItems: 'center'
-                                    }}
+        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
+        <SafeAreaView>
+            <ScrollView>
+            <Text style={styles.titleText}>CREAR PUBLICACIÓN</Text>
+                        <View style={styles.body}>
+                            <View style={{ marginTop: 10 }}>
+                            <View style={{ alignSelf: 'flex-start'}}>
+                                <Button
+                                    icon="camera"
+                                    color="gray"
+                                    uppercase={false}
+                                    mode="text"
+                                    onPress={() => refRBSheet.current.open()}
                                 >
-                                    <IconButton
-                                        icon='image-multiple'
-                                        size={30}
-                                        color={'grey'}
-
+                                    Tomar o subir una imagen
+                                </Button>
+                            </View>
+                                {uploading && (
+                                    <View style={{ paddingHorizontal: 10 }}>
+                                        <Text>Subiendo imagen: {parseInt(progress * 100) + '%'}</Text>
+                                        <ProgressBar progress={progress} color={'#b10909'} />
+                                    </View>
+                                )}
+                                {downloadURL && (
+                                    <Image
+                                        source={{ uri: imageLocal }}
+                                        style={{ width: 255, height: 200, alignSelf: 'center', marginTop: 15, marginRight: 5 }}
                                     />
-                                    <Subheading style={{ fontFamily: 'Montserrat-Medium' }}>Seleccionar de galería</Subheading>
-                                </TouchableOpacity>
+
+                                )}
 
                             </View>
-                        </RBSheet>
 
-                    </View>
-                    <Subheading style={{ height: 50, backgroundColor: '#b10909', justifyContent: 'space-between' }}></Subheading>
-                </ImageBackground>
-            </ScrollView  >
-        </ScrollView>
+                            <View style={{ padding: 10 }}>
+                                <Text>Titulo</Text>
+                                <TextInput
+                                    style={styles.inputText}
+                                    placeholder='Titulo'
+                                    onChangeText={(value) => handleChangeText("titulo", value)}
+                                />
+                            </View>
+                            <View style={{ padding: 10 }}>
+                            <Text>Destinatarios</Text>
+                            <View style={styles.inputGroup}>
+                                <PickerCheckBox
+                                    data={destinatarios}
+                                    headerComponent={<Text style={{ fontSize: 20 }} >Destinatarios</Text>}
+                                    OnConfirm={(pItems) => handleConfirm(pItems)}
+                                    ConfirmButtonTitle='Ok'
+                                    DescriptionField='itemDescription'
+                                    KeyField='itemKey'
+                                    placeholder='Seleccionar...'
+                                    placeholderSelectedItems='$count selected item(s)'
+                                />
+                            </View>
+                            </View>
+                            <View style={{ padding: 10 }}>
+                            <Text>Cuerpo</Text>
+                            <ScrollView>
+                                <TextInput
+                                    style={styles.areaText}
+                                    row={5}
+                                    multiline={true}
+                                    numberOfLines={8}
+                                    maxLines={10}
+                                    placeholder='Cuerpo'
+                                    onChangeText={(value) => handleChangeText("cuerpo", value)}
+                                />
+                            </ScrollView>
+                            </View>
+                            <View style={{ padding: 10 }}>
+                                <Button icon="floppy" color="#fff" uppercase={false} style={styles.roundButton}
+                                onPress={() => saveNewPublication()}>Guardar</Button>
+                            </View>
+                            <View style={{ marginTop: 15 }}></View>
+                            <RBSheet
+                                ref={refRBSheet}
+                                closeOnDragDown={true}
+                                closeOnPressMask={false}
+                                height={180}
+                                customStyles={{
+
+                                    wrapper: {
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                    },
+                                    draggableIcon: {
+                                        backgroundColor: '#ffc604'
+                                    }
+                                }}
+                            >
+                                <View >
+                                    <TouchableOpacity
+                                        onPress={tomarFotoCamara}
+                                        style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                        }}>
+                                        <IconButton
+                                            icon='camera'
+                                        />
+                                        <Subheading>Tomar foto</Subheading>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={mostrarfotoGalaria}
+                                        style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'center'
+                                        }}
+                                    >
+                                        <IconButton
+                                            icon='image-multiple'
+                                        />
+                                        <Subheading>Seleccionar de galería</Subheading>
+                                    </TouchableOpacity>
+
+                                </View>
+                            </RBSheet>
+
+                        </View>
+                </ScrollView  >
+        </SafeAreaView>
+        </ImageBackground>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    Pheader: {
-        backgroundColor: '#b10909'
-    },
-    Pbody: {
+    body: {
         width: '85%',
-        height: 750,
         alignContent: 'center',
-        //justifyContent:'center',
         alignSelf: 'center',
-        backgroundColor: '#DFDFDF',
-
-    },
-    container: {
-        backgroundColor: 'white', /**'#F5FCFF' */
-
-    },
+        backgroundColor: '#e8e8e8',
+        borderRadius: 8,
+        borderWidth: 0.5
+      },
+    container:{
+        flex:1,
+        flexDirection:'column',
+      },
 
     inputGroup: {
-        width: '90%',
+        width: '100%',
         backgroundColor: 'white',
-        marginTop: 10,
+        height: 45,
+    },
+    areaText: {
+        width: '100%',
+        backgroundColor: 'white',
         alignSelf: 'center',
         textAlignVertical: 'top',
     },
-    TextGroup: {
-        width: '90%',
-        marginTop: 10,
-        alignSelf: 'center',
-    }
+    inputText: {
+        height: 40,
+        backgroundColor: '#fff'
+      },
+    titleText:{
+        alignSelf:'center', 
+        padding:20, 
+        fontSize:25, 
+        fontWeight:'bold'
+    },
+    roundButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#b31d1d',
+    },
+    pickerContainerStyle:{
+        backgroundColor: '#b31d1d',
+    },
 })
