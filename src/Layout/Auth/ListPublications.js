@@ -3,15 +3,16 @@ import { ActivityIndicator, FlatList, StyleSheet, View, Text, Image, Alert, Pres
 //Modal,
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { ListItem, Button, Icon,Header } from 'react-native-elements';
+import { ListItem, Button, Icon, Header } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 
 import { State } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
+import { Picker } from '@react-native-picker/picker';
 //Button, Card, Icon, Avatar
 
-export default function ListPublications({navigation}) {
+export default function ListPublications({ navigation }) {
 
   const user = auth().currentUser
   var checkedItem = [];
@@ -19,14 +20,33 @@ export default function ListPublications({navigation}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModaReenviarlVisible, setModalReenviarlVisible] = useState(false);
   const [selectedPost, setPost] = useState([]);
+  //const [selectedRama, setSelectedRama] = useState(null);
+  const [filterPublications, setFilterPublications] = useState([]);
+  const [destinatarios, setDestinatarios] = useState([]);
+  const [localUser, setLocalUser] = useState({
+    doc_id: "",
+    nombres: "",
+    apellidos: "",
+    correo: "",
+    id_rol: "",
+    grupo: "",
+    url: ""
+  });
 
-  const destinatarios = [
+  /*const destinatarios = [
     { itemKey: 1, itemDescription: 'Cachorro' },
     { itemKey: 2, itemDescription: 'Lobato' },
     { itemKey: 3, itemDescription: 'Webelo' },
     { itemKey: 4, itemDescription: 'Scout' },
     { itemKey: 5, itemDescription: 'Rover' },
-  ];
+  ];*/
+  /*const destinatarios2 = [
+    { label: 'cachorro', value: 'Cachorro' },
+    { label: 'lobato', value: 'Lobato' },
+    { label: 'webelo', value: 'Webelo' },
+    { label: 'scout', value: 'Scout' },
+    { label: 'rover', value: 'Rover' },
+  ];*/
 
 
   const toggleModal = () => {
@@ -106,6 +126,26 @@ export default function ListPublications({navigation}) {
       toggleModalReenviar();
     }
   };
+///User
+  useEffect(() => {
+    firestore()
+      .collection('Usuario')
+      .where('email', '==', user.email)
+      .get()
+      .then(querySnapshot => {
+        const usuario = querySnapshot.docs[0].data()
+        const docId = querySnapshot.docs[0].id
+        setLocalUser({
+          doc_id: docId,
+          nombres: usuario.nombres,
+          apellidos: usuario.apellidos,
+          correo: usuario.email,
+          rol: usuario.id_rol,
+          grupo: usuario.id_grupo,
+          url: usuario.url,
+        });
+      });
+  }, []);
 
   useEffect(() => {
     const subscriber = firestore()
@@ -126,26 +166,70 @@ export default function ListPublications({navigation}) {
     return () => subscriber();
   }, []);
 
-  return (
+  useEffect(() => {
+    //RAMAS
+    firestore()
+      .collection('Grupo')
+      .orderBy('nombre')
+      .get()
+      .then(querySnapshot => {
+        let grupo
+        let datosRamas = []
+        for (let i = 0; i < querySnapshot.size; i++) {
+          grupo = querySnapshot.docs[i].data();
+          datosRamas.push({ itemKey: i, itemDescription: grupo.nombre });
+        }
+        setDestinatarios(datosRamas);
+      });
+  }, []);
 
+
+
+
+  const updateFilter = (filterRama) => {
+    const filteredData = filterRama
+      ? publications.filter(x =>
+        x.destinatario.toLowerCase().includes(filterRama.toLowerCase())
+      )
+      : publications;
+    setFilterPublications(filteredData);
+  };
+
+  const pickerItems = () => {
+    let serviceItems;
+    if (localUser.rol === "Administrador") {
+      serviceItems = destinatarios.map((x, i) => {
+        return (<Picker.Item label={x.itemDescription} key={i} value={x.itemDescription} />)
+      });
+    } else {
+      serviceItems = destinatarios.map((x, i) => {
+        if (localUser.grupo === x.itemDescription) {
+          return (<Picker.Item label={x.itemDescription} key={i} value={x.itemDescription} />)
+        }
+      });
+    }
+    return serviceItems;
+  }
+
+  return (
     <View style={{ flex: 1 }}>
       <Header
-               containerStyle={{
-                backgroundColor: '#b10909',
-                justifyContent: 'space-around',
-              }}
-              //leftComponent={{ icon: 'reply', color: '#fff', }}
-              leftComponent={<Icon 
-                name= 'reply'
-                color='#fff'
-                iconStyle={{fontSize:27}}
-                onPress={()=>navigation.navigate('home')}
-                />
+        containerStyle={{
+          backgroundColor: '#b10909',
+          justifyContent: 'space-around',
+        }}
+        //leftComponent={{ icon: 'reply', color: '#fff', }}
+        leftComponent={<Icon
+          name='reply'
+          color='#fff'
+          iconStyle={{ fontSize: 27 }}
+          onPress={() => navigation.navigate('home')}
+        />
 
-              }
-              centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
+        }
+        centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
 
-            />
+      />
       <Modal isVisible={isModalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -156,13 +240,13 @@ export default function ListPublications({navigation}) {
               title='Eliminar'
               theme={{ colors: { primary: '#B10000' } }}
               icon={<Icon name='delete' color='#FFFFFF' />}
-              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width:'100%' }}
+              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%' }}
               onPress={() => alertAction(1)} />
             <Button
               title='Reenviar'
               theme={{ colors: { primary: '#0080FF' } }}
               icon={<Icon name='send' color='#FFFFFF' />}
-              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width:'100%', alignItems:'center', justifyContent:'center'}}
+              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }}
               onPress={() => alertAction(2)} />
 
             <Pressable
@@ -176,7 +260,6 @@ export default function ListPublications({navigation}) {
       <Modal isVisible={isModaReenviarlVisible}>
         <View style={styles.centeredView2}>
           <View style={styles.modalView2}>
-
 
             <PickerCheckBox
               data={destinatarios}
@@ -197,16 +280,20 @@ export default function ListPublications({navigation}) {
         </View>
       </Modal>
 
+      <Picker onValueChange={updateFilter}>
+        {pickerItems()}
+      </Picker>
+
       <FlatList
-        data={publications}
+        data={filterPublications} //{publications}
         renderItem={({ item }) => (
           <Card>
             <CardAction
               separator={true}
               inColumn={false}>
-              <CardTitle 
+              <CardTitle
 
-                titleStyle={styles.txtTitulo}  
+                titleStyle={styles.txtTitulo}
                 title={item.titulo}
               />
 
@@ -223,20 +310,21 @@ export default function ListPublications({navigation}) {
             //source={{ uri: 'http://placehold.it/480x270' }}
             />
 
-            <CardContent textStyle={{color:'black', fontSize:15, width:'100%'}}  >
-              <Text numberOfLines={5} style={{width:'100%'}}>{item.cuerpo}</Text>
+            <CardContent textStyle={{ color: 'black', fontSize: 15, width: '100%' }}  >
+              <Text numberOfLines={5} style={{ width: '100%' }}>{item.cuerpo}</Text>
             </CardContent>
             <CardAction
               separator={true}
               inColumn={false}>
               <CardButton
-                onPress={()=>navigation.navigate('ListPublicationDetail',{items:{
-                  id: item.id,
-                  title: item.titulo,
-                  cuerpo: item.cuerpo,
-                  url: item.url
-                }
-              })}
+                onPress={() => navigation.navigate('ListPublicationDetail', {
+                  items: {
+                    id: item.id,
+                    title: item.titulo,
+                    cuerpo: item.cuerpo,
+                    url: item.url
+                  }
+                })}
                 title="ver mas..."
                 color="#8E0101"
               />
@@ -244,7 +332,7 @@ export default function ListPublications({navigation}) {
           </Card>
         )}
       />
-      
+
     </View>
   );
 }
@@ -333,11 +421,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25
   },
-  txtTitulo:{
-    textAlign:'center',
-    fontSize:25,
-    fontWeight:'bold',
-  //  color:'black',
-    marginTop:8}
+  txtTitulo: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    //  color:'black',
+    marginTop: 8
+  },
+  pickerSelectStyles: {
+    fontSize: 16,
+    paddingHorizontal: 15,
+    paddingVertical: 7,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    color: 'black',
+    paddingRight: 30,
+    backgroundColor: '#fff'
+  }
+
 
 });
