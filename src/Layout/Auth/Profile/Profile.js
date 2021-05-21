@@ -1,15 +1,16 @@
 import firestore from '@react-native-firebase/firestore';
-import React, { useEffect, useState, useLayoutEffect } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper'
+import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
   View,
   ImageBackground
-} from 'react-native'
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import auth from '@react-native-firebase/auth'
+import auth from '@react-native-firebase/auth';
+import { useIsFocused } from '@react-navigation/native'
 
 //Inicio de funcion
 export default function Profile({navigation}) {
@@ -17,14 +18,9 @@ export default function Profile({navigation}) {
     this.props.navigation.navigate(user ? 'AppTabsScreen' : 'AuthStackScreen');
   });*/
 //Declaracion de variables
-
+const isFocused = useIsFocused()
 const user = auth().currentUser;
-
   // User is signed in.
-
- 
-
-
   if (user.email === null){
     navigation.navigate('AuthStackScreen');
   }
@@ -46,11 +42,7 @@ const user = auth().currentUser;
     grupo :"",
     url :""
 });
-
-useLayoutEffect(()=>{
- 
- // console.log(user.email)
-
+useEffect(() => {
   firestore()
   .collection('Usuario')
   .where('email', '==', user.email)
@@ -67,16 +59,9 @@ useLayoutEffect(()=>{
       grupo:usuario.id_grupo,
       url:usuario.url,
     });
-    console.log(user.email)
   });
-
-});
-
-    
-
+},[isFocused]);
 //Obtener datos de firestore
-
-
   const renderAvatar = () =>{
     if(state.url===null){
       const renderAvatarText =   () => (
@@ -98,13 +83,12 @@ useLayoutEffect(()=>{
       return renderAvatarImage();
     }
   }
-
 //Estilos de la pantalla 
   const styles = StyleSheet.create({
       container:{
         flex:1,
         flexDirection:'column',
-        marginTop:-150
+        marginTop:-60
       },
       titleText:{
           alignSelf:'center', 
@@ -146,7 +130,6 @@ useLayoutEffect(()=>{
       roundButton: {
           justifyContent: 'center',
           alignItems: 'center',
-          borderRadius: 10,
           backgroundColor: '#b31d1d',
       },
   })
