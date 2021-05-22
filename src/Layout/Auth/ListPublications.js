@@ -243,9 +243,6 @@ export default function ListPublications({ navigation }) {
         </View>
       </Modal>
 
-    
-     
-
       <Modal isVisible={isModaReenviarlVisible}>
         <View style={styles.centeredView2}>
           <View style={styles.modalView2}>

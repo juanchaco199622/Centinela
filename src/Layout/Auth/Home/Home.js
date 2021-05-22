@@ -43,8 +43,7 @@ useEffect(() => {
 },[isFocused]);
   
 //--------------------------------VISTAS
-    
-
+  
     if(state.rol == 'Administrador'){
           return (
           
