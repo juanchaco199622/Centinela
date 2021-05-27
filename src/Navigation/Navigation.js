@@ -13,9 +13,9 @@ import ListUsers from '../Layout/Auth/ListUsers';
 import EditProfile from '../Layout/Auth/Profile/EditProfile';
 import CreatePublication from '../Layout/Auth/CreatePublication';
 import ListPublications from '../Layout/Auth/ListPublications';
-import CreateActivity from '../Layout/Auth/CreateActivity';
-import ListActivities from '../Layout/Auth/ListActivities';
-import ListPublicationDetail from '../Layout/Auth/ListPublicationDetail'
+/*import CreateActivity from '../Layout/Auth/CreateActivity';
+import ListActivities from '../Layout/Auth/ListActivities';*/
+import ListPublicationDetail from '../Layout/Auth/ListPublicationDetail';
 import Notifications from '../Layout/Notifications/Notifications';
 import auth from '@react-native-firebase/auth'
 const AuthStack = createStackNavigator();
@@ -141,9 +141,9 @@ const RootStackScreen = () =>{
             <RootStack.Screen name="CreatePublication" component={CreatePublication} />
             <RootStack.Screen name="ListPublications" component={ListPublications} />
             <RootStack.Screen name="CreateUser" component={CreateUser} />
-            <RootStack.Screen name="CreateActivity" component={CreateActivity} />
-            <RootStack.Screen name="ListActivities" component={ListActivities} />
-            <RootStack.Screen name="ListPublicationDetail" component={ListPublicationDetail} />
+            {/* <RootStack.Screen name="CreateActivity" component={CreateActivity} />
+            <RootStack.Screen name="ListActivities" component={ListActivities} />*/}
+            <RootStack.Screen name="ListPublicationDetail" component={ListPublicationDetail} /> 
         </RootStack.Navigator>
     )
 }
