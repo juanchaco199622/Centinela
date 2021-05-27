@@ -21,6 +21,7 @@ function Login({navigation}){
           Alert.alert('Se requiere una contraseña .');
         }else{
             await auth().signInWithEmailAndPassword(email,password);
+           // navigation.navigate('home')
         }
 
       }catch  {

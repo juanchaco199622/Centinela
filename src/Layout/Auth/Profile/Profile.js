@@ -1,15 +1,16 @@
 import firestore from '@react-native-firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper'
+import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
   View,
   ImageBackground
-} from 'react-native'
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import auth from '@react-native-firebase/auth'
+import auth from '@react-native-firebase/auth';
+import { useIsFocused } from '@react-navigation/native'
 
 //Inicio de funcion
 export default function Profile({navigation}) {
@@ -17,22 +18,31 @@ export default function Profile({navigation}) {
     this.props.navigation.navigate(user ? 'AppTabsScreen' : 'AuthStackScreen');
   });*/
 //Declaracion de variables
-  const user = auth().currentUser;
-
-
+const isFocused = useIsFocused()
+const user = auth().currentUser;
   // User is signed in.
-
-  const [state, setState] = useState({
-      doc_id: "",
-      nombres : "",
-      apellidos : "",
-      correo: "",
-      id_rol :"",
-      grupo :"",
-      url :""
+  if (user.email === null){
+    navigation.navigate('AuthStackScreen');
+  }
+    auth().onAuthStateChanged(function(user) {
+    if (user) {
+      //navigation.navigate('Perfil');
+     
+    } else {
+      // No user is signed in.
+      navigation.navigate('AuthStackScreen');
+    }
   });
-
-//Obtener datos de firestore
+  const [state, setState] = useState({
+    doc_id: "",
+    nombres : "",
+    apellidos : "",
+    correo: "",
+    id_rol :"",
+    grupo :"",
+    url :""
+});
+useEffect(() => {
   firestore()
   .collection('Usuario')
   .where('email', '==', user.email)
@@ -50,7 +60,9 @@ export default function Profile({navigation}) {
       url:usuario.url,
     });
   });
+},[isFocused]);
 
+//Obtener datos de firestore
   const renderAvatar = () =>{
     if(state.url===null){
       const renderAvatarText =   () => (
@@ -72,13 +84,12 @@ export default function Profile({navigation}) {
       return renderAvatarImage();
     }
   }
-
 //Estilos de la pantalla 
   const styles = StyleSheet.create({
       container:{
         flex:1,
         flexDirection:'column',
-        marginTop:-150
+        marginTop:-60
       },
       titleText:{
           alignSelf:'center', 
@@ -120,7 +131,6 @@ export default function Profile({navigation}) {
       roundButton: {
           justifyContent: 'center',
           alignItems: 'center',
-          borderRadius: 10,
           backgroundColor: '#b31d1d',
       },
   })

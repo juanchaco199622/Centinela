@@ -15,6 +15,8 @@ import CreatePublication from '../Layout/Auth/CreatePublication';
 import ListPublications from '../Layout/Auth/ListPublications';
 import CreateActivity from '../Layout/Auth/CreateActivity';
 import ListActivities from '../Layout/Auth/ListActivities';
+import ListPublicationDetail from '../Layout/Auth/ListPublicationDetail'
+import Notifications from '../Layout/Notifications/Notifications';
 import auth from '@react-native-firebase/auth'
 const AuthStack = createStackNavigator();
 
@@ -28,14 +30,33 @@ const AuthStackScreen = () =>(
     </AuthStack.Navigator>
 )
 
-/*const Stack = createStackNavigator();
+const NotificationsStack = createStackNavigator();
 
-const Mystack = () =>{
-    <Stack.Navigator>
-        <Stack.Screen name='ListUsers' component={ListUsers} />
-    </Stack.Navigator>
-}*/
-
+const NotificationsStackScreen = () => (
+    <NotificationsStack.Navigator
+        headerMode="none"
+        tabBarOptions={{
+        activeTintColor:'#274040',
+        inactiveTintColor:'grey',
+        indicatorStyle: {
+            backgroundColor:'#274040'
+        }       
+        }}
+    >
+        <NotificationsStack.Screen 
+        name="Notifications" 
+        component={Notifications} 
+        options={{
+            title: 'Notificaciones',
+            headerLeft:null,
+            headerTitleAlign:'center',
+            headerTitleStyle: {
+            fontFamily: 'ProductSans-Bold',
+            },
+        }}
+        />
+    </NotificationsStack.Navigator>
+);
 
 const AppTabs = createBottomTabNavigator();
 
@@ -61,15 +82,21 @@ const AppTabsScreen =() =>(
             }}
         /> 
 
-            {/**<AppTabs.Screen
-                name = 'Users'
-                component={CreateUser}
-                options={{
-                    tabBarIcon:() =>(
-                        <MaterialCommunityIcons name='account-group' color={'black'} size={30}/>
-                    )
-                }}
-            />**/}
+        <AppTabs.Screen
+            name="Notificaciones" 
+            component={NotificationsStackScreen} 
+            options={{
+                tabBarLabel: 'Notificaciones',
+                headerStyle: {
+                backgroundColor: '#ED1C24',
+                },
+
+                title:'Notificaciones',
+                tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="bell-outline" color={color} size={28} />
+                ),
+            }}
+            /> 
 
         <AppTabs.Screen
             name='Exit'
@@ -116,6 +143,7 @@ const RootStackScreen = () =>{
             <RootStack.Screen name="CreateUser" component={CreateUser} />
             <RootStack.Screen name="CreateActivity" component={CreateActivity} />
             <RootStack.Screen name="ListActivities" component={ListActivities} />
+            <RootStack.Screen name="ListPublicationDetail" component={ListPublicationDetail} />
         </RootStack.Navigator>
     )
 }

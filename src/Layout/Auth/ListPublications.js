@@ -3,31 +3,36 @@ import { ActivityIndicator, FlatList, StyleSheet, View, Text, Image, Alert, Pres
 //Modal,
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { ListItem, Button, Icon } from 'react-native-elements';
+import { ListItem, Button, Icon, Header } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 
 import { State } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
+import { Picker } from '@react-native-picker/picker';
+import { useIsFocused } from '@react-navigation/native'
 //Button, Card, Icon, Avatar
 
-export default function ListPublications() {
-
+export default function ListPublications({ navigation }) {
+  const isFocused = useIsFocused()
   const user = auth().currentUser
   var checkedItem = [];
   const [publications, setPublications] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModaReenviarlVisible, setModalReenviarlVisible] = useState(false);
   const [selectedPost, setPost] = useState([]);
-
-  const destinatarios = [
-    { itemKey: 1, itemDescription: 'Cachorro' },
-    { itemKey: 2, itemDescription: 'Lobato' },
-    { itemKey: 3, itemDescription: 'Webelo' },
-    { itemKey: 4, itemDescription: 'Scout' },
-    { itemKey: 5, itemDescription: 'Rover' },
-  ];
-
+  //const [selectedRama, setSelectedRama] = useState(null);
+  const [filterPublications, setFilterPublications] = useState([]);
+  const [destinatarios, setDestinatarios] = useState([]);
+  const [localUser, setLocalUser] = useState({
+    doc_id: "",
+    nombres: "",
+    apellidos: "",
+    correo: "",
+    id_rol: "",
+    grupo: "",
+    url: ""
+  });
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -108,6 +113,26 @@ export default function ListPublications() {
   };
 
   useEffect(() => {
+    firestore()
+    .collection('Usuario')
+    .where('email', '==', user.email)
+    .get()
+    .then(querySnapshot => {
+      const usuario = querySnapshot.docs[0].data()
+      const docId = querySnapshot.docs[0].id
+      setLocalUser({
+        doc_id: docId,
+        nombres:usuario.nombres, 
+        apellidos:usuario.apellidos,
+        correo:usuario.email,
+        rol:usuario.id_rol,
+        grupo:usuario.id_grupo,
+        url:usuario.url,
+      });
+    });
+  },[isFocused]);
+
+  useEffect(() => {
     const subscriber = firestore()
       .collection('Publication')
       .onSnapshot(querySnapshot => {
@@ -126,10 +151,71 @@ export default function ListPublications() {
     return () => subscriber();
   }, []);
 
-  return (
+  useEffect(() => {
+    //RAMAS
+    firestore()
+      .collection('Grupo')
+      .orderBy('nombre')
+      .get()
+      .then(querySnapshot => {
+        let grupo
+        let datosRamas = []
+        for (let i = 0; i < querySnapshot.size; i++) {
+          grupo = querySnapshot.docs[i].data();
+          datosRamas.push({ itemKey: i, itemDescription: grupo.nombre });
+        }
+        setDestinatarios(datosRamas);
+      });
+  }, []);
 
+
+  const updateFilter = (filterRama) => {
+    const filteredData = filterRama
+      ? publications.filter(x =>
+        x.destinatario.toLowerCase().includes(filterRama.toLowerCase())
+      )
+      : publications;
+    setFilterPublications(filteredData);
+  };
+
+  const pickerItems = () => {
+    let serviceItems;
+    if (localUser.rol === "Administrador") {
+      serviceItems = destinatarios.map((x, i) => {
+        return (<Picker.Item label={x.itemDescription} key={i} value={x.itemDescription} />)
+      });
+    } else {
+      serviceItems = destinatarios.map((x, i) => {
+        if (localUser.grupo === x.itemDescription) {
+          return (<Picker.Item label={x.itemDescription} key={i} value={x.itemDescription} />)
+        }
+      });
+    }
+    return serviceItems;
+  }
+
+
+  return (
     <View style={{ flex: 1 }}>
-      <Modal isVisible={isModalVisible}>
+      <Header
+        containerStyle={{
+          backgroundColor: '#b10909',
+          justifyContent: 'space-around',
+        }}
+        //leftComponent={{ icon: 'reply', color: '#fff', }}
+        leftComponent={<Icon
+          name='reply'
+          color='#fff'
+          iconStyle={{ fontSize: 27 }}
+          onPress={() => navigation.navigate('home')}
+        />
+
+        }
+        centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
+
+      />
+        
+        <Modal isVisible={isModalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
@@ -140,12 +226,14 @@ export default function ListPublications() {
               theme={{ colors: { primary: '#878787' } }} //#B10000
               icon={<Icon name='delete' color='#FFFFFF' />}
               buttonStyle={{borderRadius: 10, marginBottom: 10}}
+              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%' }}
               onPress={() => alertAction(1)} />
             <Button
               title='Reenviar'
               theme={{ colors: { primary: '#878787' } }} //#0080FF
               icon={<Icon name='send' color='#FFFFFF' />}
               buttonStyle={{borderRadius: 10, marginBottom: 10}}
+              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }}
               onPress={() => alertAction(2)} />
 
 <Pressable
@@ -158,10 +246,10 @@ export default function ListPublications() {
           </View>
         </View>
       </Modal>
+
       <Modal isVisible={isModaReenviarlVisible}>
         <View style={styles.centeredView2}>
           <View style={styles.modalView2}>
-
 
             <PickerCheckBox
               data={destinatarios}
@@ -175,29 +263,38 @@ export default function ListPublications() {
               arrowColor='#000000'
               arrowSize={10}
               placeholderSelectedItems='$count selected item(s)'
-
             />
 
           </View>
         </View>
       </Modal>
 
+      <Picker onValueChange={updateFilter}>
+        {pickerItems()}
+      </Picker>
+
       <FlatList
-        data={publications}
+        data={filterPublications} //{publications}
         renderItem={({ item }) => (
           <Card>
             <CardAction
               separator={true}
               inColumn={false}>
               <CardTitle
+
+                titleStyle={styles.txtTitulo}
                 title={item.titulo}
               />
-
+              { localUser.rol == 'Administrador' ? (
               <Button
                 theme={{ colors: { primary: '#ffffff' } }}
                 icon={<Icon name='more-vert' color='#8E0101' />}
                 buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                 onPress={() => functionCombined(item)} />
+                ):(
+                  <></>
+                )}
+              
 
 
             </CardAction>
@@ -206,12 +303,21 @@ export default function ListPublications() {
             //source={{ uri: 'http://placehold.it/480x270' }}
             />
 
-            <CardContent text={item.cuerpo} />
+            <CardContent textStyle={{ color: 'black', fontSize: 15, width: '100%' }}  >
+              <Text numberOfLines={5} style={{ width: '100%' }}>{item.cuerpo}</Text>
+            </CardContent>
             <CardAction
               separator={true}
               inColumn={false}>
               <CardButton
-                onPress={() => { }}
+                onPress={() => navigation.navigate('ListPublicationDetail', {
+                  items: {
+                    id: item.id,
+                    title: item.titulo,
+                    cuerpo: item.cuerpo,
+                    url: item.url
+                  }
+                })}
                 title="ver mas..."
                 color="#8E0101"
               />
@@ -219,6 +325,7 @@ export default function ListPublications() {
           </Card>
         )}
       />
+
     </View>
   );
 }
@@ -315,6 +422,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: "bold",
     fontSize: 25
+  },
+  txtTitulo: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    //  color:'black',
+    marginTop: 8
+  },
+  pickerSelectStyles: {
+    fontSize: 16,
+    paddingHorizontal: 15,
+    paddingVertical: 7,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    color: 'black',
+    paddingRight: 30,
+    backgroundColor: '#fff'
   }
+
 
 });
