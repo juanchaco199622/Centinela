@@ -13,6 +13,8 @@ import ListUsers from '../Layout/Auth/ListUsers';
 import EditProfile from '../Layout/Auth/Profile/EditProfile';
 import CreatePublication from '../Layout/Auth/CreatePublication';
 import ListPublications from '../Layout/Auth/ListPublications';
+import CreateActivity from '../Layout/Auth/CreateActivity';
+import ListActivities from '../Layout/Auth/ListActivities';
 import auth from '@react-native-firebase/auth'
 const AuthStack = createStackNavigator();
 
@@ -74,7 +76,7 @@ const AppTabsScreen =() =>(
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='close' color={'#949494'} size={35}/>
+                    <MaterialCommunityIcons name='exit-to-app' color={'#949494'} size={35}/>
                 )
             }}
             
@@ -112,6 +114,8 @@ const RootStackScreen = () =>{
             <RootStack.Screen name="CreatePublication" component={CreatePublication} />
             <RootStack.Screen name="ListPublications" component={ListPublications} />
             <RootStack.Screen name="CreateUser" component={CreateUser} />
+            <RootStack.Screen name="CreateActivity" component={CreateActivity} />
+            <RootStack.Screen name="ListActivities" component={ListActivities} />
         </RootStack.Navigator>
     )
 }

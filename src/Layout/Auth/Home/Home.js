@@ -43,13 +43,26 @@ const user = auth().currentUser;
             </Card.Content>
 
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
+              <Button icon="newspaper-plus" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
                 Crear publicación
               </Button>
             </Card.Content>
+
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
                 Listar publicaciones
+              </Button>
+            </Card.Content>
+
+            <Card.Content style={styles.containerButtonLogin} >
+              <Button icon="notebook-plus-outline" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateActivities')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
+                Crear actividades
+              </Button>
+            </Card.Content>
+
+            <Card.Content style={styles.containerButtonLogin} >
+              <Button icon="book-open-outline" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{height:45, justifyContent: 'center', alignItems: 'center'}}>
+                Listar actividades
               </Button>
             </Card.Content>
           </View>

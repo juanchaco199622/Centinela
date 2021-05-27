@@ -134,25 +134,27 @@ export default function ListPublications() {
           <View style={styles.modalView}>
 
             <Text style={styles.modalText}>ACCIONES</Text>
-
+            <View style={styles.loginButtonSection}>
             <Button
               title='Eliminar'
-              theme={{ colors: { primary: '#B10000' } }}
+              theme={{ colors: { primary: '#878787' } }} //#B10000
               icon={<Icon name='delete' color='#FFFFFF' />}
-              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width:'100%' }}
+              buttonStyle={{borderRadius: 10, marginBottom: 10}}
               onPress={() => alertAction(1)} />
             <Button
               title='Reenviar'
-              theme={{ colors: { primary: '#0080FF' } }}
+              theme={{ colors: { primary: '#878787' } }} //#0080FF
               icon={<Icon name='send' color='#FFFFFF' />}
-              buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width:'100%', alignItems:'center', justifyContent:'center'}}
+              buttonStyle={{borderRadius: 10, marginBottom: 10}}
               onPress={() => alertAction(2)} />
 
-            <Pressable
+<Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={toggleModal} >
               <Text style={styles.textStyle}>Cerrar</Text>
             </Pressable>
+            </View>
+            
           </View>
         </View>
       </Modal>
@@ -222,6 +224,14 @@ export default function ListPublications() {
 }
 
 const styles = StyleSheet.create({
+  loginButtonSection: {
+    
+    width: '100%',
+    marginTop: 2,
+    marginBottom: 25,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -238,11 +248,11 @@ const styles = StyleSheet.create({
   modalView: {
     //margin: 50,
     color: "black",
-    backgroundColor: "#C1C1C1",
+    backgroundColor: "#FFFFFF",
     borderRadius: 5,
     padding: 100,
-    paddingBottom: 20,
-    paddingTop: 30,
+    paddingBottom: 0,
+    paddingTop: 20,
     alignItems: "center",
     /*shadowColor: "#FB2C00",
     shadowOffset: {
@@ -284,10 +294,10 @@ const styles = StyleSheet.create({
     elevation: 2
   },
   buttonOpen: {
-    backgroundColor: "#FB2C00",
+    backgroundColor: "#B10000",
   },
   buttonClose: {
-    backgroundColor: "#878787",
+    backgroundColor: "#B10000",
   },
   textStyle: {
     color: "white",
@@ -300,8 +310,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     color: "#4C4C4C",
-    marginBottom: 15,
-    textAlign: "center",
+    marginBottom: 30,
+    alignContent: 'center',
+    justifyContent: 'center',
     fontWeight: "bold",
     fontSize: 25
   }
