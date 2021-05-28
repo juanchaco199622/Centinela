@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@flyerhq/react-native-android-uri-path": "^2.1.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^11.3.2",
     "@react-native-firebase/auth": "^11.3.2",
@@ -25,7 +26,10 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "^0.63.4",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-document-picker": "^5.0.4",
     "react-native-elements": "^3.4.0",
+    "react-native-file-viewer": "^2.1.4",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-picker": "^2.3.4",
     "react-native-material-cards": "^1.0.15",

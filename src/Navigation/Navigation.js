@@ -13,7 +13,10 @@ import ListUsers from '../Layout/Auth/ListUsers';
 import EditProfile from '../Layout/Auth/Profile/EditProfile';
 import CreatePublication from '../Layout/Auth/CreatePublication';
 import ListPublications from '../Layout/Auth/ListPublications';
-import ListPublicationDetail from '../Layout/Auth/ListPublicationDetail'
+import ListPublicationDetail from '../Layout/Auth/ListPublicationDetail';
+import CreateActivity from '../Layout/Auth/CreateActivity';
+import FilesListingScreen from '../Layout/Auth/FilesListingScreen';
+import UploadFileScreen from '../Layout/Auth/UploadFileScreen';
 import auth from '@react-native-firebase/auth'
 const AuthStack = createStackNavigator();
 
@@ -114,6 +117,9 @@ const RootStackScreen = () =>{
             <RootStack.Screen name="ListPublications" component={ListPublications} />
             <RootStack.Screen name="CreateUser" component={CreateUser} />
             <RootStack.Screen name="ListPublicationDetail" component={ListPublicationDetail} />
+            <RootStack.Screen name="CreateActivity" component={CreateActivity} />
+            <RootStack.Screen name="UploadFileScreen" component={UploadFileScreen} />
+            <RootStack.Screen name="FilesListingScreen" component={FilesListingScreen} />
         </RootStack.Navigator>
     )
 }
