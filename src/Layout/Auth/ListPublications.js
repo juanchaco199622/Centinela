@@ -10,10 +10,11 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 import { State } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
 import { Picker } from '@react-native-picker/picker';
+import { useIsFocused } from '@react-navigation/native'
 //Button, Card, Icon, Avatar
 
 export default function ListPublications({ navigation }) {
-
+  const isFocused = useIsFocused()
   const user = auth().currentUser
   var checkedItem = [];
   const [publications, setPublications] = useState([]);
@@ -32,22 +33,6 @@ export default function ListPublications({ navigation }) {
     grupo: "",
     url: ""
   });
-
-  /*const destinatarios = [
-    { itemKey: 1, itemDescription: 'Cachorro' },
-    { itemKey: 2, itemDescription: 'Lobato' },
-    { itemKey: 3, itemDescription: 'Webelo' },
-    { itemKey: 4, itemDescription: 'Scout' },
-    { itemKey: 5, itemDescription: 'Rover' },
-  ];*/
-  /*const destinatarios2 = [
-    { label: 'cachorro', value: 'Cachorro' },
-    { label: 'lobato', value: 'Lobato' },
-    { label: 'webelo', value: 'Webelo' },
-    { label: 'scout', value: 'Scout' },
-    { label: 'rover', value: 'Rover' },
-  ];*/
-
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -126,26 +111,26 @@ export default function ListPublications({ navigation }) {
       toggleModalReenviar();
     }
   };
-///User
+
   useEffect(() => {
     firestore()
-      .collection('Usuario')
-      .where('email', '==', user.email)
-      .get()
-      .then(querySnapshot => {
-        const usuario = querySnapshot.docs[0].data()
-        const docId = querySnapshot.docs[0].id
-        setLocalUser({
-          doc_id: docId,
-          nombres: usuario.nombres,
-          apellidos: usuario.apellidos,
-          correo: usuario.email,
-          rol: usuario.id_rol,
-          grupo: usuario.id_grupo,
-          url: usuario.url,
-        });
+    .collection('Usuario')
+    .where('email', '==', user.email)
+    .get()
+    .then(querySnapshot => {
+      const usuario = querySnapshot.docs[0].data()
+      const docId = querySnapshot.docs[0].id
+      setLocalUser({
+        doc_id: docId,
+        nombres:usuario.nombres, 
+        apellidos:usuario.apellidos,
+        correo:usuario.email,
+        rol:usuario.id_rol,
+        grupo:usuario.id_grupo,
+        url:usuario.url,
       });
-  }, []);
+    });
+  },[isFocused]);
 
   useEffect(() => {
     const subscriber = firestore()
@@ -184,8 +169,6 @@ export default function ListPublications({ navigation }) {
   }, []);
 
 
-
-
   const updateFilter = (filterRama) => {
     const filteredData = filterRama
       ? publications.filter(x =>
@@ -211,6 +194,7 @@ export default function ListPublications({ navigation }) {
     return serviceItems;
   }
 
+
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -230,33 +214,39 @@ export default function ListPublications({ navigation }) {
         centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
 
       />
-      <Modal isVisible={isModalVisible}>
+        
+        <Modal isVisible={isModalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
             <Text style={styles.modalText}>ACCIONES</Text>
-
+            <View style={styles.loginButtonSection}>
             <Button
               title='Eliminar'
-              theme={{ colors: { primary: '#B10000' } }}
+              theme={{ colors: { primary: '#878787' } }} //#B10000
               icon={<Icon name='delete' color='#FFFFFF' />}
+              buttonStyle={{borderRadius: 10, marginBottom: 10}}
               buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%' }}
               onPress={() => alertAction(1)} />
             <Button
               title='Reenviar'
-              theme={{ colors: { primary: '#0080FF' } }}
+              theme={{ colors: { primary: '#878787' } }} //#0080FF
               icon={<Icon name='send' color='#FFFFFF' />}
+              buttonStyle={{borderRadius: 10, marginBottom: 10}}
               buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }}
               onPress={() => alertAction(2)} />
 
-            <Pressable
+<Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={toggleModal} >
               <Text style={styles.textStyle}>Cerrar</Text>
             </Pressable>
+            </View>
+            
           </View>
         </View>
       </Modal>
+
       <Modal isVisible={isModaReenviarlVisible}>
         <View style={styles.centeredView2}>
           <View style={styles.modalView2}>
@@ -273,7 +263,6 @@ export default function ListPublications({ navigation }) {
               arrowColor='#000000'
               arrowSize={10}
               placeholderSelectedItems='$count selected item(s)'
-
             />
 
           </View>
@@ -296,12 +285,16 @@ export default function ListPublications({ navigation }) {
                 titleStyle={styles.txtTitulo}
                 title={item.titulo}
               />
-
+              { localUser.rol == 'Administrador' ? (
               <Button
                 theme={{ colors: { primary: '#ffffff' } }}
                 icon={<Icon name='more-vert' color='#8E0101' />}
                 buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                 onPress={() => functionCombined(item)} />
+                ):(
+                  <></>
+                )}
+              
 
 
             </CardAction>
@@ -338,6 +331,14 @@ export default function ListPublications({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  loginButtonSection: {
+    
+    width: '100%',
+    marginTop: 2,
+    marginBottom: 25,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -354,11 +355,11 @@ const styles = StyleSheet.create({
   modalView: {
     //margin: 50,
     color: "black",
-    backgroundColor: "#C1C1C1",
+    backgroundColor: "#FFFFFF",
     borderRadius: 5,
     padding: 100,
-    paddingBottom: 20,
-    paddingTop: 30,
+    paddingBottom: 0,
+    paddingTop: 20,
     alignItems: "center",
     /*shadowColor: "#FB2C00",
     shadowOffset: {
@@ -400,10 +401,10 @@ const styles = StyleSheet.create({
     elevation: 2
   },
   buttonOpen: {
-    backgroundColor: "#FB2C00",
+    backgroundColor: "#B10000",
   },
   buttonClose: {
-    backgroundColor: "#878787",
+    backgroundColor: "#B10000",
   },
   textStyle: {
     color: "white",
@@ -416,8 +417,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     color: "#4C4C4C",
-    marginBottom: 15,
-    textAlign: "center",
+    marginBottom: 30,
+    alignContent: 'center',
+    justifyContent: 'center',
     fontWeight: "bold",
     fontSize: 25
   },

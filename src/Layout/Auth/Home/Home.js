@@ -126,9 +126,6 @@ export default function Home({ navigation }) {
   }
 }
 
-
-
-
 //--------------------------------ESTILOS
 const styles = StyleSheet.create({
   surface: {

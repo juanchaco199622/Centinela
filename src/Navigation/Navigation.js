@@ -30,14 +30,33 @@ const AuthStackScreen = () =>(
     </AuthStack.Navigator>
 )
 
-/*const Stack = createStackNavigator();
+const NotificationsStack = createStackNavigator();
 
-const Mystack = () =>{
-    <Stack.Navigator>
-        <Stack.Screen name='ListUsers' component={ListUsers} />
-    </Stack.Navigator>
-}*/
-
+const NotificationsStackScreen = () => (
+    <NotificationsStack.Navigator
+        headerMode="none"
+        tabBarOptions={{
+        activeTintColor:'#274040',
+        inactiveTintColor:'grey',
+        indicatorStyle: {
+            backgroundColor:'#274040'
+        }       
+        }}
+    >
+        <NotificationsStack.Screen 
+        name="Notifications" 
+        component={Notifications} 
+        options={{
+            title: 'Notificaciones',
+            headerLeft:null,
+            headerTitleAlign:'center',
+            headerTitleStyle: {
+            fontFamily: 'ProductSans-Bold',
+            },
+        }}
+        />
+    </NotificationsStack.Navigator>
+);
 
 const AppTabs = createBottomTabNavigator();
 
@@ -63,22 +82,28 @@ const AppTabsScreen =() =>(
             }}
         /> 
 
-            {/**<AppTabs.Screen
-                name = 'Users'
-                component={CreateUser}
-                options={{
-                    tabBarIcon:() =>(
-                        <MaterialCommunityIcons name='account-group' color={'black'} size={30}/>
-                    )
-                }}
-            />**/}
+        <AppTabs.Screen
+            name="Notificaciones" 
+            component={NotificationsStackScreen} 
+            options={{
+                tabBarLabel: 'Notificaciones',
+                headerStyle: {
+                backgroundColor: '#ED1C24',
+                },
+
+                title:'Notificaciones',
+                tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="bell-outline" color={color} size={28} />
+                ),
+            }}
+            /> 
 
         <AppTabs.Screen
             name='Exit'
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='close' color={'#949494'} size={35}/>
+                    <MaterialCommunityIcons name='exit-to-app' color={'#949494'} size={35}/>
                 )
             }}
             
