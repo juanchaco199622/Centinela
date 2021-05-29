@@ -5,16 +5,16 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import { Subheading,Surface, ActivityIndicator} from 'react-native-paper';
-//import moment from 'moment'
+import moment from 'moment'
 import * as RNLocalize from "react-native-localize";
-import DeleteNotification from '../../Components/Notifications/DeleteNotification';
+import DeleteNotification from '../../Components/DeleteNotification';
 import { useIsFocused } from '@react-navigation/native'
 
 // create a component
 const Notifications = ({navigation}) => {
     const isFocused = useIsFocused()
-   /* var idLocale = require('moment/locale/es'); 
-    moment.locale('es', idLocale)*/
+   var idLocale = require('moment/locale/es'); 
+    moment.locale('es', idLocale)
     const user = auth().currentUser;
     const [state, setState] = useState({
         doc_id: "",
@@ -49,17 +49,20 @@ const Notifications = ({navigation}) => {
     const [loading, setLoading] = useState(true);
     const [visible, setVisible] = React.useState(false);
    
-    const notificationsReq = firestore().collection('Usuario').doc().collection('NotificationsUser').orderBy('date', 'desc')
+    const notificationsReq = firestore().collection('Usuario').doc(state.doc_id).collection('NotificationsUser').where('title','==','Prueba Notificacion').orderBy('desc')
+
+    console.log(notificationsReq.get())
 
     useEffect(() => {
         notificationsRequest()
         LogBox.ignoreAllLogs()
         return () => {
-            //foregroundSubscriber();
-            //backgroundSubscriber();
+            foregroundSubscriber();
+            backgroundSubscriber();
         };
     }, [])
-    
+
+
     const showDialog = () => setVisible(true);
   
     const hideDialog = () => setVisible(false);
@@ -86,7 +89,7 @@ const Notifications = ({navigation}) => {
     }
   
 
-   /*     
+       
     const foregroundSubscriber = messaging().onMessage(
         async (remoteMessage) => {
             console.log('Notificacion recibida', remoteMessage)
@@ -98,7 +101,7 @@ const Notifications = ({navigation}) => {
         async (remoteMessage) => {
             console.log('En background', remoteMessage);
         },
-    );*/
+    );
      
     if(loading){
         return(
@@ -112,7 +115,7 @@ const Notifications = ({navigation}) => {
         const arr = [...todos];
         arr.splice(index, 1);
         firestore().collection('Usuario')
-        .doc(auth().currentUser.uid)
+        .doc(state.doc_id)
         .collection('NotificationsUser')
         .doc(id)
         .delete()
@@ -121,7 +124,24 @@ const Notifications = ({navigation}) => {
         )
     };
    
-       /* return(
+console.log(todos,'todos')
+
+    if(todos != ''){
+        return (
+            <Surface style={styles.surface}>
+                <ImageBackground source={{uri:'https://firebasestorage.googleapis.com/v0/b/resolvemos-ya.appspot.com/o/Wallpapers%2Fnotifications.png?alt=media&token=b892a0f3-6729-4d96-bf16-3f6547a942e1'}} style={styles.containerPrimary}>
+                    <FlatList
+                        data={todos}
+                        renderItem={({item, index}) => {
+                            return <DeleteNotification data={item} handleDelete={() => deleteItem(index, item.id)}/> 
+                        }}
+                        
+                    />
+                </ImageBackground>
+            </Surface>
+        );
+    }else{
+        return(
             <Surface style={styles.surface} >
 
                 <View style={styles.containerSecundary}>
@@ -134,39 +154,10 @@ const Notifications = ({navigation}) => {
                     </Subheading>
                 </View>
             </Surface>
-        )*/
-
-        if(todos != ''){
-            return (
-                <Surface style={styles.surface}>
-                    <ImageBackground source={{uri:'https://firebasestorage.googleapis.com/v0/b/resolvemos-ya.appspot.com/o/Wallpapers%2Fnotifications.png?alt=media&token=b892a0f3-6729-4d96-bf16-3f6547a942e1'}} style={styles.containerPrimary}>
-                        <FlatList
-                            data={todos}
-                            renderItem={({item, index}) => {
-                                return <DeleteNotification data={item} handleDelete={() => deleteItem(index, item.id)}/> 
-                            }}
-                            
-                        />
-                    </ImageBackground>
-                </Surface>
-            );
-        }else{
-            return(
-                <Surface style={styles.surface} >
-    
-                    <View style={styles.containerSecundary}>
-                        <Image
-                            source={require('../../../assets/images/icons/2.png')}
-                            style={styles.imageBackground}
-                        />
-                        <Subheading style={styles.textInfo}>
-                            No tienes notificaciones por ver 
-                        </Subheading>
-                    </View>
-                </Surface>
-            )
-        }
-    };
+        )
+    }
+};
+[{}]
     
 
 const styles = StyleSheet.create({

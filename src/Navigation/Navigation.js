@@ -17,6 +17,7 @@ import ListPublicationDetail from '../Layout/Auth/ListPublicationDetail';
 import CreateActivity from '../Layout/Auth/CreateActivity';
 import FilesListingScreen from '../Layout/Auth/FilesListingScreen';
 import UploadFileScreen from '../Layout/Auth/UploadFileScreen';
+import Notifications from '../Layout/Notifications/Notifications';
 import auth from '@react-native-firebase/auth'
 const AuthStack = createStackNavigator();
 

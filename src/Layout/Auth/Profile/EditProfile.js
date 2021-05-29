@@ -200,10 +200,7 @@ export default function EditProfile({ route, navigation }) {
   //--------------------VISTA
   return (
     <View>
-      {/* Header */}
-      {/* <Card style ={{backgroundColor:"#B10909"}}>
-        <Card.Title title={state.nombres} subtitle={state.rol} left={LeftContent} titleStyle={{color:"#EEEEEE"}} subtitleStyle={{color:"#EEEEEE"}}/>
-      </Card> */}
+    
       <SafeAreaView>
         <ScrollView>
           {/* Fondo de pantalla */}
