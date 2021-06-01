@@ -13,11 +13,11 @@ import { Picker } from '@react-native-picker/picker';
 import { useIsFocused } from '@react-navigation/native'
 //Button, Card, Icon, Avatar
 
-export default function ListPublications({ navigation }) {
+export default function ListActivities({ navigation }) {
   const isFocused = useIsFocused()
   const user = auth().currentUser
   var checkedItem = [];
-  const [publications, setPublications] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModaReenviarlVisible, setModalReenviarlVisible] = useState(false);
   const [selectedPost, setPost] = useState([]);
@@ -31,7 +31,9 @@ export default function ListPublications({ navigation }) {
     correo: "",
     id_rol: "",
     grupo: "",
-    url: ""
+    url: "",
+    date: "",
+    date2: ""
   });
 
   const toggleModal = () => {
@@ -57,7 +59,7 @@ export default function ListPublications({ navigation }) {
 
   const deletePost = (answer) => {
     if (answer) {
-      var dPost = 'Publication/' + selectedPost.key;
+      var dPost = 'Activity/' + selectedPost.key;
       firestore().doc(dPost).delete()
         .then(result => {
           //console.log('Successfully deleted document');
@@ -65,7 +67,7 @@ export default function ListPublications({ navigation }) {
           selectedPost = [];
         })
         .catch(err => {
-          console.log('Delete failed with: ', err);
+          console.log('Error eliminando: ', err);
         });
     }
   };
@@ -76,14 +78,14 @@ export default function ListPublications({ navigation }) {
       items.map((item) => {
         destina = destina + item.itemDescription + ',';
       });
-      firestore().collection('Publication').add({
+      firestore().collection('Activity').add({
         id: selectedPost.id,
         titulo: selectedPost.titulo,
         cuerpo: selectedPost.cuerpo,
-        //date: selectedPost.date,
         destinatario: destina,
         url: selectedPost.url,
-        
+        date: selectedPost.date,
+        date2: selectedPost.date2
       })
         .then(result => {
           toggleModalReenviar();
@@ -136,18 +138,18 @@ export default function ListPublications({ navigation }) {
 
   useEffect(() => {
     const subscriber = firestore()
-      .collection('Publication')
+      .collection('Activity')
       .onSnapshot(querySnapshot => {
-        const publications = [];
+        const activities = [];
 
         querySnapshot.forEach(documentSnapshot => {
-          publications.push({
+          activities.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
           });
         });
 
-        setPublications(publications);
+        setActivities(activities);
         //setLoading(false);
       });
     return () => subscriber();
@@ -173,10 +175,10 @@ export default function ListPublications({ navigation }) {
 
   const updateFilter = (filterRama) => {
     const filteredData = filterRama
-      ? publications.filter(x =>
+      ? activities.filter(x =>
         x.destinatario.toLowerCase().includes(filterRama.toLowerCase())
       )
-      : publications;
+      : activities;
     setFilterPublications(filteredData);
   };
 
@@ -213,7 +215,7 @@ export default function ListPublications({ navigation }) {
         />
 
         }
-        centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
+        centerComponent={{ text: 'ACTIVIDADES', style: { color: '#fff' } }}
 
       />
         
@@ -312,13 +314,14 @@ export default function ListPublications({ navigation }) {
               separator={true}
               inColumn={false}>
               <CardButton
-                onPress={() => navigation.navigate('ListPublicationDetail', {
+                onPress={() => navigation.navigate('ListActivitiesDetail', {
                   items: {
                     id: item.id,
                     title: item.titulo,
                     cuerpo: item.cuerpo,
                     url: item.url,
-                    //date: item.date,
+                    date: item.date,
+                    date2: item.date2
                   }
                 })}
                 title="ver mas..."

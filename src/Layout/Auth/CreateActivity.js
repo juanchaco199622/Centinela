@@ -73,6 +73,8 @@ export default function CreateActivity({ navigation }) {
         cuerpo: "",
         checkedItem: [],
         destinatario: "",
+        date: date,
+        date2: date2,
     })
 
     const [destinatarios, setDestinatarios] = useState([{ itemKey: '', itemDescription: '' }]);
@@ -114,11 +116,13 @@ export default function CreateActivity({ navigation }) {
             await firestore().collection('Activity').add({
                 id: user.uid,
                 date: publicar.date,
-                daate2: publicar.date2,
+                date2: publicar.date2,
                 titulo: publicar.titulo,
                 cuerpo: publicar.cuerpo,
                 destinatario: destina, //itemCheck.itemDescription,
                 url: downloadURL,
+                date: publicar.date,
+                date2: publicar.date2,
             }).then(() => {
                 error = false
             });

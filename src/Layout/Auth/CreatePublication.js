@@ -19,6 +19,7 @@ export default function CreatePublication({ navigation }) {
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
     //const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
     const [imageLocal, setImageLocal] = useState();
+    const [date, setDate] = useState(new Date());
     //const [checkedItem, setICheckedItem] = useState();
     const refRBSheet = useRef();
     const tomarFotoCamara = () => {
@@ -71,6 +72,7 @@ export default function CreatePublication({ navigation }) {
         cuerpo: "",
         checkedItem: [],
         destinatario: "",
+        date: date
     })
 
     const [destinatarios, setDestinatarios] = useState([{ itemKey: '', itemDescription: '' }]);
@@ -114,6 +116,7 @@ export default function CreatePublication({ navigation }) {
                 cuerpo: publicar.cuerpo,
                 destinatario: destina, //itemCheck.itemDescription,
                 url: downloadURL,
+                date: date
             }).then(() => {
                 error = false
             });

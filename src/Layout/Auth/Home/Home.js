@@ -82,6 +82,11 @@ export default function Home({ navigation }) {
               </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
+              <Button icon="hiking" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+                Listar Actividades
+              </Button>
+            </Card.Content>
+            <Card.Content style={styles.containerButtonLogin} >
               <Button icon="hiking" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar Archivos
               </Button>
