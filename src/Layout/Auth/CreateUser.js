@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, ImageBackground } from 'react-native';
 import { Button, TextInput, IconButton, Subheading, ProgressBar, HelperText, Avatar } from 'react-native-paper';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 //import auth from '@react-native-firebase/auth';
 import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Icon, Header } from 'react-native-elements';
 
 // LIBRERIAS PARA LAS FOTOS INICIO
 import ImagePicker from 'react-native-image-picker'
@@ -177,150 +178,171 @@ const CreateUser = ({ navigation }) => {
     };
     //Render
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView>
-                <Text style={styles.titleText}>CREAR USUARIO</Text>
-                <View style={styles.body}>
-                    <Text style={styles.subTitleText}>Información básica</Text>
-                    <View style={{ alignSelf: 'flex-start', paddingBottom: 10 }}>
-                        <Button
-                            icon="camera"
-                            color="gray"
-                            uppercase={false}
-                            mode="text"
-                            onPress={() => refRBSheet.current.open()}
-                        >
-                            Tomar o subir una imagen
+        <View style={styles.container}>
+            <Header
+                containerStyle={{
+                    backgroundColor: '#b31d1d',
+                    justifyContent: 'space-around',
+                }}
+                //leftComponent={{ icon: 'reply', color: '#fff', }}
+                leftComponent={<Icon
+                    name='keyboard-backspace'
+                    color='#fff'
+                    iconStyle={{ fontSize: 27 }}
+                    onPress={() => navigation.navigate('home')}
+                />
+
+                }
+                centerComponent={{ text: 'USUARIOS', style: { color: '#fff' } }}
+
+            />
+            <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
+                <SafeAreaView>
+                    <ScrollView>
+                        <Text style={styles.titleText}>CREAR USUARIO</Text>
+                        <View style={styles.body}>
+                            <Text style={styles.subTitleText}>Información básica</Text>
+                            <View style={{ alignSelf: 'flex-start', paddingBottom: 10 }}>
+                                <Button
+                                    icon="camera"
+                                    color="gray"
+                                    uppercase={false}
+                                    mode="text"
+                                    onPress={() => refRBSheet.current.open()}
+                                >
+                                    Tomar o subir una imagen
                         </Button>
-                    </View>
-                    {uploading && (
-                        <View style={{ paddingHorizontal: 10 }}>
-                            <Text>Subiendo imagen: {parseInt(progress * 100) + '%'}</Text>
-                            <ProgressBar progress={progress} color={'#b10909'} />
-                        </View>
-                    )}
-                    <View style={{ alignSelf: 'center', paddingBottom: 10 }}>
-                        {downloadURL && (
-                            <Avatar.Image style={{ alignSelf: 'center' }}
-                                size={150}
-                                source={{ uri: imageLocal }}
-                            />
-                        )}
-                    </View>
-                    <View style={{ paddingHorizontal: 10 }}>
-                        <Text>Nombres</Text>
-                        <TextInput
-                            error={validNombres}
-                            style={styles.inputText}
-                            mode='outlined'
-                            placeholder="Nombres"
-                            onChangeText={value => handleChangeText('nombres', value)}
-                        />
-                        <HelperText type="error" visible={validNombres}>
-                            Ingrese un nombre valido
-                        </HelperText>
-                    </View>
-                    <View style={{ paddingHorizontal: 10 }}>
-                        <Text>Apellidos</Text>
-                        <TextInput
-                            error={validApellidos}
-                            style={styles.inputText}
-                            mode='outlined'
-                            placeholder="Apellidos"
-                            onChangeText={value => handleChangeText('apellidos', value)}
-                        />
-                        <HelperText type="error" visible={validApellidos}>
-                            Ingrese un apellido valido
-                        </HelperText>
-                    </View>
-                    <View style={{ paddingHorizontal: 10 }}>
-                        <Text>Correo</Text>
-                        <TextInput
-                            error={validEmail}
-                            style={styles.inputText}
-                            mode='outlined'
-                            autoCapitalize='none'
-                            placeholder="Correo"
-                            onChangeText={value => handleChangeText('email', value)}
-                        />
-                        <HelperText type="error" visible={validEmail}>
-                            Ingrese un correo valido
-                        </HelperText>
-                    </View>
-                    <View style={{ padding: 10 }}>
-                        <Text>Rol</Text>
-                        <RNPickerSelect style={pickerSelectStyles}
-                            placeholder={{ label: 'Seleccionar...', value: null }}
-                            onValueChange={value => handleChangeText('id_rol', value)}
-                            useNativeAndroidPickerStyle={false}
-                            value={state.id_rol}
-                            items={rol}
-                        />
-                    </View>
-                    <View style={{ padding: 10 }}>
-                        <Text>Rama</Text>
-                        <RNPickerSelect style={pickerSelectStyles}
-                            placeholder={{ label: 'Seleccionar...', value: null }}
-                            onValueChange={value => handleChangeText('id_grupo', value)}
-                            useNativeAndroidPickerStyle={false}
-                            value={state.id_grupo}
-                            items={ramas}
-                        />
-                    </View>
-                    <View style={{ padding: 10 }}>
-                        <Button
-                            icon="floppy"
-                            color="#fff"
-                            uppercase={false}
-                            style={styles.roundButton}
-                            onPress={() => saveNewUser()}
-                        >Guardar
-                        </Button>
-                    </View>
-                    <RBSheet
-                        ref={refRBSheet}
-                        closeOnDragDown={true}
-                        closeOnPressMask={false}
-                        height={180}
-                        customStyles={{
-                            wrapper: {
-                                backgroundColor: 'rgba(0,0,0,0.5)',
-                            },
-                            draggableIcon: {
-                                backgroundColor: '#ffc604'
-                            }
-                        }}
-                    >
-                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginTop: '2%' }}>
-                            <TouchableOpacity
-                                onPress={tomarFotoCamara}
-                                style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    marginBottom: '2%'
-                                }}>
-                                <IconButton
-                                    icon='camera'
+                            </View>
+                            {uploading && (
+                                <View style={{ paddingHorizontal: 10 }}>
+                                    <Text>Subiendo imagen: {parseInt(progress * 100) + '%'}</Text>
+                                    <ProgressBar progress={progress} color={'#b10909'} />
+                                </View>
+                            )}
+                            <View style={{ alignSelf: 'center', paddingBottom: 10 }}>
+                                {downloadURL && (
+                                    <Avatar.Image style={{ alignSelf: 'center' }}
+                                        size={150}
+                                        source={{ uri: imageLocal }}
+                                    />
+                                )}
+                            </View>
+                            <View style={{ paddingHorizontal: 10 }}>
+                                <Text>Nombres</Text>
+                                <TextInput
+                                    error={validNombres}
+                                    style={styles.inputText}
+                                    mode='outlined'
+                                    placeholder="Nombres"
+                                    onChangeText={value => handleChangeText('nombres', value)}
                                 />
-                                <Subheading>Cámara</Subheading>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={mostrarfotoGalaria}
-                                style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center'
+                                <HelperText type="error" visible={validNombres}>
+                                    Ingrese un nombre valido
+                        </HelperText>
+                            </View>
+                            <View style={{ paddingHorizontal: 10 }}>
+                                <Text>Apellidos</Text>
+                                <TextInput
+                                    error={validApellidos}
+                                    style={styles.inputText}
+                                    mode='outlined'
+                                    placeholder="Apellidos"
+                                    onChangeText={value => handleChangeText('apellidos', value)}
+                                />
+                                <HelperText type="error" visible={validApellidos}>
+                                    Ingrese un apellido valido
+                        </HelperText>
+                            </View>
+                            <View style={{ paddingHorizontal: 10 }}>
+                                <Text>Correo</Text>
+                                <TextInput
+                                    error={validEmail}
+                                    style={styles.inputText}
+                                    mode='outlined'
+                                    autoCapitalize='none'
+                                    placeholder="Correo"
+                                    onChangeText={value => handleChangeText('email', value)}
+                                />
+                                <HelperText type="error" visible={validEmail}>
+                                    Ingrese un correo valido
+                        </HelperText>
+                            </View>
+                            <View style={{ padding: 10 }}>
+                                <Text>Rol</Text>
+                                <RNPickerSelect style={pickerSelectStyles}
+                                    placeholder={{ label: 'Seleccionar...', value: null }}
+                                    onValueChange={value => handleChangeText('id_rol', value)}
+                                    useNativeAndroidPickerStyle={false}
+                                    value={state.id_rol}
+                                    items={rol}
+                                />
+                            </View>
+                            <View style={{ padding: 10 }}>
+                                <Text>Rama</Text>
+                                <RNPickerSelect style={pickerSelectStyles}
+                                    placeholder={{ label: 'Seleccionar...', value: null }}
+                                    onValueChange={value => handleChangeText('id_grupo', value)}
+                                    useNativeAndroidPickerStyle={false}
+                                    value={state.id_grupo}
+                                    items={ramas}
+                                />
+                            </View>
+                            <View style={{ padding: 10 }}>
+                                <Button
+                                    icon="floppy"
+                                    color="#fff"
+                                    uppercase={false}
+                                    style={styles.roundButton}
+                                    onPress={() => saveNewUser()}
+                                >Guardar
+                        </Button>
+                            </View>
+                            <RBSheet
+                                ref={refRBSheet}
+                                closeOnDragDown={true}
+                                closeOnPressMask={false}
+                                height={180}
+                                customStyles={{
+                                    wrapper: {
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                    },
+                                    draggableIcon: {
+                                        backgroundColor: '#ffc604'
+                                    }
                                 }}
                             >
-                                <IconButton
-                                    icon='image-multiple'
-                                />
-                                <Subheading>Abrir galería de fotos</Subheading>
-                            </TouchableOpacity>
+                                <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginTop: '2%' }}>
+                                    <TouchableOpacity
+                                        onPress={tomarFotoCamara}
+                                        style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                            marginBottom: '2%'
+                                        }}>
+                                        <IconButton
+                                            icon='camera'
+                                        />
+                                        <Subheading>Cámara</Subheading>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={mostrarfotoGalaria}
+                                        style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'center'
+                                        }}
+                                    >
+                                        <IconButton
+                                            icon='image-multiple'
+                                        />
+                                        <Subheading>Abrir galería de fotos</Subheading>
+                                    </TouchableOpacity>
+                                </View>
+                            </RBSheet>
                         </View>
-                    </RBSheet>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+                    </ScrollView>
+                </SafeAreaView>
+            </ImageBackground>
+        </View>
     )
 }
 
@@ -328,11 +350,12 @@ const CreateUser = ({ navigation }) => {
 //Estilos de la pantalla 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff'
+        flex: 1,
+        flexDirection: 'column',
     },
     titleText: {
         alignSelf: 'center',
-        padding: 20,
+        paddingBottom: 20,
         fontSize: 25,
         fontWeight: 'bold'
     },

@@ -67,13 +67,13 @@ export default function Home({ navigation }) {
             </Card.Content>
 
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                Crear publicación
+              <Button icon="newspaper-plus" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+                Crear mensajes
                     </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                Listar publicaciones
+                Listar mensajes
                     </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
@@ -87,7 +87,7 @@ export default function Home({ navigation }) {
               </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="hiking" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+              <Button icon="file-document" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar Archivos
               </Button>
             </Card.Content>

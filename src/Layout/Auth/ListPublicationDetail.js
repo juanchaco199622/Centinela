@@ -49,14 +49,14 @@ export default function ListPublicationDetail({route,navigation}) {
               }}
               //leftComponent={{ icon: 'reply', color: '#fff', }}
               leftComponent={<Icon 
-                name= 'reply'
+                name= 'keyboard-backspace'
                 iconStyle={{fontSize:27}}
                 color='#fff'
                 onPress={()=>navigation.navigate('ListPublications')}
                 />
 
               }
-              centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
+              centerComponent={{ text: 'MENSAJES', style: { color: '#fff' } }}
 
             />
 

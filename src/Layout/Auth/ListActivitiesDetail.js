@@ -49,10 +49,10 @@ export default function ListActivitiesDetail({route,navigation}) {
               }}
               //leftComponent={{ icon: 'reply', color: '#fff', }}
               leftComponent={<Icon 
-                name= 'reply'
+                name= 'keyboard-backspace'
                 iconStyle={{fontSize:27}}
                 color='#fff'
-                onPress={()=>navigation.navigate('ListActivitiies')}
+                onPress={()=>navigation.navigate('ListActivities')}
                 />
 
               }

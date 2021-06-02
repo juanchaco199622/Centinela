@@ -88,7 +88,7 @@ export default function ListPublications({ navigation }) {
         .then(result => {
           toggleModalReenviar();
           toggleModal();
-          Alert.alert('Publicación enviada correctamente')
+          Alert.alert('Mensaje enviado correctamente')
           selectedPost = [];
         })
         .catch(err => {
@@ -101,7 +101,7 @@ export default function ListPublications({ navigation }) {
 
   const alertAction = (action) => {
     if (action === 1) {
-      Alert.alert('Eliminar Post', '¿Esta seguro que desea eliminar el post?', [
+      Alert.alert('Eliminar mensaje', '¿Esta seguro que desea eliminar el mensaje?', [
         {
           text: "Cancelar",
           onPress: () => deletePost(false),
@@ -201,19 +201,19 @@ export default function ListPublications({ navigation }) {
     <View style={{ flex: 1 }}>
       <Header
         containerStyle={{
-          backgroundColor: '#b10909',
+          backgroundColor: '#b31d1d',
           justifyContent: 'space-around',
         }}
         //leftComponent={{ icon: 'reply', color: '#fff', }}
         leftComponent={<Icon
-          name='reply'
+          name='keyboard-backspace'
           color='#fff'
           iconStyle={{ fontSize: 27 }}
           onPress={() => navigation.navigate('home')}
         />
 
         }
-        centerComponent={{ text: 'PUBLICACIONES', style: { color: '#fff' } }}
+        centerComponent={{ text: 'MENSAJES', style: { color: '#fff' } }}
 
       />
         

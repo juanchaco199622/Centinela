@@ -25,8 +25,8 @@ export default function EditProfile({ route, navigation }) {
     nombres: data.nombres,
     apellidos: data.apellidos,
     correo: data.correo,
-    rol: data.rol,
-    grupo: data.grupo,
+    rol: data.rol?data.rol:data.id_rol,
+    grupo: data.grupo?data.grupo:data.id_grupo,
     url: data.url
   })
   const [validNombres, setValidNombres] = useState(false);
