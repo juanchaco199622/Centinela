@@ -268,16 +268,6 @@ const CreateUser = ({ navigation }) => {
                         </HelperText>
                             </View>
                             <View style={{ padding: 10 }}>
-                                <Text>Rol</Text>
-                                <RNPickerSelect style={pickerSelectStyles}
-                                    placeholder={{ label: 'Seleccionar...', value: null }}
-                                    onValueChange={value => handleChangeText('id_rol', value)}
-                                    useNativeAndroidPickerStyle={false}
-                                    value={state.id_rol}
-                                    items={rol}
-                                />
-                            </View>
-                            <View style={{ padding: 10 }}>
                                 <Text>Rama</Text>
                                 <RNPickerSelect style={pickerSelectStyles}
                                     placeholder={{ label: 'Seleccionar...', value: null }}
@@ -285,6 +275,16 @@ const CreateUser = ({ navigation }) => {
                                     useNativeAndroidPickerStyle={false}
                                     value={state.id_grupo}
                                     items={ramas}
+                                />
+                            </View>
+                            <View style={{ padding: 10 }}>
+                                <Text>Rol</Text>
+                                <RNPickerSelect style={pickerSelectStyles}
+                                    placeholder={{ label: 'Seleccionar...', value: null }}
+                                    onValueChange={value => handleChangeText('id_rol', value)}
+                                    useNativeAndroidPickerStyle={false}
+                                    value={state.id_rol}
+                                    items={rol}
                                 />
                             </View>
                             <View style={{ padding: 10 }}>

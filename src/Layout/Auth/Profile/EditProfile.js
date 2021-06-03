@@ -248,16 +248,6 @@ export default function EditProfile({ route, navigation }) {
                 </HelperText>
               </View>
               <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
-                <Text>Rol</Text>
-                <RNPickerSelect style={pickerSelectStyles}
-                  placeholder={{}}
-                  onValueChange={(value) => handleChangeText('rol', value)}
-                  useNativeAndroidPickerStyle={false}
-                  value={state.rol}
-                  items={rol}
-                />
-              </View>
-              <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
                 <Text>Rama</Text>
                 <RNPickerSelect style={pickerSelectStyles}
                   placeholder={{}}
@@ -265,6 +255,16 @@ export default function EditProfile({ route, navigation }) {
                   useNativeAndroidPickerStyle={false}
                   value={state.grupo}
                   items={ramas}
+                />
+              </View>
+              <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
+                <Text>Rol</Text>
+                <RNPickerSelect style={pickerSelectStyles}
+                  placeholder={{}}
+                  onValueChange={(value) => handleChangeText('rol', value)}
+                  useNativeAndroidPickerStyle={false}
+                  value={state.rol}
+                  items={rol}
                 />
               </View>
               <View style={{ padding: 10 }}>
