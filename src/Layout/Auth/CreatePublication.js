@@ -132,7 +132,7 @@ export default function CreatePublication({ navigation }) {
                 [
                     {
                         text: 'OK',
-                        onPress: () => navigation.navigate('home')
+                        onPress: () => navigation.navigate('Home')
                     },
                 ],
                 { cancelable: false },
@@ -152,7 +152,7 @@ export default function CreatePublication({ navigation }) {
                     name='keyboard-backspace'
                     color='#fff'
                     iconStyle={{ fontSize: 27 }}
-                    onPress={() => navigation.navigate('home')}
+                    onPress={() => navigation.navigate('Home')}
                 />
 
                 }
@@ -162,7 +162,7 @@ export default function CreatePublication({ navigation }) {
             <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
                 <SafeAreaView>
                     <ScrollView>
-                        <Text style={styles.titleText}>CREAR MENSAJE</Text>
+                        <Text style={styles.titleText}>PUBLICAR MENSAJE</Text>
                         <View style={styles.body}>
                             <View style={{ marginTop: 10 }}>
                                 <View style={{ alignSelf: 'flex-start' }}>

@@ -66,11 +66,11 @@ const AppTabs = createBottomTabNavigator();
 const AppTabsScreen =() =>(
     <AppTabs.Navigator style={{color: 'red'}}>
         <AppTabs.Screen
-            name = 'home'
+            name = 'Home'
             component={Home}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'#949494'} size={35}/>
+                    <MaterialCommunityIcons name='home' color={'#949494'} size={30}/>
                 )
             }}
         />
@@ -80,7 +80,7 @@ const AppTabsScreen =() =>(
             component={Profile}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='account-circle' color={'#949494'} size={35}/>
+                    <MaterialCommunityIcons name='account-circle' color={'#949494'} size={30}/>
                 )
             }}
         /> 
@@ -96,17 +96,17 @@ const AppTabsScreen =() =>(
 
                 title:'Notificaciones',
                 tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="bell-outline" color={color} size={28} />
+                <MaterialCommunityIcons name="bell" color={color} size={27} />
                 ),
             }}
             /> 
 
         <AppTabs.Screen
-            name='Exit'
+            name='Cerrar sesión'
             component={Exit}
             options={{
                 tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='exit-to-app' color={'#949494'} size={35}/>
+                    <MaterialCommunityIcons name='exit-to-app' color={'#949494'} size={27}/>
                 )
             }}
             

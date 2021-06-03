@@ -68,7 +68,7 @@ export default function Home({ navigation }) {
 
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="newspaper-plus" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreatePublication')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                Crear mensajes
+                Publicar mensaje
                     </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
@@ -78,7 +78,7 @@ export default function Home({ navigation }) {
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="book" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateActivity')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                Crear actividades
+                Publicar actividad
               </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
