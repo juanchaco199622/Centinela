@@ -61,7 +61,7 @@ export default function Home({ navigation }) {
             </Card.Content>
 
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="account-group" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListUsers')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+              <Button icon="contacts" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListUsers')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar usuarios
                     </Button>
             </Card.Content>
@@ -77,17 +77,17 @@ export default function Home({ navigation }) {
                     </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="hiking" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateActivity')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+              <Button icon="book" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateActivity')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Crear actividades
               </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="hiking" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+              <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar Actividades
               </Button>
             </Card.Content>
             <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="hiking" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+              <Button icon="ballot" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar Archivos
               </Button>
             </Card.Content>
