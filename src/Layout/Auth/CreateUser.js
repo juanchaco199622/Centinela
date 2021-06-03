@@ -164,7 +164,7 @@ const CreateUser = ({ navigation }) => {
                                 [
                                     {
                                         text: 'OK',
-                                        onPress: () => navigation.navigate('home')
+                                        onPress: () => navigation.navigate('Home')
                                     }
                                 ],
                                 { cancelable: false },
@@ -189,7 +189,7 @@ const CreateUser = ({ navigation }) => {
                     name='keyboard-backspace'
                     color='#fff'
                     iconStyle={{ fontSize: 27 }}
-                    onPress={() => navigation.navigate('home')}
+                    onPress={() => navigation.navigate('Home')}
                 />
 
                 }

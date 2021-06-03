@@ -132,7 +132,7 @@ export default function CreatePublication({ navigation }) {
                 [
                     {
                         text: 'OK',
-                        onPress: () => navigation.navigate('home')
+                        onPress: () => navigation.navigate('Home')
                     },
                 ],
                 { cancelable: false },
@@ -152,7 +152,7 @@ export default function CreatePublication({ navigation }) {
                     name='keyboard-backspace'
                     color='#fff'
                     iconStyle={{ fontSize: 27 }}
-                    onPress={() => navigation.navigate('home')}
+                    onPress={() => navigation.navigate('Home')}
                 />
 
                 }

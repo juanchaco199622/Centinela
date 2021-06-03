@@ -209,7 +209,7 @@ export default function ListPublications({ navigation }) {
           name='keyboard-backspace'
           color='#fff'
           iconStyle={{ fontSize: 27 }}
-          onPress={() => navigation.navigate('home')}
+          onPress={() => navigation.navigate('Home')}
         />
 
         }
