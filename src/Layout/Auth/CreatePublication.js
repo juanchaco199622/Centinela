@@ -162,7 +162,7 @@ export default function CreatePublication({ navigation }) {
             <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
                 <SafeAreaView>
                     <ScrollView>
-                        <Text style={styles.titleText}>CREAR MENSAJE</Text>
+                        <Text style={styles.titleText}>PUBLICAR MENSAJE</Text>
                         <View style={styles.body}>
                             <View style={{ marginTop: 10 }}>
                                 <View style={{ alignSelf: 'flex-start' }}>

@@ -167,7 +167,7 @@ export default function CreateActivity({ navigation }) {
             <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
                 <SafeAreaView>
                     <ScrollView>
-                        <Text style={styles.titleText}>CREAR ACTIVIDAD</Text>
+                        <Text style={styles.titleText}>PUBLICAR ACTIVIDAD</Text>
                         <View style={styles.body}>
                             <View style={{ marginTop: 10 }}>
                                 <View style={{ alignSelf: 'flex-start' }}>
