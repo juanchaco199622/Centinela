@@ -56,6 +56,7 @@ export default function CreateActivity({ navigation }) {
         var name = "checkedItem";
         setPublicar({ ...publicar, [name]: pItems })
     }
+    
 
     const cItems = {};
     const [state, setState] = useState({
@@ -78,6 +79,7 @@ export default function CreateActivity({ navigation }) {
     })
 
     const [destinatarios, setDestinatarios] = useState([{ itemKey: '', itemDescription: '' }]);
+    const [Users, setUsers]=useState([{itemKey:'', itemDescription:''}])
 
     //Obtener datos de firestore
     useEffect(() => {
@@ -96,6 +98,24 @@ export default function CreateActivity({ navigation }) {
                 setDestinatarios(datosRamas);
             });
     }, [])
+
+    useEffect(() => {
+        //DESTINATARIOS
+        firestore()
+            .collection('Usuario')
+            .orderBy('nombres')
+            .get()
+            .then(querySnapshot => {
+                let Usuario
+                let datosUser = []
+                for (let i = 0; i < querySnapshot.size; i++) {
+                    Usuario = querySnapshot.docs[i].data();
+                    datosUser.push({ itemKey: i, itemDescription: Usuario.nombres });
+                }
+                setUsers(datosUser);
+            });
+    }, [])
+
 
     const handleChangeText = (name, value) => {
         setPublicar({ ...publicar, [name]: value })
@@ -277,6 +297,21 @@ export default function CreateActivity({ navigation }) {
                                     <PickerCheckBox
                                         data={destinatarios}
                                         headerComponent={<Text style={{ fontSize: 20 }} >Destinatarios</Text>}
+                                        OnConfirm={(pItems) => handleConfirm(pItems)}
+                                        ConfirmButtonTitle='Ok'
+                                        DescriptionField='itemDescription'
+                                        KeyField='itemKey'
+                                        placeholder='Seleccionar...'
+                                        placeholderSelectedItems='$count selected item(s)'
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ padding: 10 }}>
+                                <Text>Usuarios</Text>
+                                <View style={styles.inputGroup}>
+                                    <PickerCheckBox
+                                        data={Users}
+                                        headerComponent={<Text style={{ fontSize: 20 }} >Usuarios</Text>}
                                         OnConfirm={(pItems) => handleConfirm(pItems)}
                                         ConfirmButtonTitle='Ok'
                                         DescriptionField='itemDescription'

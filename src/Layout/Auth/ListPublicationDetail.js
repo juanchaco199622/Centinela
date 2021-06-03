@@ -10,11 +10,15 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 import { State } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
 import { ScrollView } from 'react-native';
+import moment from 'moment'
+import 'moment/locale/es'
+
+moment.locale('es')
 
 export default function ListPublicationDetail({route,navigation}) {
-    console.log(route.params.items.title)
+    console.log(route.params.items.dates)
     const publicacion=route.params.items;   
-
+    const  options={weekday:'long', day:'numeric',month:'long', year:'numeric', }
 /*    const [publica, setpublic]= useState({
         id: '',
         title:'',
@@ -69,8 +73,11 @@ export default function ListPublicationDetail({route,navigation}) {
             style={{width:'97%', height:270, margin:7, alignSelf:'center', borderRadius:20}}
             source={{uri: publicacion.url}}>
             </Image>
-            
-           
+            <View style={{paddingLeft:8}}>
+                
+                <Text>{moment(new Date(publicacion.dates.toDate()).toDateString('es-ES',options)).format('LLLL')}</Text>
+                <Text>{publicacion.dest}</Text>
+            </View>
             <Text style={styles.txtCuerpo}
                 selectable={true}
             >

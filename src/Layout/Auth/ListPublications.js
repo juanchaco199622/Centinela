@@ -318,7 +318,8 @@ export default function ListPublications({ navigation }) {
                     title: item.titulo,
                     cuerpo: item.cuerpo,
                     url: item.url,
-                    //date: item.date,
+                    dates: item.date,
+                    dest: item.destinatario,
                   }
                 })}
                 title="ver mas..."
