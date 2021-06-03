@@ -103,7 +103,7 @@ export default function ListActivities({ navigation }) {
 
   const alertAction = (action) => {
     if (action === 1) {
-      Alert.alert('Eliminar Post', '¿Esta seguro que desea eliminar el post?', [
+      Alert.alert('Eliminar actividad', '¿Esta seguro que desea eliminar la actividad?', [
         {
           text: "Cancelar",
           onPress: () => deletePost(false),
@@ -208,7 +208,7 @@ export default function ListActivities({ navigation }) {
         }}
         //leftComponent={{ icon: 'reply', color: '#fff', }}
         leftComponent={<Icon
-          name='reply'
+          name='keyboard-backspace'
           color='#fff'
           iconStyle={{ fontSize: 27 }}
           onPress={() => navigation.navigate('home')}

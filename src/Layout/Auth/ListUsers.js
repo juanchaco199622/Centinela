@@ -6,7 +6,6 @@ import { ListItem, Icon, Header } from 'react-native-elements';
 import {Avatar,Card} from 'react-native-paper'
 
 
-
 export default function ListUsers({navigation}){
   //Declaracion de variable
   const user = auth().currentUser;
@@ -20,7 +19,7 @@ export default function ListUsers({navigation}){
     nombres : "",
     apellidos : "",
     correo: "",
-    id_rol :"",
+    rol :"",
     grupo :"",
     url :"",
     contador:0,
@@ -41,7 +40,7 @@ export default function ListUsers({navigation}){
           });
           i++;
         });
-        setUsers(users);
+        setUsers(users)
         //setLoading(false);
       });
       
@@ -85,7 +84,23 @@ export default function ListUsers({navigation}){
 
   return (
     <View>
+      <Header
+                containerStyle={{
+                    backgroundColor: '#b31d1d',
+                    justifyContent: 'space-around',
+                }}
+                //leftComponent={{ icon: 'reply', color: '#fff', }}
+                leftComponent={<Icon
+                    name='keyboard-backspace'
+                    color='#fff'
+                    iconStyle={{ fontSize: 27 }}
+                    onPress={() => navigation.navigate('home')}
+                />
 
+                }
+                centerComponent={{ text: 'USUARIOS', style: { color: '#fff' } }}
+
+            />
       <FlatList
         data={users}
         renderItem={({ item }) => (

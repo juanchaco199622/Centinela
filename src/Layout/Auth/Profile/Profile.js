@@ -98,6 +98,7 @@ useEffect(() => {
           fontWeight:'bold'
       },
       subTitleText:{
+          alignSelf:'center', 
           padding:10, 
           fontSize:20, 
           fontWeight:'bold'
@@ -112,7 +113,7 @@ useEffect(() => {
       },
       nameText:{
         alignSelf: 'center', 
-        fontSize:20, 
+        fontSize:19, 
         color:'#000', 
         fontWeight:'bold', 
         paddingTop:10
@@ -145,6 +146,7 @@ useEffect(() => {
           {renderAvatar()}
           <View>
             <Text style={styles.nameText}>{ state.nombres} {state.apellidos}</Text>
+            <Text style={styles.titleInfoText}>Correo:</Text>
             <Text style={styles.infoText}>{ state.correo}</Text>
             <Text style={styles.titleInfoText}>Rama:</Text>
             <Text style={styles.infoText}>{ state.grupo }</Text>

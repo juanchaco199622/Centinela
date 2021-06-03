@@ -11,6 +11,7 @@ import { useUploadImagePreRegister } from '../../Hooks'
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Icon, Header } from 'react-native-elements';
 
 
 export default function CreatePublication({ navigation }) {
@@ -127,7 +128,7 @@ export default function CreatePublication({ navigation }) {
 
             Alert.alert(
                 null,
-                'Datos Guardados Correctamente',
+                'Mensaje creado correctamente',
                 [
                     {
                         text: 'OK',
@@ -141,23 +142,40 @@ export default function CreatePublication({ navigation }) {
 
     return (
         <View style={styles.container}>
-        <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
-        <SafeAreaView>
-            <ScrollView>
-            <Text style={styles.titleText}>CREAR PUBLICACIÓN</Text>
+            <Header
+                containerStyle={{
+                    backgroundColor: '#b31d1d',
+                    justifyContent: 'space-around',
+                }}
+                //leftComponent={{ icon: 'reply', color: '#fff', }}
+                leftComponent={<Icon
+                    name='keyboard-backspace'
+                    color='#fff'
+                    iconStyle={{ fontSize: 27 }}
+                    onPress={() => navigation.navigate('home')}
+                />
+
+                }
+                centerComponent={{ text: 'MENSAJES', style: { color: '#fff' } }}
+
+            />
+            <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
+                <SafeAreaView>
+                    <ScrollView>
+                        <Text style={styles.titleText}>CREAR MENSAJE</Text>
                         <View style={styles.body}>
                             <View style={{ marginTop: 10 }}>
-                            <View style={{ alignSelf: 'flex-start'}}>
-                                <Button
-                                    icon="camera"
-                                    color="gray"
-                                    uppercase={false}
-                                    mode="text"
-                                    onPress={() => refRBSheet.current.open()}
-                                >
-                                    Tomar o subir una imagen
+                                <View style={{ alignSelf: 'flex-start' }}>
+                                    <Button
+                                        icon="camera"
+                                        color="gray"
+                                        uppercase={false}
+                                        mode="text"
+                                        onPress={() => refRBSheet.current.open()}
+                                    >
+                                        Tomar o subir una imagen
                                 </Button>
-                            </View>
+                                </View>
                                 {uploading && (
                                     <View style={{ paddingHorizontal: 10 }}>
                                         <Text>Subiendo imagen: {parseInt(progress * 100) + '%'}</Text>
@@ -183,37 +201,37 @@ export default function CreatePublication({ navigation }) {
                                 />
                             </View>
                             <View style={{ padding: 10 }}>
-                            <Text>Destinatarios</Text>
-                            <View style={styles.inputGroup}>
-                                <PickerCheckBox
-                                    data={destinatarios}
-                                    headerComponent={<Text style={{ fontSize: 20 }} >Destinatarios</Text>}
-                                    OnConfirm={(pItems) => handleConfirm(pItems)}
-                                    ConfirmButtonTitle='Ok'
-                                    DescriptionField='itemDescription'
-                                    KeyField='itemKey'
-                                    placeholder='Seleccionar...'
-                                    placeholderSelectedItems='$count selected item(s)'
-                                />
-                            </View>
+                                <Text>Destinatarios</Text>
+                                <View style={styles.inputGroup}>
+                                    <PickerCheckBox
+                                        data={destinatarios}
+                                        headerComponent={<Text style={{ fontSize: 20 }} >Destinatarios</Text>}
+                                        OnConfirm={(pItems) => handleConfirm(pItems)}
+                                        ConfirmButtonTitle='Ok'
+                                        DescriptionField='itemDescription'
+                                        KeyField='itemKey'
+                                        placeholder='Seleccionar...'
+                                        placeholderSelectedItems='$count selected item(s)'
+                                    />
+                                </View>
                             </View>
                             <View style={{ padding: 10 }}>
-                            <Text>Cuerpo</Text>
-                            <ScrollView>
-                                <TextInput
-                                    style={styles.areaText}
-                                    row={5}
-                                    multiline={true}
-                                    numberOfLines={8}
-                                    maxLines={10}
-                                    placeholder='Cuerpo'
-                                    onChangeText={(value) => handleChangeText("cuerpo", value)}
-                                />
-                            </ScrollView>
+                                <Text>Mensaje</Text>
+                                <ScrollView>
+                                    <TextInput
+                                        style={styles.areaText}
+                                        row={5}
+                                        multiline={true}
+                                        numberOfLines={8}
+                                        maxLines={10}
+                                        placeholder='Descripción del mensaje'
+                                        onChangeText={(value) => handleChangeText("cuerpo", value)}
+                                    />
+                                </ScrollView>
                             </View>
                             <View style={{ padding: 10 }}>
                                 <Button icon="floppy" color="#fff" uppercase={false} style={styles.roundButton}
-                                onPress={() => saveNewPublication()}>Guardar</Button>
+                                    onPress={() => saveNewPublication()}>Guardar</Button>
                             </View>
                             <View style={{ marginTop: 15 }}></View>
                             <RBSheet
@@ -260,9 +278,9 @@ export default function CreatePublication({ navigation }) {
                             </RBSheet>
 
                         </View>
-                </ScrollView  >
-        </SafeAreaView>
-        </ImageBackground>
+                    </ScrollView  >
+                </SafeAreaView>
+            </ImageBackground>
         </View>
     )
 }
@@ -275,11 +293,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#e8e8e8',
         borderRadius: 8,
         borderWidth: 0.5
-      },
-    container:{
-        flex:1,
-        flexDirection:'column',
-      },
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+    },
 
     inputGroup: {
         width: '100%',
@@ -295,19 +313,19 @@ const styles = StyleSheet.create({
     inputText: {
         height: 40,
         backgroundColor: '#fff'
-      },
-    titleText:{
-        alignSelf:'center', 
-        padding:20, 
-        fontSize:25, 
-        fontWeight:'bold'
+    },
+    titleText: {
+        alignSelf: 'center',
+        padding: 20,
+        fontSize: 25,
+        fontWeight: 'bold'
     },
     roundButton: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#b31d1d',
     },
-    pickerContainerStyle:{
+    pickerContainerStyle: {
         backgroundColor: '#b31d1d',
     },
 })

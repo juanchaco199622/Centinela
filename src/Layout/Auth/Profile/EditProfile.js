@@ -25,8 +25,8 @@ export default function EditProfile({ route, navigation }) {
     nombres: data.nombres,
     apellidos: data.apellidos,
     correo: data.correo,
-    rol: data.rol,
-    grupo: data.grupo,
+    rol: data.rol?data.rol:data.id_rol,
+    grupo: data.grupo?data.grupo:data.id_grupo,
     url: data.url
   })
   const [validNombres, setValidNombres] = useState(false);
@@ -248,16 +248,6 @@ export default function EditProfile({ route, navigation }) {
                 </HelperText>
               </View>
               <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
-                <Text>Rol</Text>
-                <RNPickerSelect style={pickerSelectStyles}
-                  placeholder={{}}
-                  onValueChange={(value) => handleChangeText('rol', value)}
-                  useNativeAndroidPickerStyle={false}
-                  value={state.rol}
-                  items={rol}
-                />
-              </View>
-              <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
                 <Text>Rama</Text>
                 <RNPickerSelect style={pickerSelectStyles}
                   placeholder={{}}
@@ -265,6 +255,16 @@ export default function EditProfile({ route, navigation }) {
                   useNativeAndroidPickerStyle={false}
                   value={state.grupo}
                   items={ramas}
+                />
+              </View>
+              <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
+                <Text>Rol</Text>
+                <RNPickerSelect style={pickerSelectStyles}
+                  placeholder={{}}
+                  onValueChange={(value) => handleChangeText('rol', value)}
+                  useNativeAndroidPickerStyle={false}
+                  value={state.rol}
+                  items={rol}
                 />
               </View>
               <View style={{ padding: 10 }}>
@@ -343,6 +343,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   subTitleText: {
+    alignSelf: 'center',
     padding: 10,
     fontSize: 20,
     fontWeight: 'bold'

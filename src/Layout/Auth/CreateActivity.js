@@ -12,7 +12,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DatePicker from 'react-native-datepicker';
-
+import { Icon, Header } from 'react-native-elements';
 
 export default function CreateActivity({ navigation }) {
     //Declaracion de variables
@@ -147,6 +147,23 @@ export default function CreateActivity({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <Header
+                containerStyle={{
+                    backgroundColor: '#b31d1d',
+                    justifyContent: 'space-around',
+                }}
+                //leftComponent={{ icon: 'reply', color: '#fff', }}
+                leftComponent={<Icon
+                    name='keyboard-backspace'
+                    color='#fff'
+                    iconStyle={{ fontSize: 27 }}
+                    onPress={() => navigation.navigate('home')}
+                />
+
+                }
+                centerComponent={{ text: 'ACTIVIDADES', style: { color: '#fff' } }}
+
+            />
             <ImageBackground source={require('../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
                 <SafeAreaView>
                     <ScrollView>
@@ -270,7 +287,7 @@ export default function CreateActivity({ navigation }) {
                                 </View>
                             </View>
                             <View style={{ padding: 10 }}>
-                                <Text>Cuerpo</Text>
+                                <Text>Mensaje</Text>
                                 <ScrollView>
                                     <TextInput
                                         style={styles.areaText}
@@ -278,7 +295,7 @@ export default function CreateActivity({ navigation }) {
                                         multiline={true}
                                         numberOfLines={8}
                                         maxLines={10}
-                                        placeholder='Cuerpo'
+                                        placeholder='Descripción del mensaje'
                                         onChangeText={(value) => handleChangeText("cuerpo", value)}
                                     />
                                 </ScrollView>
@@ -376,7 +393,7 @@ const styles = StyleSheet.create({
     },
     titleText: {
         alignSelf: 'center',
-        padding: 20,
+        paddingBottom: 20,
         fontSize: 25,
         fontWeight: 'bold'
     },
