@@ -360,6 +360,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     subTitleText: {
+        alignSelf: 'center',
         padding: 10,
         fontSize: 20,
         fontWeight: 'bold'
