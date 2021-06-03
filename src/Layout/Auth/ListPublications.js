@@ -321,7 +321,8 @@ export default function ListPublications({ navigation }) {
                     dates: item.date,
                     dest: item.destinatario,
                   }
-                })}
+                })} 
+                
                 title="ver mas..."
                 color="#8E0101"
               />

@@ -10,11 +10,13 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 import { State } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
 import { ScrollView } from 'react-native';
+import moment from 'moment'
+import 'moment/locale/es'
 
 export default function ListActivitiesDetail({route,navigation}) {
-    console.log(route.params.items.title)
+    console.log(route.params.items.dest)
     const activity=route.params.items;   
-
+    const  options={weekday:'long', day:'numeric',month:'long', year:'numeric', }
 /*    const [publica, setpublic]= useState({
         id: '',
         title:'',
@@ -69,6 +71,13 @@ export default function ListActivitiesDetail({route,navigation}) {
             style={{width:'97%', height:270, margin:7, alignSelf:'center', borderRadius:20}}
             source={{uri: activity.url}}>
             </Image>
+           
+            <Text style={{paddingLeft:15}}>
+                {moment(new Date(activity.date.toDate()).toDateString('es-ES',options)).format('LLLL')}
+            </Text>
+            <Text style={{paddingLeft:15}}>
+                {activity.dest}
+            </Text>
             
            
             <Text style={styles.txtCuerpo}

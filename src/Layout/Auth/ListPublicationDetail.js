@@ -75,7 +75,7 @@ export default function ListPublicationDetail({route,navigation}) {
             </Image>
             <View style={{paddingLeft:8}}>
                 
-                <Text>{moment(new Date(publicacion.dates.toDate()).toDateString('es-ES',options)).format('LLLL')}</Text>
+            <Text>{moment(new Date(publicacion.dates.toDate()).toDateString('es-ES',options)).format('LLLL')}</Text>
                 <Text>{publicacion.dest}</Text>
             </View>
             <Text style={styles.txtCuerpo}

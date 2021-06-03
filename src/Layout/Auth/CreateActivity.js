@@ -318,7 +318,7 @@ export default function CreateActivity({ navigation }) {
                                         KeyField='itemKey'
                                         placeholder='Seleccionar...'
                                         placeholderSelectedItems='$count selected item(s)'
-                                    />
+                                    /> 
                                 </View>
                             </View>
                             <View style={{ padding: 10 }}>

@@ -321,7 +321,8 @@ export default function ListActivities({ navigation }) {
                     cuerpo: item.cuerpo,
                     url: item.url,
                     date: item.date,
-                    date2: item.date2
+                    date2: item.date2,
+                    dest:item.destinatario
                   }
                 })}
                 title="ver mas..."
