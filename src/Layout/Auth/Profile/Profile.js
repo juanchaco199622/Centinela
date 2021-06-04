@@ -11,23 +11,30 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import { useIsFocused } from '@react-navigation/native'
+import storage from "@react-native-firebase/storage";
+import getPath from '@flyerhq/react-native-android-uri-path';
+// To pick the file from local file system
+import DocumentPicker from "react-native-document-picker";
 
 //Inicio de funcion
-export default function Profile({navigation}) {
+export default function Profile({ navigation }) {
   /*auth().onAuthStateChanged(user => {
     this.props.navigation.navigate(user ? 'AppTabsScreen' : 'AuthStackScreen');
   });*/
-//Declaracion de variables
-const isFocused = useIsFocused()
-const user = auth().currentUser;
+  //Declaracion de variables
+  const isFocused = useIsFocused()
+  const user = auth().currentUser;
+  const [loading, setLoading] = useState(false);
+  const [filePath, setFilePath] = useState({});
+  const [process, setProcess] = useState("");
   // User is signed in.
-  if (user.email === null){
+  if (user.email === null) {
     navigation.navigate('AuthStackScreen');
   }
-    auth().onAuthStateChanged(function(user) {
+  auth().onAuthStateChanged(function (user) {
     if (user) {
       //navigation.navigate('Perfil');
-     
+
     } else {
       // No user is signed in.
       navigation.navigate('AuthStackScreen');
@@ -35,139 +42,216 @@ const user = auth().currentUser;
   });
   const [state, setState] = useState({
     doc_id: "",
-    nombres : "",
-    apellidos : "",
+    nombres: "",
+    apellidos: "",
     correo: "",
-    id_rol :"",
-    grupo :"",
-    url :""
-});
-useEffect(() => {
-  firestore()
-  .collection('Usuario')
-  .where('email', '==', user.email)
-  .get()
-  .then(querySnapshot => {
-    const usuario = querySnapshot.docs[0].data()
-    const docId = querySnapshot.docs[0].id
-    setState({
-      doc_id: docId,
-      nombres:usuario.nombres, 
-      apellidos:usuario.apellidos,
-      correo:usuario.email,
-      rol:usuario.id_rol,
-      grupo:usuario.id_grupo,
-      url:usuario.url,
-    });
+    id_rol: "",
+    grupo: "",
+    url: ""
   });
-},[isFocused]);
+  useEffect(() => {
+    firestore()
+      .collection('Usuario')
+      .where('email', '==', user.email)
+      .get()
+      .then(querySnapshot => {
+        const usuario = querySnapshot.docs[0].data()
+        const docId = querySnapshot.docs[0].id
+        setState({
+          doc_id: docId,
+          nombres: usuario.nombres,
+          apellidos: usuario.apellidos,
+          correo: usuario.email,
+          rol: usuario.id_rol,
+          grupo: usuario.id_grupo,
+          url: usuario.url,
+        });
+      });
+  }, [isFocused]);
+  const _chooseFile = async () => {
+    // Opening Document Picker to select one file
+    try {
+      const fileDetails = await DocumentPicker.pick({
+        // Provide which type of file you want user to pick
+        type: [DocumentPicker.types.pdf],
+      });
+      /*console.log(
+        fileDetails.uri + '\n',
+        fileDetails.type + '\n', // mime type
+        fileDetails.name + '\n',
+        fileDetails.size
+        //"Detalles del archivo : " + JSON.stringify(fileDetails)
+      );*/
+      // Setting the state for selected File
+      setFilePath(fileDetails);
+    } catch (error) {
+      setFilePath({});
+      // If user canceled the document selection
+      alert(
+        DocumentPicker.isCancel(error)
+          ? "Cancelado"
+          : "Error desconocido: " + JSON.stringify(error)
+      );
+    }
+    try {
+      // Check if file selected
+      if (Object.keys(filePath).length == 0)
+        return alert("Por favor selecciona un archivo");
+      setLoading(true);
 
-//Obtener datos de firestore
-  const renderAvatar = () =>{
-    if(state.url===null){
-      const renderAvatarText =   () => (
-        <Avatar.Text style={{alignSelf: 'center', backgroundColor:'#b31d1d'}}
-        size={150} 
-        label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
+      // Create Reference
+      //console.log(filePath.uri.replace("file://", ""));
+      //console.log('este es el path ' + filePath.name);
+      const reference = storage().ref(
+        `/medical_info/${filePath.name}`
+      );
+      //console.log('esta es la referencia ' + reference);
+      // Put File
+      //console.log('este es la URI ' + filePath.uri);
+      const fileUri = getPath(filePath.uri);
+      const task = reference.putFile(fileUri);
+      /*const task = reference.putFile(
+        filePath.uri.replace("file://", "")
+      );*/
+      // You can do different operation with task
+      // task.pause();
+      // task.resume();
+      // task.cancel();
+
+      task.on("state_changed", (taskSnapshot) => {
+        setProcess(
+          `${taskSnapshot.bytesTransferred} transferred 
+           out of ${taskSnapshot.totalBytes}`
+        );
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred 
+           out of ${taskSnapshot.totalBytes}`
+        );
+      });
+      task.then(() => {
+        alert("Ficha medica cargada correctamente");
+        setProcess("");
+      });
+      setFilePath({});
+    } catch (error) {
+      console.log("Error->", error);
+      alert(`Error-> ${error}`);
+    }
+    setLoading(false);
+  };
+
+  //Obtener datos de firestore
+  const renderAvatar = () => {
+    if (state.url === null) {
+      const renderAvatarText = () => (
+        <Avatar.Text style={{ alignSelf: 'center', backgroundColor: '#b31d1d' }}
+          size={150}
+          label={state.nombres.charAt(0) + state.apellidos.charAt(0)}
         />
       );
       return renderAvatarText();
-    }else{
+    } else {
       const renderAvatarImage = () => (
-        <Avatar.Image style={{alignSelf: 'center'}}
-        size={150} 
-        source={{
-        uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
-        }}
+        <Avatar.Image style={{ alignSelf: 'center' }}
+          size={150}
+          source={{
+            uri: state.url || 'https://reactnativeelements.com//img/avatar/avatar--edit.jpg'
+          }}
         />
       );
       return renderAvatarImage();
     }
   }
-//Estilos de la pantalla 
+  //Estilos de la pantalla 
   const styles = StyleSheet.create({
-      container:{
-        flex:1,
-        flexDirection:'column',
-        marginTop:-60
-      },
-      titleText:{
-          alignSelf:'center', 
-          padding:20, 
-          fontSize:25, 
-          fontWeight:'bold'
-      },
-      subTitleText:{
-          alignSelf:'center', 
-          padding:10, 
-          fontSize:20, 
-          fontWeight:'bold'
-      },
-      body: {
-          width: '85%',
-          alignContent: 'center',
-          alignSelf: 'center',
-          backgroundColor: '#e8e8e8',
-          borderRadius: 8,
-          borderWidth: 0.5
-      },
-      nameText:{
-        alignSelf: 'center', 
-        fontSize:19, 
-        color:'#000', 
-        fontWeight:'bold', 
-        paddingTop:10
-      },
-      infoText:{
-        alignSelf: 'center', 
-        fontSize:15, 
-        color:'#000', 
-        paddingBottom:10
-      },
-      titleInfoText:{
-        alignSelf: 'center', 
-        fontSize:15, 
-        color:'#999'
-      },
-      roundButton: {
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#b31d1d',
-      },
+    container: {
+      flex: 1,
+      flexDirection: 'column',
+      marginTop: -60
+    },
+    titleText: {
+      alignSelf: 'center',
+      padding: 20,
+      fontSize: 25,
+      fontWeight: 'bold'
+    },
+    subTitleText: {
+      alignSelf: 'center',
+      padding: 10,
+      fontSize: 20,
+      fontWeight: 'bold'
+    },
+    body: {
+      width: '85%',
+      alignContent: 'center',
+      alignSelf: 'center',
+      backgroundColor: '#e8e8e8',
+      borderRadius: 8,
+      borderWidth: 0.5
+    },
+    nameText: {
+      alignSelf: 'center',
+      fontSize: 19,
+      color: '#000',
+      fontWeight: 'bold',
+      paddingTop: 10
+    },
+    infoText: {
+      alignSelf: 'center',
+      fontSize: 15,
+      color: '#000',
+      paddingBottom: 10
+    },
+    titleInfoText: {
+      alignSelf: 'center',
+      fontSize: 15,
+      color: '#999'
+    },
+    roundButton: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#b31d1d',
+    },
   })
-//Render
+  //Render
   return (
     <View style={styles.container}>
-    <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{flex: 1, resizeMode:'cover', justifyContent: 'center'}}>
-    <SafeAreaView>
-      <Text style={styles.titleText}>PERFIL</Text>
-      <View style={styles.body}>
-        <Text style={styles.subTitleText}>INFORMACIÓN BÁSICA</Text>
-          {renderAvatar()}
-          <View>
-            <Text style={styles.nameText}>{ state.nombres} {state.apellidos}</Text>
-            <Text style={styles.titleInfoText}>Correo:</Text>
-            <Text style={styles.infoText}>{ state.correo}</Text>
-            <Text style={styles.titleInfoText}>Rama:</Text>
-            <Text style={styles.infoText}>{ state.grupo }</Text>
-            <Text style={styles.titleInfoText}>Rol:</Text>
-            <Text style={styles.infoText}>{ state.rol }</Text>
-            <View style={{padding:10}}>
-              <Button icon="pencil" color = "#fff" uppercase={false} 
-                style={styles.roundButton} 
-                onPress={()=>navigation.navigate('EditProfile',{state, page:'profile'})}
-              >Editar usuario</Button>
-            </View>
-            {/**<View style={{padding:10}}>
+      <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
+        <SafeAreaView>
+          <Text style={styles.titleText}>PERFIL</Text>
+          <View style={styles.body}>
+            <Text style={styles.subTitleText}>INFORMACIÓN BÁSICA</Text>
+            {renderAvatar()}
+            <View>
+              <Text style={styles.nameText}>{state.nombres} {state.apellidos}</Text>
+              <Text style={styles.titleInfoText}>Correo:</Text>
+              <Text style={styles.infoText}>{state.correo}</Text>
+              <Text style={styles.titleInfoText}>Rama:</Text>
+              <Text style={styles.infoText}>{state.grupo}</Text>
+              <Text style={styles.titleInfoText}>Rol:</Text>
+              <Text style={styles.infoText}>{state.rol}</Text>
+              <View style={{ padding: 10 }}>
+                <View style={{ padding: 10 }}>
+                  <Button icon="medical-bag" mode="contained" color={'#B10909'} style={styles.roundButton} onPress={_chooseFile}>
+                    Subir Ficha Medica
+                            <Text>{process}</Text>
+                  </Button>
+                </View>
+                <Button icon="pencil" color="#fff" uppercase={false}
+                  style={styles.roundButton}
+                  onPress={() => navigation.navigate('EditProfile', { state, page: 'profile' })}
+                >Editar usuario</Button>
+              </View>
+              {/**<View style={{padding:10}}>
               <Button icon="exit" color = "#fff" uppercase={false} 
                   style={styles.roundButton} 
                   onPress={()=>auth().signOut()}
                 >Cerrar </Button>
             </View>**/}
-        </View>
-      </View>
-    </SafeAreaView>
-    </ImageBackground>
+            </View>
+          </View>
+        </SafeAreaView>
+      </ImageBackground>
     </View>
-  )    
+  )
 }
