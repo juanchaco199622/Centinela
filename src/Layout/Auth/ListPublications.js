@@ -198,9 +198,7 @@ export default function ListPublications({ navigation }) {
     }*/
     ///// Sort Publications Descending
     publications.sort((a, b) => (b.date - a.date))
-    for (let i = 0; i < publications.length; i++) {
-      console.log("Data Descendente " + publications[i].cuerpo);
-    }
+
     // apply filter
       const filteredData = filterRama
       ? publications.filter(x =>
