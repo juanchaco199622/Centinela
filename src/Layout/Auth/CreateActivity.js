@@ -56,7 +56,11 @@ export default function CreateActivity({ navigation }) {
         var name = "checkedItem";
         setPublicar({ ...publicar, [name]: pItems })
     }
-    
+    const handleConfirmResp = (pItems) => {
+        //setICheckedItem(pItems);
+        var name = "checkedResp";
+        setPublicar({ ...publicar, [name]: pItems })
+    }
 
     const cItems = {};
     const [state, setState] = useState({
@@ -73,13 +77,14 @@ export default function CreateActivity({ navigation }) {
         titulo: "",
         cuerpo: "",
         checkedItem: [],
+        checkedResp: [],
         destinatario: "",
         date: date,
         date2: date2,
     })
 
     const [destinatarios, setDestinatarios] = useState([{ itemKey: '', itemDescription: '' }]);
-    const [Users, setUsers]=useState([{itemKey:'', itemDescription:''}])
+    const [Users, setUsers]=useState([{itemResp:'', itemDescription:''}])
 
     //Obtener datos de firestore
     useEffect(() => {
@@ -110,7 +115,7 @@ export default function CreateActivity({ navigation }) {
                 let datosUser = []
                 for (let i = 0; i < querySnapshot.size; i++) {
                     Usuario = querySnapshot.docs[i].data();
-                    datosUser.push({ itemKey: i, itemDescription: Usuario.nombres });
+                    datosUser.push({ itemResp: i, itemDescription: Usuario.nombres });
                 }
                 setUsers(datosUser);
             });
@@ -132,17 +137,19 @@ export default function CreateActivity({ navigation }) {
             publicar.checkedItem.map((itemCheck) => {
                 destina = destina + itemCheck.itemDescription + ',';
             });
-
+            var resp = '';
+            publicar.checkedResp.map((itemResp) => {
+                resp = resp + itemResp.itemDescription + ',';
+            });
             await firestore().collection('Activity').add({
                 id: user.uid,
                 date: publicar.date,
                 date2: publicar.date2,
                 titulo: publicar.titulo,
                 cuerpo: publicar.cuerpo,
+                responsable: resp,
                 destinatario: destina, //itemCheck.itemDescription,
                 url: downloadURL,
-                date: publicar.date,
-                date2: publicar.date2,
             }).then(() => {
                 error = false
             });
@@ -312,10 +319,10 @@ export default function CreateActivity({ navigation }) {
                                     <PickerCheckBox
                                         data={Users}
                                         headerComponent={<Text style={{ fontSize: 20 }} >Usuarios</Text>}
-                                        OnConfirm={(pItems) => handleConfirm(pItems)}
+                                        OnConfirm={(pItems) => handleConfirmResp(pItems)}
                                         ConfirmButtonTitle='Ok'
                                         DescriptionField='itemDescription'
-                                        KeyField='itemKey'
+                                        KeyField='itemResp'
                                         placeholder='Seleccionar...'
                                         placeholderSelectedItems='$count selected item(s)'
                                     /> 
