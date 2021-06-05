@@ -108,7 +108,7 @@ export default function Home({ navigation }) {
               }}
               centerComponent={{ text: state.rol, style: { color: '#fff' } }}
             />*/}
-            <View style={styles.containerSecundary}>
+            <View style={styles.containerLogin}>
 
               <Card.Content style={styles.containerButtonLogin} >
                 <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>

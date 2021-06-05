@@ -64,7 +64,8 @@ const NotificationsStackScreen = () => (
 const AppTabs = createBottomTabNavigator();
 
 const AppTabsScreen =() =>(
-    <AppTabs.Navigator style={{color: 'red'}}>
+    <AppTabs.Navigator style={{backgroundColor:'#B10909'}}>
+        
         <AppTabs.Screen
             name = 'Home'
             component={Home}
