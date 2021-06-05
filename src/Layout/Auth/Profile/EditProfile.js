@@ -198,6 +198,9 @@ export default function EditProfile({ route, navigation }) {
     }
   }
   //--------------------VISTA
+
+  if (state.rol == 'Administrador'){
+  
   return (
     <View>
     
@@ -329,6 +332,142 @@ export default function EditProfile({ route, navigation }) {
       </SafeAreaView>
     </View>
   )
+}// FIN DEL IF
+  else{
+    return (
+      <View>
+      
+        <SafeAreaView>
+          <ScrollView>
+            {/* Fondo de pantalla */}
+            <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{ resizeMode: 'cover' }}>
+  
+  
+              <Text style={styles.titleText}>EDITAR USUARIO</Text>
+              <View style={styles.body}>
+                <Text style={styles.subTitleText}>Información básica</Text>
+                <View style={{ paddingHorizontal: 10 }}>
+                  {renderAvatar()}
+                  {uploading && (
+                    <View style={{ paddingHorizontal: 10 }}>
+                      <Text>Subiendo imagen: {parseInt(progress * 100) + '%'}</Text>
+                      <ProgressBar progress={progress} color={'#b10909'} />
+                    </View>
+                  )}
+                  <Button icon="camera" mode="text" color="gray" uppercase={false}
+                    onPress={() => refRBSheet.current.open()}>Cambiar imagen de perfil</Button>
+                  <Text>Nombres</Text>
+                  <TextInput
+                    error={validNombres}
+                    style={styles.inputText}
+                    mode='outlined'
+                    returnKeyType={"next"} placeholder="Nombres"
+                    onChangeText={(text) => handleChangeText('nombres', text)}
+                    value={state.nombres}
+                  />
+                  <HelperText type="error" visible={validNombres}>
+                    Ingrese un nombre valido
+                </HelperText>
+                </View>
+                <View style={{ paddingHorizontal: 10 }}>
+                  <Text>Apellidos</Text>
+                  <TextInput
+                    error={validApellidos}
+                    style={styles.inputText}
+                    mode='outlined'
+                    returnKeyType={"next"} placeholder="Apellidos"
+                    onChangeText={(text) => handleChangeText('apellidos', text)}
+                    value={state.apellidos}
+                  />
+                  <HelperText type="error" visible={validApellidos}>
+                    Ingrese un apellido valido
+                  </HelperText>
+                </View>
+                <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
+                  <Text>Rama</Text>
+                  <RNPickerSelect style={pickerSelectStyles}
+                    placeholder={{}}
+                    onValueChange={(value) => handleChangeText('grupo', value)}
+                    useNativeAndroidPickerStyle={false}
+                    value={state.grupo}
+                    items={ramas}
+                    disabled={true}
+                  />
+                </View>
+                <View style={{ paddingHorizontal: 10, paddingBottom: 15 }}>
+                  <Text>Rol</Text>
+                  <RNPickerSelect style={pickerSelectStyles}
+                    placeholder={{}}
+                    onValueChange={(value) => handleChangeText('rol', value)}
+                    useNativeAndroidPickerStyle={false}
+                    value={state.rol}
+                    items={rol}
+                    disabled={true}
+                  />
+                </View>
+                <View style={{ padding: 10 }}>
+                  <Button icon="floppy" color="#fff" uppercase={false} style={styles.roundButton}
+                    onPress={() => updateProfile()}>Guardar</Button>
+                </View>
+              </View>
+              <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                height={180}
+                customStyles={{
+                  wrapper: {
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                  },
+                  draggableIcon: {
+                    backgroundColor: '#ffc604'
+                  }
+                }}
+              >
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center' }}>
+                  <TouchableOpacity
+                    onPress={tomarFotoCamara}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <IconButton
+                      icon='camera'
+                    />
+                    <Subheading>Cámara</Subheading>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={mostrarfotoGalaria}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <IconButton
+                      icon='image-multiple'
+                    />
+                    <Subheading>Abrir galería de fotos</Subheading>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={quitarImagenPerfil}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <IconButton
+                      icon='delete'
+                    />
+                    <Subheading>Quitar foto de perfil</Subheading>
+                  </TouchableOpacity>
+                </View>
+              </RBSheet>
+            </ImageBackground>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
+    )
+  }//FIN DEL ELSE
 }
 
 //-------------------ESTILOS

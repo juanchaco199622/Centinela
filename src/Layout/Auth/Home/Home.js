@@ -71,16 +71,19 @@ export default function Home({ navigation }) {
                 Publicar mensaje
                     </Button>
             </Card.Content>
+
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar mensajes
                     </Button>
             </Card.Content>
+
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="book" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateActivity')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Publicar actividad
               </Button>
             </Card.Content>
+
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar Actividades
@@ -109,7 +112,7 @@ export default function Home({ navigation }) {
       <View style={styles.container}>
         {/* Fondo de pantalla */}
         <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
-          <Surface style={styles.surface} >
+         <Surface style={styles.surface} >
             <Header
               containerStyle={{
                 backgroundColor: '#b10909',
@@ -119,14 +122,20 @@ export default function Home({ navigation }) {
             />
             <View style={styles.containerSecundary}>
 
-              <Image
-                source={require('../../../../assets/images/icons/2.png')}
-                style={styles.imageBackground}
-              />
-
               <Card.Content style={styles.containerButtonLogin} >
                 <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                   Listar publicaciones
+                  </Button>
+              </Card.Content>
+
+              <Card.Content style={styles.containerButtonLogin} >
+                  <Button 
+                    icon="book-open-page-variant" 
+                    mode="contained" color={'#B10909'} 
+                    onPress={() => navigation.navigate('ListActivities')} 
+                    style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}
+                  >
+                    Listar Actividades
                   </Button>
               </Card.Content>
 
