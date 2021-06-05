@@ -153,7 +153,7 @@ export default function CreateActivity({ navigation }) {
 
             Alert.alert(
                 null,
-                'Datos Guardados Correctamente',
+                'Actividad creada correctamente',
                 [
                     {
                         text: 'OK',

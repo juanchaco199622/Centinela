@@ -43,15 +43,15 @@ export default function Home({ navigation }) {
   }, [isFocused]);
 
   //--------------------------------VISTAS
-  if (state.rol == 'Administrador') {
+  if (state.rol === 'Administrador') {
     return (
-
       <View style={styles.container}>
         {/* Fondo de pantalla */}
         <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
 
           {/* Botones y Direccionamiento */}
           <View style={styles.containerLogin} >
+
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="account-multiple-plus" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateUser')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Crear usuarios
@@ -82,9 +82,16 @@ export default function Home({ navigation }) {
               </Button>
             </Card.Content>
 
+            <Card.Content style={styles.containerButtonLogin} >
+              <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+                Listar Actividades
+              </Button>
+            </Card.Content>
+
           </View>
 
         </ImageBackground>
+
       </View>
     )
   } else {
@@ -93,31 +100,33 @@ export default function Home({ navigation }) {
       <View style={styles.container}>
         {/* Fondo de pantalla */}
         <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
-          <Surface style={styles.surface} >
+          {/*<Surface style={styles.surface} >
             <Header
               containerStyle={{
                 backgroundColor: '#b10909',
                 justifyContent: 'space-around',
               }}
               centerComponent={{ text: state.rol, style: { color: '#fff' } }}
-            />
+            />*/}
             <View style={styles.containerSecundary}>
-
-              <Image
-                source={require('../../../../assets/images/icons/2.png')}
-                style={styles.imageBackground}
-              />
 
               <Card.Content style={styles.containerButtonLogin} >
                 <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                   Listar publicaciones
-                  </Button>
+                </Button>
               </Card.Content>
 
+                <Card.Content style={styles.containerButtonLogin} >
+                  <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
+                    Listar Actividades
+                  </Button>
+                </Card.Content>
+              
             </View>
-          </Surface>
-        </ImageBackground>
+            </ImageBackground>
+          {/*</Surface>*/}
       </View>
+
     )
   }
 }

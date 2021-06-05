@@ -28,6 +28,8 @@ export default function CreatePublication({ navigation }) {
     })
     .catch((e) => console.log('getting downloadURL of image error => ', e));*/
 
+    const {imagen} = <Image source={require('../../Images/Img_Predeterminada_Publicacion.png')} />
+
     //Declaracion de variables
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
     //const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
@@ -127,7 +129,7 @@ export default function CreatePublication({ navigation }) {
                 titulo: publicar.titulo,
                 cuerpo: publicar.cuerpo,
                 destinatario: destina, //itemCheck.itemDescription,
-                url: downloadURL,//downloadURL : starsRef.getDownloadURL('Img_Predeterminada_Publicacion.png'),
+                url: downloadURL || 'https://firebasestorage.googleapis.com/v0/b/centinela-8b7ed.appspot.com/o/PreRegister%2FImg_Predeterminada_Publicacion.png?alt=media&token=20c6f2a0-2e0c-4c5e-8bde-65cf9854e744',
                 date: date
             }).then(() => {
                 error = false

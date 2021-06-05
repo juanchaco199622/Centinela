@@ -1,12 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Title, Caption, Button, Avatar, Divider } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { Button, Avatar } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
   View,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
@@ -15,6 +15,7 @@ import storage from "@react-native-firebase/storage";
 import getPath from '@flyerhq/react-native-android-uri-path';
 // To pick the file from local file system
 import DocumentPicker from "react-native-document-picker";
+import { Icon, Header } from 'react-native-elements';
 
 //Inicio de funcion
 export default function Profile({ navigation }) {
@@ -167,11 +168,10 @@ export default function Profile({ navigation }) {
     container: {
       flex: 1,
       flexDirection: 'column',
-      marginTop: -60
     },
     titleText: {
       alignSelf: 'center',
-      padding: 20,
+      paddingBottom: 20,
       fontSize: 25,
       fontWeight: 'bold'
     },
@@ -216,40 +216,59 @@ export default function Profile({ navigation }) {
   //Render
   return (
     <View style={styles.container}>
+      <Header
+        containerStyle={{
+          backgroundColor: '#b31d1d',
+          justifyContent: 'space-around',
+        }}
+        //leftComponent={{ icon: 'reply', color: '#fff', }}
+        leftComponent={<Icon
+          name='keyboard-backspace'
+          color='#fff'
+          iconStyle={{ fontSize: 27 }}
+          onPress={() => navigation.navigate('Home')}
+        />
+
+        }
+        centerComponent={{ text: 'PERFIL', style: { color: '#fff' } }}
+
+      />
       <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
         <SafeAreaView>
-          <Text style={styles.titleText}>PERFIL</Text>
-          <View style={styles.body}>
-            <Text style={styles.subTitleText}>INFORMACIÓN BÁSICA</Text>
-            {renderAvatar()}
-            <View>
-              <Text style={styles.nameText}>{state.nombres} {state.apellidos}</Text>
-              <Text style={styles.titleInfoText}>Correo:</Text>
-              <Text style={styles.infoText}>{state.correo}</Text>
-              <Text style={styles.titleInfoText}>Rama:</Text>
-              <Text style={styles.infoText}>{state.grupo}</Text>
-              <Text style={styles.titleInfoText}>Rol:</Text>
-              <Text style={styles.infoText}>{state.rol}</Text>
-              <View style={{ padding: 10 }}>
+          <ScrollView>
+            <Text style={styles.titleText}>PERFIL</Text>
+            <View style={styles.body}>
+              <Text style={styles.subTitleText}>INFORMACIÓN BÁSICA</Text>
+              {renderAvatar()}
+              <View>
+                <Text style={styles.nameText}>{state.nombres} {state.apellidos}</Text>
+                <Text style={styles.titleInfoText}>Correo:</Text>
+                <Text style={styles.infoText}>{state.correo}</Text>
+                <Text style={styles.titleInfoText}>Rama:</Text>
+                <Text style={styles.infoText}>{state.grupo}</Text>
+                <Text style={styles.titleInfoText}>Rol:</Text>
+                <Text style={styles.infoText}>{state.rol}</Text>
                 <View style={{ padding: 10 }}>
-                  <Button icon="medical-bag" mode="contained" color={'#B10909'} style={styles.roundButton} onPress={_chooseFile}>
-                    Subir Ficha Medica
+                  <View style={{ padding: 10 }}>
+                    <Button icon="medical-bag" mode="contained" color={'#B10909'} style={styles.roundButton} onPress={_chooseFile}>
+                      Subir Ficha Medica
                             <Text>{process}</Text>
-                  </Button>
+                    </Button>
+                  </View>
+                  <Button icon="pencil" color="#fff" uppercase={false}
+                    style={styles.roundButton}
+                    onPress={() => navigation.navigate('EditProfile', { state, page: 'profile' })}
+                  >Editar usuario</Button>
                 </View>
-                <Button icon="pencil" color="#fff" uppercase={false}
-                  style={styles.roundButton}
-                  onPress={() => navigation.navigate('EditProfile', { state, page: 'profile' })}
-                >Editar usuario</Button>
-              </View>
-              {/**<View style={{padding:10}}>
+                {/**<View style={{padding:10}}>
               <Button icon="exit" color = "#fff" uppercase={false} 
                   style={styles.roundButton} 
                   onPress={()=>auth().signOut()}
                 >Cerrar </Button>
             </View>**/}
+              </View>
             </View>
-          </View>
+          </ScrollView>
         </SafeAreaView>
       </ImageBackground>
     </View>
