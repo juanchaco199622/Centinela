@@ -17,11 +17,17 @@ export default function ListPublications({ navigation }) {
   const isFocused = useIsFocused()
   const user = auth().currentUser
   var checkedItem = [];
+  /*var SortStatus ='';
+  var RamaStatus ='';*/
+  //var dateSort = [{ itemKey: 1, itemDescription: "Ascendente" }, { itemKey: 1, itemDescription: "Descendente"  }];
   const [publications, setPublications] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModaReenviarlVisible, setModalReenviarlVisible] = useState(false);
   const [selectedPost, setPost] = useState([]);
+  //const  options={weekday:'long', day:'numeric',month:'long', year:'numeric', }
   //const [selectedRama, setSelectedRama] = useState(null);
+  /*const [SortStatus, setSortStatus] = useState();
+  const [RamaStatus, setRamaStatus] = useState();*/
   const [filterPublications, setFilterPublications] = useState([]);
   const [destinatarios, setDestinatarios] = useState([]);
   const [localUser, setLocalUser] = useState({
@@ -172,13 +178,51 @@ export default function ListPublications({ navigation }) {
 
 
   const updateFilter = (filterRama) => {
-    const filteredData = filterRama
+   /* console.log("Entro a picker de ramas " + filterRama);
+    console.log("Rama status " + RamaStatus); 
+    ///// Sort Publications
+    console.log("este es el status" + SortStatus)*/
+    //setRamaStatus(filterRama); //RamaStatus = filterRama;
+
+    /*console.log( "esta es la sort en filter despues de I " + SortStatus);
+    if ( SortStatus == dateSort[0].itemDescription ) {
+      publications.sort((a, b) => (a.date - b.date))
+      for (i = 0; i < publications.length; i++) {
+        console.log("Data Ascendente " + publications[i].cuerpo);
+      }
+    } else if ( SortStatus == dateSort[1].itemDescription  ) {
+      publications.sort((a, b) => (b.date - a.date))
+      for (i = 0; i < publications.length; i++) {
+        console.log("Data Descendente " + publications[i].cuerpo);
+      }
+    }*/
+    ///// Sort Publications Descending
+    publications.sort((a, b) => (b.date - a.date))
+    for (let i = 0; i < publications.length; i++) {
+      console.log("Data Descendente " + publications[i].cuerpo);
+    }
+    // apply filter
+      const filteredData = filterRama
       ? publications.filter(x =>
         x.destinatario.toLowerCase().includes(filterRama.toLowerCase())
       )
-      : publications;
+      : publications; 
+
     setFilterPublications(filteredData);
   };
+
+  const updateFilter2 = (filterSort) => {
+    //let filteredData = null;
+    setSortStatus(filterSort);
+    console.log( "esta es la sort en filter 2 " + SortStatus);
+    console.log( "esta es la rama en filter 2 " + RamaStatus);
+    updateFilter(RamaStatus);
+
+
+    //setFilterPublications(filteredData);
+  };
+
+
 
   const pickerItems = () => {
     let serviceItems;

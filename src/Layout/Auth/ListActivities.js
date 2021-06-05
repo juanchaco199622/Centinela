@@ -174,6 +174,10 @@ export default function ListActivities({ navigation }) {
 
 
   const updateFilter = (filterRama) => {
+  ///// Sort Publications Descending
+  activities.sort((a, b) => (b.date - a.date))
+  // apply filter
+
     const filteredData = filterRama
       ? activities.filter(x =>
         x.destinatario.toLowerCase().includes(filterRama.toLowerCase())
