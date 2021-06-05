@@ -149,7 +149,7 @@ export default function CreateActivity({ navigation }) {
                 cuerpo: publicar.cuerpo,
                 responsable: resp,
                 destinatario: destina, //itemCheck.itemDescription,
-                url: downloadURL,
+                url: downloadURL || 'https://firebasestorage.googleapis.com/v0/b/centinela-8b7ed.appspot.com/o/PreRegister%2FImg_Predeterminada_Publicacion.png?alt=media&token=20c6f2a0-2e0c-4c5e-8bde-65cf9854e744',
             }).then(() => {
                 error = false
             });
