@@ -7,6 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import ImagePicker from 'react-native-image-picker'
 import { imagePickerOptions } from '../../Utils';
 import RBSheet from "react-native-raw-bottom-sheet";
+import storage from '@react-native-firebase/storage';
 import { useUploadImagePreRegister } from '../../Hooks'
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import PickerCheckBox from 'react-native-picker-checkbox';
@@ -15,6 +16,17 @@ import { Icon, Header } from 'react-native-elements';
 
 
 export default function CreatePublication({ navigation }) {
+
+    //Declaracion de Variable para Imagen predeterminada de publicacion (Gris)
+    /*const {imageName} = this.state;
+    let imageRef = firebase.storage().ref('/' + 'Img_Predeterminada_Publicacion.png');
+    imageRef
+    .getDownloadURL()
+    .then((url) => {
+        //from url you can fetched the uploaded image easily
+        this.setState({profileImageUrl: url});
+    })
+    .catch((e) => console.log('getting downloadURL of image error => ', e));*/
 
     //Declaracion de variables
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
@@ -47,7 +59,6 @@ export default function CreatePublication({ navigation }) {
             }
         })
     }
-
 
     const user = auth().currentUser
 
@@ -116,7 +127,7 @@ export default function CreatePublication({ navigation }) {
                 titulo: publicar.titulo,
                 cuerpo: publicar.cuerpo,
                 destinatario: destina, //itemCheck.itemDescription,
-                url: downloadURL,
+                url: downloadURL,//downloadURL : starsRef.getDownloadURL('Img_Predeterminada_Publicacion.png'),
                 date: date
             }).then(() => {
                 error = false

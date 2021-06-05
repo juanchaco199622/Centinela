@@ -43,8 +43,6 @@ export default function Home({ navigation }) {
   }, [isFocused]);
 
   //--------------------------------VISTAS
-
-
   if (state.rol == 'Administrador') {
     return (
 
@@ -71,30 +69,16 @@ export default function Home({ navigation }) {
                 Publicar mensaje
                     </Button>
             </Card.Content>
+
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="newspaper" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListPublications')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Listar mensajes
                     </Button>
             </Card.Content>
+
             <Card.Content style={styles.containerButtonLogin} >
               <Button icon="book" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('CreateActivity')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
                 Publicar actividad
-              </Button>
-            </Card.Content>
-            <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('ListActivities')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                Listar Actividades
-              </Button>
-            </Card.Content>
-
-            <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="file-document" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
-                Listar Archivos
-              </Button>
-            </Card.Content>
-
-            <Card.Content style={styles.containerButtonLogin} >
-              <Button icon="ballot" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
               </Button>
             </Card.Content>
 

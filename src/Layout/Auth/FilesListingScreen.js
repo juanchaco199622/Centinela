@@ -92,7 +92,7 @@ const FilesListingScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titleText}>
-        Listing of Files from Cloud Storage
+        ARCHIVOS
       </Text>
       {loading ? (
         <View style={styles.container}>
