@@ -19,6 +19,7 @@ export default function ListPublicationDetail({route,navigation}) {
     console.log(route.params.items.dates)
     const publicacion=route.params.items;   
     const  options={weekday:'long', day:'numeric',month:'long', year:'numeric', }
+    
 /*    const [publica, setpublic]= useState({
         id: '',
         title:'',
@@ -75,14 +76,15 @@ export default function ListPublicationDetail({route,navigation}) {
             </Image>
             <View style={{paddingLeft:8}}>
                 
-            <Text>{moment(new Date(publicacion.dates.toDate()).toDateString('es-ES',options)).format('LLLL')}</Text>
-                <Text>{publicacion.dest}</Text>
+            <Text>{moment(new Date(publicacion.dates.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}</Text>
+                <Text>{'Ramas Asociadas: ['+publicacion.dest.split(',').join("] [").slice(0,-1)}</Text>
             </View>
             <Text style={styles.txtCuerpo}
                 selectable={true}
             >
                 {publicacion.cuerpo}
             </Text>
+
             
 
         </ScrollView>

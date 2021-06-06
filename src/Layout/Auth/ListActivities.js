@@ -307,6 +307,7 @@ export default function ListActivities({ navigation }) {
 
             </CardAction>
             <CardImage
+            
               source={{ uri: item.url }}
             //source={{ uri: 'http://placehold.it/480x270' }}
             />
@@ -326,7 +327,8 @@ export default function ListActivities({ navigation }) {
                     url: item.url,
                     date: item.date,
                     date2: item.date2,
-                    dest:item.destinatario
+                    dest:item.destinatario,
+                    resp:item.responsable
                   }
                 })}
                 title="ver mas..."
