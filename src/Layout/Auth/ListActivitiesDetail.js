@@ -68,15 +68,25 @@ export default function ListActivitiesDetail({route,navigation}) {
                 {activity.title}
             </Text>
             <Image 
-            style={{width:'97%', height:270, margin:7, alignSelf:'center', borderRadius:20}}
+            style={{width:'97%', height:270, margin:7, alignSelf:'center', borderRadius:20, resizeMode:'stretch'}}
             source={{uri: activity.url}}>
             </Image>
            
             <Text style={{paddingLeft:15}}>
-                {moment(new Date(activity.date.toDate()).toDateString('es-ES',options)).format('LLLL')}
+               
+                {moment(new Date(activity.date.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
             </Text>
             <Text style={{paddingLeft:15}}>
-                {activity.dest}
+            
+                {moment(new Date(activity.date2.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
+            </Text>
+            <Text style={{paddingLeft:15}}>
+                {'Ramas Asociadas: ['+activity.dest.split(',').join("] [").slice(0,-1)}
+                
+            </Text>
+            
+            <Text style={{paddingLeft:15}}>
+                {activity.resp==="" ?   '' : 'Responsables: ['+activity.resp.split(',').join("] [").slice(0,-1)}
             </Text>
             
            
