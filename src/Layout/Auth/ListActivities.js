@@ -12,6 +12,8 @@ import PickerCheckBox from 'react-native-picker-checkbox';
 import { Picker } from '@react-native-picker/picker';
 import { useIsFocused } from '@react-navigation/native'
 //Button, Card, Icon, Avatar
+import moment from 'moment'
+import 'moment/locale/es'
 
 export default function ListActivities({ navigation }) {
   const isFocused = useIsFocused()
@@ -313,7 +315,8 @@ export default function ListActivities({ navigation }) {
             />
 
             <CardContent textStyle={{ color: 'black', fontSize: 15, width: '100%' }}  >
-              <Text numberOfLines={5} style={{ width: '100%' }}>{item.cuerpo}</Text>
+            <Text>{moment(new Date(item.date.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}</Text>
+              <Text numberOfLines={5} style={{ width: '100%', color:'black' }}>{item.cuerpo}</Text>
             </CardContent>
             <CardAction
               separator={true}
