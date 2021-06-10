@@ -13,6 +13,11 @@ import { Picker } from '@react-native-picker/picker';
 import { useIsFocused } from '@react-navigation/native'
 //Button, Card, Icon, Avatar
 
+import moment from 'moment'
+import 'moment/locale/es'
+
+moment.locale('es')
+
 export default function ListPublications({ navigation }) {
   const isFocused = useIsFocused()
   const user = auth().currentUser
@@ -348,7 +353,14 @@ export default function ListPublications({ navigation }) {
             />
 
             <CardContent textStyle={{ color: 'black', fontSize: 15, width: '100%' }}  >
-              <Text numberOfLines={5} style={{ width: '100%' }}>{item.cuerpo}</Text>
+            <Text
+            
+            >
+            {moment(new Date(item.date.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
+            </Text>
+             {true ?  <Text numberOfLines={5} style={{ width: '100%', color:'black' }}>{item.cuerpo}</Text>:null}
+              
+          
             </CardContent>
             <CardAction
               separator={true}

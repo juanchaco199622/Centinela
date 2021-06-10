@@ -74,14 +74,14 @@ export default function ListActivitiesDetail({route,navigation}) {
            
             <Text style={{paddingLeft:15}}>
                
-                {moment(new Date(activity.date.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
+                {'Fecha Inicial: '+ moment(new Date(activity.date.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
             </Text>
             <Text style={{paddingLeft:15}}>
             
-                {moment(new Date(activity.date2.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
+                {'Fecha Final: '+moment(new Date(activity.date2.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
             </Text>
             <Text style={{paddingLeft:15}}>
-                {'Ramas Asociadas: ['+activity.dest.split(',').join("] [").slice(0,-1)}
+                {'Destinatarios: ['+activity.dest.split(',').join("] [").slice(0,-1)}
                 
             </Text>
             

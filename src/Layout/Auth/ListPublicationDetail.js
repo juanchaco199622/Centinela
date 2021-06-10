@@ -77,7 +77,7 @@ export default function ListPublicationDetail({route,navigation}) {
             <View style={{paddingLeft:8}}>
                 
             <Text>{moment(new Date(publicacion.dates.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}</Text>
-                <Text>{'Ramas Asociadas: ['+publicacion.dest.split(',').join("] [").slice(0,-1)}</Text>
+                <Text>{'Destinatarios: ['+publicacion.dest.split(',').join("] [").slice(0,-1)}</Text>
             </View>
             <Text style={styles.txtCuerpo}
                 selectable={true}
