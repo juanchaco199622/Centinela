@@ -12,7 +12,7 @@ import PickerCheckBox from 'react-native-picker-checkbox';
 import { ScrollView } from 'react-native';
 import moment from 'moment'
 import 'moment/locale/es'
-
+  
 moment.locale('es')
 
 export default function ListPublicationDetail({route,navigation}) {

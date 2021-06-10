@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingRight: 30,
     backgroundColor: '#fff'
-  }
+  }  
 
 
-});
+}); 
