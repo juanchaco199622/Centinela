@@ -285,6 +285,8 @@ export default function CreateActivity({ navigation }) {
                                     }}
                                     onDateChange={(date2) => {
                                         setDate2(date2);
+                                        handleChangeText("date2", date2)
+                                        console.log(date2)
                                     }}
                                 />
 
