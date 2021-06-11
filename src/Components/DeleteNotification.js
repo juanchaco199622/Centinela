@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { Subheading, List, Avatar, IconButton, Caption, Title} from 'react-native-paper';
+import { Subheading, List, Avatar, IconButton, Caption, Title, Card, Button} from 'react-native-paper';
 import * as RNLocalize from "react-native-localize";
 import moment from 'moment'
 //import timezone from 'moment-timezone'
@@ -45,9 +45,25 @@ const DeleteNotification = (props) => {
             <View style={styles.container}>
                 <View style={{flexDirection:'row', justifyContent:'space-between', width:'80%'}}>
                    
+                    <Avatar.Text {...props}
+                        size={50}
+                        color={'#FFFFFF'} 
+                        label={'Actividad'.split(' ').map( item => props.data.title.charAt(0)).slice(0,2).join('')}
+                    />
                     <View style={{flexDirection:'column'}}>
-                        <Subheading style={{fontFamily:'ProductSans-Bold'}}> <Subheading>{props.data.title}</Subheading></Subheading>
-                        
+                        <Title style={{margin:5}}>{props.data.title}</Title>
+                        <View style={{flexDirection:'row',margin:5, padding:5}} >
+                                <Text>{'Inicio : ' + props.data.dateStart+'  |  '}</Text>
+                                <Text>{'Fin : ' + props.data.dateFinish}</Text>
+                        </View>
+                        <Button
+                            mode='contained'
+                            uppercase={false}
+                            labelStyle={{fontSize:16}}
+                            color={'#B10909'}    
+                        >
+                            Detalle    
+                        </Button>
                     </View>    
                 </View>
             </View>

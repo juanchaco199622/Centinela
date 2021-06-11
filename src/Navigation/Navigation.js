@@ -70,8 +70,14 @@ const AppTabsScreen =() =>(
             name = 'Home'
             component={Home}
             options={{
-                tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='home' color={'#949494'} size={30}/>
+                tabBarLabel: 'Home',
+                headerStyle: {
+                backgroundColor: '#b31d1d',
+                },
+
+                title:'Home',
+                tabBarIcon:({ color, size }) =>(
+                    <MaterialCommunityIcons name='home' color={color} size={30}/>
                 )
             }}
         />
@@ -80,9 +86,16 @@ const AppTabsScreen =() =>(
             name = 'Perfil'
             component={Profile}
             options={{
-                tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='account-circle' color={'#949494'} size={30}/>
-                )
+                tabBarLabel: 'Perfil',
+                headerStyle: {
+                backgroundColor: '#b31d1d',
+                },
+
+                title:'Perfil',
+                tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="account-circle" color={color} size={27} />
+                ),
+            
             }}
         /> 
 
@@ -106,8 +119,14 @@ const AppTabsScreen =() =>(
             name='Cerrar sesión'
             component={Exit}
             options={{
-                tabBarIcon:() =>(
-                    <MaterialCommunityIcons name='exit-to-app' color={'#949494'} size={27}/>
+                tabBarLabel: 'Exit',
+                headerStyle: {
+                backgroundColor: '#b31d1d',
+                },
+
+                title:'Exit',
+                tabBarIcon:({ color, size }) =>(
+                    <MaterialCommunityIcons name='exit-to-app' color={color} size={27}/>
                 )
             }}
             

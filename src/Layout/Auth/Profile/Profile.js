@@ -216,26 +216,11 @@ export default function Profile({ navigation }) {
   //Render
   return (
     <View style={styles.container}>
-      <Header
-        containerStyle={{
-          backgroundColor: '#b31d1d',
-          justifyContent: 'space-around',
-        }}
-        //leftComponent={{ icon: 'reply', color: '#fff', }}
-        leftComponent={<Icon
-          name='keyboard-backspace'
-          color='#fff'
-          iconStyle={{ fontSize: 27 }}
-          onPress={() => navigation.navigate('Home')}
-        />
-
-        }
-        centerComponent={{ text: 'PERFIL', style: { color: '#fff' } }}
-
-      />
+     
       <ImageBackground source={require('../../../../assets/imagenes/Login_Background_White.png')} style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}>
         <SafeAreaView>
           <ScrollView>
+            {/**<Text style={styles.titleText}>PERFIL</Text>**/}
             <Text style={styles.titleText}>PERFIL</Text>
             <View style={styles.body}>
               <Text style={styles.subTitleText}>INFORMACIÓN BÁSICA</Text>
@@ -249,16 +234,29 @@ export default function Profile({ navigation }) {
                 <Text style={styles.titleInfoText}>Rol:</Text>
                 <Text style={styles.infoText}>{state.rol}</Text>
                 <View style={{ padding: 10 }}>
-                  <View style={{ padding: 10 }}>
-                    <Button icon="medical-bag" mode="contained" color={'#B10909'} style={styles.roundButton} onPress={_chooseFile}>
+                  <View style={{ padding: 5 }}>
+                    <Button 
+                      icon="medical-bag" 
+                      mode="contained" 
+                      color={'#B10909'} 
+                      style={styles.roundButton} 
+                      onPress={_chooseFile}
+                    >
                       Subir Ficha Medica
                             <Text>{process}</Text>
                     </Button>
                   </View>
-                  <Button icon="pencil" color="#fff" uppercase={false}
-                    style={styles.roundButton}
-                    onPress={() => navigation.navigate('EditProfile', { state, page: 'profile' })}
-                  >Editar usuario</Button>
+                  <View style={{ padding: 5 }}>
+                    <Button 
+                      icon="pencil" 
+                      mode="contained" 
+                      color={'#B10909'} 
+                      style={styles.roundButton}
+                      onPress={() => navigation.navigate('EditProfile', { state, page: 'profile' })}
+                    >
+                      Editar usuario
+                    </Button>
+                  </View>
                 </View>
                 {/**<View style={{padding:10}}>
               <Button icon="exit" color = "#fff" uppercase={false} 

@@ -118,6 +118,7 @@ export default function CreateActivity({ navigation }) {
                     datosUser.push({ itemResp: i, itemDescription: Usuario.nombres });
                 }
                 setUsers(datosUser);
+                console.log(Usuario.doc_id +'id usuario')
             });
     }, [])
 
@@ -139,6 +140,7 @@ export default function CreateActivity({ navigation }) {
             });
             var resp = '';
             publicar.checkedResp.map((itemResp) => {
+                console.log(itemResp.i)
                 resp = resp + itemResp.itemDescription + ',';
             });
             await firestore().collection('Activity').add({
@@ -153,7 +155,7 @@ export default function CreateActivity({ navigation }) {
             }).then(() => {
                 error = false
             });
-
+            //console.log(Users.itemResp+'Id_del usuario')
             //alert('Datos Guardados Correctamente')
         }
         if (!error) {
