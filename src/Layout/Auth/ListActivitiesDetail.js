@@ -18,30 +18,7 @@
       console.log(route.params.items.dest)
       const activity=route.params.items;   
       const  options={weekday:'long', day:'numeric',month:'long', year:'numeric', }
-  /*    const [publica, setpublic]= useState({
-          id: '',
-          title:'',
-          url:'',
-          cuerpo:''
-  
-              })
-  
-      const getUserById = async (id) =>{
-          const dbref=firestore().collection('Publication').doc(id)
-          const doc= await dbref.get();
-          const doc= await dbref.get();
-          const publicacion = doc.data();
-          setpublic({
-              ...publicacion,
-              id: doc.id,
-          })
-         console.log(publicacion)
-      }
-  
-      useEffect(() => {
-          getUserById(props.route.params.itemID )
-     })*/
-  
+ 
   
       return(
           <ScrollView style={{flex:1}}>

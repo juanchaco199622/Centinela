@@ -148,7 +148,13 @@ android {
         }
     }
     signingConfigs {
-        debug {
+        release {
+            storeFile file('centinela.keystore')
+            storePassword 'Centinela2021'
+            keyAlias 'centinelapp'
+            keyPassword 'Centinela2021'
+        }
+         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
             keyAlias 'androiddebugkey'

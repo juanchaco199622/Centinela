@@ -1,6 +1,7 @@
     
-    import React, { useEffect, useState } from 'react'
-    import { ActivityIndicator, FlatList, StyleSheet, View, Text, Image, Alert, Pressable } from 'react-native';
+    import React, { useEffect, useState, useRef } from 'react'
+    import { ActivityIndicator, FlatList, StyleSheet, View, Text, Image, Alert, TouchableOpacity } from 'react-native';
+    import {IconButton, Subheading} from 'react-native-paper'
     //Modal,
     import firestore from '@react-native-firebase/firestore';
     import auth from '@react-native-firebase/auth';
@@ -13,27 +14,24 @@
     import { Picker } from '@react-native-picker/picker';
     import { useIsFocused } from '@react-navigation/native'
     //Button, Card, Icon, Avatar
-    
+    import RBSheet from "react-native-raw-bottom-sheet";
     import moment from 'moment'
     import 'moment/locale/es'
     
     moment.locale('es')
     
     export default function ListPublications({ navigation }) {
+
+      const refRBSheet = useRef();
+
+
       const isFocused = useIsFocused()
       const user = auth().currentUser
       var checkedItem = [];
-      /*var SortStatus ='';
-      var RamaStatus ='';*/
-      //var dateSort = [{ itemKey: 1, itemDescription: "Ascendente" }, { itemKey: 1, itemDescription: "Descendente"  }];
       const [publications, setPublications] = useState([]);
       const [isModalVisible, setModalVisible] = useState(false);
       const [isModaReenviarlVisible, setModalReenviarlVisible] = useState(false);
       const [selectedPost, setPost] = useState([]);
-      //const  options={weekday:'long', day:'numeric',month:'long', year:'numeric', }
-      //const [selectedRama, setSelectedRama] = useState(null);
-      /*const [SortStatus, setSortStatus] = useState();
-      const [RamaStatus, setRamaStatus] = useState();*/
       const [filterPublications, setFilterPublications] = useState([]);
       const [destinatarios, setDestinatarios] = useState([]);
       const [localUser, setLocalUser] = useState({
@@ -184,24 +182,6 @@
     
     
       const updateFilter = (filterRama) => {
-       /* console.log("Entro a picker de ramas " + filterRama);
-        console.log("Rama status " + RamaStatus); 
-        ///// Sort Publications
-        console.log("este es el status" + SortStatus)*/
-        //setRamaStatus(filterRama); //RamaStatus = filterRama;
-    
-        /*console.log( "esta es la sort en filter despues de I " + SortStatus);
-        if ( SortStatus == dateSort[0].itemDescription ) {
-          publications.sort((a, b) => (a.date - b.date))
-          for (i = 0; i < publications.length; i++) {
-            console.log("Data Ascendente " + publications[i].cuerpo);
-          }
-        } else if ( SortStatus == dateSort[1].itemDescription  ) {
-          publications.sort((a, b) => (b.date - a.date))
-          for (i = 0; i < publications.length; i++) {
-            console.log("Data Descendente " + publications[i].cuerpo);
-          }
-        }*/
         ///// Sort Publications Descending
         publications.sort((a, b) => (b.date - a.date))
     
@@ -264,39 +244,51 @@
             centerComponent={{ text: 'MENSAJES', style: { color: '#fff' } }}
     
           />
-            
-            <Modal isVisible={isModalVisible}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-    
-                <Text style={styles.modalText}>ACCIONES</Text>
-                <View style={styles.loginButtonSection}>
-                <Button
-                  title='Eliminar'
-                  theme={{ colors: { primary: '#878787' } }} //#B10000
-                  icon={<Icon name='delete' color='#FFFFFF' />}
-                  buttonStyle={{borderRadius: 10, marginBottom: 10}}
-                  buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%' }}
-                  onPress={() => alertAction(1)} />
-                <Button
-                  title='Reenviar'
-                  theme={{ colors: { primary: '#878787' } }} //#0080FF
-                  icon={<Icon name='send' color='#FFFFFF' />}
-                  buttonStyle={{borderRadius: 10, marginBottom: 10}}
-                  buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }}
-                  onPress={() => alertAction(2)} />
-    
-    <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={toggleModal} >
-                  <Text style={styles.textStyle}>Cerrar</Text>
-                </Pressable>
-                </View>
-                
+
+          <RBSheet
+              ref={refRBSheet}
+              closeOnDragDown={true}
+              closeOnPressMask={false}
+              height={180}
+              customStyles={{
+                  wrapper: {
+                      backgroundColor: 'rgba(0,0,0,0.5)',
+                  },
+                  draggableIcon: {
+                      backgroundColor: '#b31d1d'
+                  }
+              }}
+          >
+              <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginTop: '2%' }}>
+                  <TouchableOpacity
+                      onPress={() => alertAction(1)}
+                      style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginBottom: '2%'
+                      }}>
+                      <IconButton
+                          color='gray'
+                          icon='delete'
+                      />
+                      <Subheading>Eliminar</Subheading>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                      onPress={() => alertAction(2)}
+                      style={{
+                          flexDirection: 'row',
+                          alignItems: 'center'
+                      }}
+                  >
+                      <IconButton
+                          color='gray'
+                          icon='send'
+                      />
+                      <Subheading>Reenviar</Subheading>
+                  </TouchableOpacity>
               </View>
-            </View>
-          </Modal>
-    
+          </RBSheet>
+                        
           <Modal isVisible={isModaReenviarlVisible}>
             <View style={styles.centeredView2}>
               <View style={styles.modalView2}>
@@ -340,13 +332,13 @@
                     theme={{ colors: { primary: '#ffffff' } }}
                     icon={<Icon name='more-vert' color='#8E0101' />}
                     buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                    onPress={() => functionCombined(item)} />
+                    //onPress={() => functionCombined(item)} 
+                    onPress={() => refRBSheet.current.open()}
+                  />
                     ):(
                       <></>
                     )}
                   
-    
-    
                 </CardAction>
                 <CardImage
                   source={{ uri: item.url }}
@@ -367,19 +359,19 @@
                   separator={true}
                   inColumn={false}>
                   <CardButton
-                    onPress={() => navigation.navigate('ListPublicationDetail', {
-                      items: {
-                        id: item.id,
-                        title: item.titulo,
-                        cuerpo: item.cuerpo,
-                        url: item.url,
-                        dates: item.date,
-                        dest: item.destinatario,
-                      }
-                    })} 
-                    
-                    title="ver mas..."
-                    color="#8E0101"
+                      onPress={() => navigation.navigate('ListPublicationDetail', {
+                        items: {
+                          id: item.id,
+                          title: item.titulo,
+                          cuerpo: item.cuerpo,
+                          url: item.url,
+                          dates: item.date,
+                          dest: item.destinatario,
+                        }
+                      })} 
+                      
+                      title="ver mas..."
+                      color="#8E0101"
                   />
                 </CardAction>
               </Card>
