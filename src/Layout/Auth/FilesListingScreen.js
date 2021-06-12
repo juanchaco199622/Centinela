@@ -26,7 +26,7 @@ const FilesListingScreen = () => {
   }, []);
 
   const listFilesAndDirectories = (pageToken) => {
-    const reference = storage().ref("files");
+    const reference = storage().ref("medical_info");
     reference.list({ pageToken }).then((result) => {
       result.items.forEach((ref) => {
         console.log("ref  ->>  ", JSON.stringify(ref));
