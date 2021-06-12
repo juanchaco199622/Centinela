@@ -54,12 +54,12 @@
     
     
       const functionCombined = (item) => {
-        toggleModal();
+        refRBSheet.current.open()
         setPost(item);
       };
     
       const functionCombinedResend = (items) => {
-        //handleConfirm(items);
+        
         reSendPost(items);
     
       };
@@ -68,10 +68,12 @@
       const deletePost = (answer) => {
         if (answer) {
           var dPost = 'Publication/' + selectedPost.key;
+          console.log(dPost+' = Valor')
           firestore().doc(dPost).delete()
             .then(result => {
               //console.log('Successfully deleted document');
-              toggleModal();
+              refRBSheet.current.close()
+              navigation.navigate('Home')
               selectedPost = [];
             })
             .catch(err => {
@@ -90,13 +92,14 @@
             id: selectedPost.id,
             titulo: selectedPost.titulo,
             cuerpo: selectedPost.cuerpo,
-            //date: selectedPost.date,
+            date: selectedPost.date,
             destinatario: destina,
             url: selectedPost.url,
             
           })
             .then(result => {
               toggleModalReenviar();
+              refRBSheet.current.close()
               toggleModal();
               Alert.alert('Mensaje enviado correctamente')
               selectedPost = [];
@@ -297,7 +300,7 @@
                   data={destinatarios}
     
                   headerComponent={<Text style={{ fontSize: 25 }} >Destinatarios</Text>}
-                  OnConfirm={(pItems) => functionCombinedResend(pItems)}
+                  OnConfirm={(pItems) =>  functionCombinedResend(pItems)}
                   ConfirmButtonTitle='OK'
                   DescriptionField='itemDescription'
                   KeyField='itemKey'
@@ -332,8 +335,7 @@
                     theme={{ colors: { primary: '#ffffff' } }}
                     icon={<Icon name='more-vert' color='#8E0101' />}
                     buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                    //onPress={() => functionCombined(item)} 
-                    onPress={() => refRBSheet.current.open()}
+                    onPress={() => functionCombined(item)} 
                   />
                     ):(
                       <></>

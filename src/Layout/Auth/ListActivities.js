@@ -246,7 +246,7 @@ export default function ListActivities({ navigation }) {
               buttonStyle={{ borderRadius: 10, marginLeft: 0, marginRight: 0, marginBottom: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }}
               onPress={() => alertAction(2)} />
 
-<Pressable
+            <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={toggleModal} >
               <Text style={styles.textStyle}>Cerrar</Text>
@@ -304,8 +304,6 @@ export default function ListActivities({ navigation }) {
                 ):(
                   <></>
                 )}
-              
-
 
             </CardAction>
             <CardImage

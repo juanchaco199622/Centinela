@@ -56,8 +56,33 @@ const Notifications = ({navigation}) => {
 
     useEffect(() => {
         notificationsRequest()
+      
+            const subscriber = firestore()
+              .collection('Usuario')
+              .doc(state.doc_id)
+              .collection('NotificationsUser')
+              .onSnapshot(querySnapshot => {
+                const users = [];
+                let i = 0;
+                querySnapshot.forEach(documentSnapshot => {
+                  users.push({
+                    ...documentSnapshot.data(),
+                    key: documentSnapshot.id,
+                    doc_id: querySnapshot.docs[i].id
+                  });
+                  i++;
+                });
+                setUsers(users)
+                //console.log(users+'usuarios')
+                //setLoading(false);
+              });
+              
+                // Unsubscribe from events when no longer in use
+              
+              
         LogBox.ignoreAllLogs()
         return () => {
+             subscriber();
            // foregroundSubscriber();
             //backgroundSubscriber();
         };
@@ -67,7 +92,6 @@ const Notifications = ({navigation}) => {
     const showDialog = () => setVisible(true);
   
     const hideDialog = () => setVisible(false);
-
     const [users, setUsers] = useState({
         doc_id: "",
         nombres : "",
@@ -81,30 +105,7 @@ const Notifications = ({navigation}) => {
         dateFinish:"",
       });
 
-    useEffect(() => {
-        const subscriber = firestore()
-          .collection('Usuario')
-          .doc(state.doc_id)
-          .collection('NotificationsUser')
-          .onSnapshot(querySnapshot => {
-            const users = [];
-            let i = 0;
-            querySnapshot.forEach(documentSnapshot => {
-              users.push({
-                ...documentSnapshot.data(),
-                key: documentSnapshot.id,
-                doc_id: querySnapshot.docs[i].id
-              });
-              i++;
-            });
-            setUsers(users)
-            //console.log(users+'usuarios')
-            //setLoading(false);
-          });
-          
-            // Unsubscribe from events when no longer in use
-            return () => subscriber();
-          }, []);
+    
   
     const notificationsRequest = async () => {
         notificationsReq.get()
@@ -125,6 +126,7 @@ const Notifications = ({navigation}) => {
             console.log(error)
             setError(error);
         });
+
     }
   
 
@@ -163,7 +165,6 @@ const Notifications = ({navigation}) => {
         )
     };
    
-//console.log(todos,'todos')
 
     if(users != ''){
         return (
