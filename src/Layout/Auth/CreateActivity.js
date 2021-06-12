@@ -322,11 +322,11 @@ export default function CreateActivity({ navigation }) {
                                 </View>
                             </View>
                             <View style={{ padding: 10 }}>
-                                <Text>Usuarios</Text>
+                                <Text>Responsables</Text>
                                 <View style={styles.inputGroup}>
                                     <PickerCheckBox
                                         data={Users}
-                                        headerComponent={<Text style={{ fontSize: 20 }} >Usuarios</Text>}
+                                        headerComponent={<Text style={{ fontSize: 20 }} >Seleccionar los responsables</Text>}
                                         OnConfirm={(pItems) => handleConfirmResp(pItems)}
                                         ConfirmButtonTitle='Ok'
                                         DescriptionField='itemDescription'

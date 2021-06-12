@@ -91,7 +91,7 @@ const UploadFileScreen = () => {
         );
       });
       task.then(() => {
-        alert("Archivo actualizado en el bucket");
+        alert("Archivo cargado correctamente");
         setProcess("");
       });
       setFilePath({});
