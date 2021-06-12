@@ -34,6 +34,7 @@ export default function EditProfile({ route, navigation }) {
   const [validApellidos, setValidApellidos] = useState(false);
   const [ramas, setRamas] = useState([{ label: '', value: '' }])
   const [rol, setRol] = useState([{ label: '', value: '' }])
+  const [rolUserAPP, setRolUserAPP] = useState()
   //Obtener datos de firestore
   useEffect(() => {
     firestore()
@@ -63,6 +64,16 @@ export default function EditProfile({ route, navigation }) {
           datosRol.push({ label: _rol.nombre, value: _rol.nombre });
         }
         setRol(datosRol);
+      });
+  }, []);
+  useEffect(() => {
+    firestore()
+      .collection('Usuario')
+      .where('email', '==', user.email)
+      .get()
+      .then(querySnapshot => {
+        const usuario = querySnapshot.docs[0].data()
+        setRolUserAPP(usuario.id_rol);
       });
   }, []);
 
@@ -199,8 +210,7 @@ export default function EditProfile({ route, navigation }) {
     }
   }
   //--------------------VISTA
-  if (state.rol == 'Administrador') {
-
+  if (rolUserAPP == 'Administrador') {
     return (
       <View style={styles.container}>
         <Header
