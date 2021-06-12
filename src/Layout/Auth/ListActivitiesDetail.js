@@ -16,7 +16,6 @@ import moment from 'moment'
 import 'moment/locale/es'
 
 export default function ListActivitiesDetail({ route, navigation }) {
-    console.log(route.params.items.dest)
     const activity = route.params.items;
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', }
     //LO NUEVO PARA LISTAR
@@ -83,7 +82,6 @@ export default function ListActivitiesDetail({ route, navigation }) {
                 console.error(e);
             });
         Linking.openURL(url);
-        console.log(url);
     };
 
     //

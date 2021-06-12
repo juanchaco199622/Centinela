@@ -78,13 +78,11 @@ export default function ListActivities({ navigation }) {
       var dPost = 'Activity/' + selectedPost.key;
       firestore().doc(dPost).delete()
         .then(result => {
-          //console.log('Successfully deleted document');
           refRBSheet.current.close()
           navigation.navigate('Home')
           selectedPost = [];
         })
         .catch(err => {
-          console.log('Error eliminando: ', err);
         });
     }
   };
@@ -113,7 +111,6 @@ export default function ListActivities({ navigation }) {
           selectedPost = [];
         })
         .catch(err => {
-          console.log('Delete failed with: ', err);
         });
     } else {
       toggleModalReenviar();
@@ -158,16 +155,15 @@ export default function ListActivities({ navigation }) {
   useEffect(() => {
     const subscriber = firestore()
       .collection('Activity')
+      .orderBy('fecha_creacion', 'desc')
       .onSnapshot(querySnapshot => {
         const activities = [];
-
         querySnapshot.forEach(documentSnapshot => {
           activities.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
           });
         });
-
         setActivities(activities);
         //setLoading(false);
       });
@@ -220,8 +216,7 @@ export default function ListActivities({ navigation }) {
     }
     return serviceItems;
   }
-
-
+ 
   return (
     <View style={{ flex: 1 }}>
       <Header

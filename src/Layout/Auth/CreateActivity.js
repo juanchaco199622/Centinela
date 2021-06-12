@@ -16,12 +16,19 @@ import { Icon, Header } from 'react-native-elements';
 
 export default function CreateActivity({ navigation }) {
     //Declaracion de variables
+    //Fechas
+    const dates = new Date();
+    const dia = dates.getDate();
+    const mes = ("0" + (dates.getMonth() + 1)).slice(-2);
+    const anio = dates.getFullYear();
+    const fecha_actual=dia+'-'+mes+'-'+anio;
+    //Fechas
     const [{ downloadURL, uploading, progress }, monitorUpload] = useUploadImagePreRegister();
     //const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
     const [imageLocal, setImageLocal] = useState();
     //const [checkedItem, setICheckedItem] = useState();
-    const [date, setDate] = useState(new Date());
-    const [date2, setDate2] = useState(new Date());
+    const [date, setDate] = useState(fecha_actual);
+    const [date2, setDate2] = useState(fecha_actual);
     const [fecha_creacion, setFecha_creacion] = useState(new Date());
     const refRBSheet = useRef();
     const tomarFotoCamara = () => {
@@ -120,7 +127,6 @@ export default function CreateActivity({ navigation }) {
                     datosUser.push({ itemResp: i, itemDescription: Usuario.nombres });
                 }
                 setUsers(datosUser);
-                console.log(Usuario.doc_id +'id usuario')
             });
     }, [])
 
@@ -142,7 +148,6 @@ export default function CreateActivity({ navigation }) {
             });
             var resp = '';
             publicar.checkedResp.map((itemResp) => {
-                console.log(itemResp.i)
                 resp = resp + itemResp.itemDescription + ',';
             });
             await firestore().collection('Activity').add({
@@ -292,7 +297,6 @@ export default function CreateActivity({ navigation }) {
                                     onDateChange={(date2) => {
                                         setDate2(date2);
                                         handleChangeText("date2", date2)
-                                        console.log(date2)
                                     }}
                                 />
 
