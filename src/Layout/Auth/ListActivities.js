@@ -47,8 +47,9 @@ export default function ListActivities({ navigation }) {
     id_rol: "",
     grupo: "",
     url: "",
+    fecha_creacion: "",
     date: "",
-    date2: ""
+    date2: "",
   });
 
   const toggleModal = () => {
@@ -100,6 +101,7 @@ export default function ListActivities({ navigation }) {
         cuerpo: selectedPost.cuerpo,
         destinatario: destina,
         url: selectedPost.url,
+        fecha_creacion: selectedPost.fecha_creacion,
         date: selectedPost.date,
         date2: selectedPost.date2
       })
@@ -372,7 +374,7 @@ export default function ListActivities({ navigation }) {
             />
 
             <CardContent textStyle={{ color: 'black', fontSize: 15, width: '100%' }}  >
-            <Text>{moment(new Date(item.date.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}</Text>
+            <Text>{moment(new Date(item.fecha_creacion.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}</Text>
               <Text numberOfLines={5} style={{ width: '100%', color:'black' }}>{item.cuerpo}</Text>
             </CardContent>
             <CardAction

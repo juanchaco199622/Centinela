@@ -235,16 +235,9 @@ export default function Profile({ navigation }) {
                 <Text style={styles.infoText}>{state.rol}</Text>
                 <View style={{ padding: 10 }}>
                   <View style={{ padding: 5 }}>
-                    <Button 
-                      icon="medical-bag" 
-                      mode="contained" 
-                      color={'#B10909'} 
-                      style={styles.roundButton} 
-                      onPress={_chooseFile}
-                    >
-                      Subir Ficha Medica
-                            <Text>{process}</Text>
-                    </Button>
+                  <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
+                    Ver Ficha Medica
+                  </Button>
                   </View>
                   <View style={{ padding: 5 }}>
                     <Button 

@@ -26,7 +26,7 @@ const FilesListingScreen = () => {
   }, []);
 
   const listFilesAndDirectories = (pageToken) => {
-    const reference = storage().ref("myfiles");
+    const reference = storage().ref("files");
     reference.list({ pageToken }).then((result) => {
       result.items.forEach((ref) => {
         console.log("ref  ->>  ", JSON.stringify(ref));
@@ -47,21 +47,16 @@ const FilesListingScreen = () => {
     return (
       // FlatList Item
       <View style={{ padding: 10 }}>
-        <Text
-          style={styles.item}
-          onPress={() => getItem(item.fullPath)}
-        >
-          File Name: {item.name}
-          {"\n"}
-          File Full Path: {item.fullPath}
-          {"\n"}
-          Bucket: {item.bucket}
-        </Text>
-        <Text style={{ color: "red" }}>
-          Click to generate Signed URL and Open it in
-          browser
-        </Text>
-      </View>
+      <Text
+        style={styles.item}
+        onPress={() => getItem(item.fullPath)}
+      >
+        Adjunto: {item.name}
+      </Text>
+      <Text style={{ color: "red" }}>
+        Abrir en el navegador
+      </Text>
+    </View>
     );
   };
 
@@ -92,7 +87,7 @@ const FilesListingScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titleText}>
-        ARCHIVOS
+        FICHA MEDICA
       </Text>
       {loading ? (
         <View style={styles.container}>
@@ -108,12 +103,6 @@ const FilesListingScreen = () => {
           keyExtractor={(item, index) => index.toString()}
         />
       )}
-      <Text style={styles.footerHeading}>
-        React Native Firebase Cloud Storage
-      </Text>
-      <Text style={styles.footerText}>
-        www.aboutreact.com
-      </Text>
     </SafeAreaView>
   );
 };

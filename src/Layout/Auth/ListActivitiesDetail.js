@@ -49,14 +49,14 @@
               style={{width:'97%', height:270, margin:7, alignSelf:'center', borderRadius:20, resizeMode:'stretch'}}
               source={{uri: activity.url}}>
               </Image>
-             
+
               <Text style={{paddingLeft:15}}>
                  
-                  {'Fecha Inicial: '+ moment(new Date(activity.date.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
+                  {'Fecha Inicial: '+ moment(new Date(activity.date.toDate)).format('dddd D [de] MMMM [del] YYYY')}
               </Text>
               <Text style={{paddingLeft:15}}>
               
-                  {'Fecha Final: '+moment(new Date(activity.date2.toDate())).format('dddd D [de] MMMM [del] YYYY, h:mm:ss a')}
+                  {'Fecha Final: '+moment(new Date(activity.date2.toDate)).format('dddd D [de] MMMM [del] YYYY')}
               </Text>
               <Text style={{paddingLeft:15}}>
                   {'Destinatarios: ['+activity.dest.split(',').join("] [").slice(0,-1)}

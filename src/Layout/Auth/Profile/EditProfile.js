@@ -10,12 +10,19 @@ import ImagePicker from 'react-native-image-picker'
 import { imagePickerOptions } from '../../../Utils';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { useUploadImageCrearUsuario } from '../../../Hooks'
+import storage from "@react-native-firebase/storage";
+import getPath from '@flyerhq/react-native-android-uri-path';
+// To pick the file from local file system
+import DocumentPicker from "react-native-document-picker";
 import { Icon, Header } from 'react-native-elements';
 // LIBRERIAS PARA LA FOTO FIN
 
 //Inicio de funcion
 export default function EditProfile({ route, navigation }) {
 
+  const [loading, setLoading] = useState(false);
+  const [filePath, setFilePath] = useState({});
+  const [process, setProcess] = useState("");
   //Declaracion de variables
   const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
   const data = route.params.state;
@@ -111,6 +118,77 @@ export default function EditProfile({ route, navigation }) {
     setImageLocal(null);
     refRBSheet.current.close();
   }
+  const _chooseFile = async () => {
+    // Opening Document Picker to select one file
+    try {
+      const fileDetails = await DocumentPicker.pick({
+        // Provide which type of file you want user to pick
+        type: [DocumentPicker.types.pdf],
+      });
+      /*console.log(
+        fileDetails.uri + '\n',
+        fileDetails.type + '\n', // mime type
+        fileDetails.name + '\n',
+        fileDetails.size
+        //"Detalles del archivo : " + JSON.stringify(fileDetails)
+      );*/
+      // Setting the state for selected File
+      setFilePath(fileDetails);
+    } catch (error) {
+      setFilePath({});
+      // If user canceled the document selection
+      alert(
+        DocumentPicker.isCancel(error)
+          ? "Cancelado"
+          : "Error desconocido: " + JSON.stringify(error)
+      );
+    }
+    try {
+      // Check if file selected
+      if (Object.keys(filePath).length == 0)
+        return alert("Por favor selecciona un archivo");
+      setLoading(true);
+
+      // Create Reference
+      //console.log(filePath.uri.replace("file://", ""));
+      //console.log('este es el path ' + filePath.name);
+      const reference = storage().ref(
+        `/medical_info/${filePath.name}`
+      );
+      //console.log('esta es la referencia ' + reference);
+      // Put File
+      //console.log('este es la URI ' + filePath.uri);
+      const fileUri = getPath(filePath.uri);
+      const task = reference.putFile(fileUri);
+      /*const task = reference.putFile(
+        filePath.uri.replace("file://", "")
+      );*/
+      // You can do different operation with task
+      // task.pause();
+      // task.resume();
+      // task.cancel();
+
+      task.on("state_changed", (taskSnapshot) => {
+        setProcess(
+          `${taskSnapshot.bytesTransferred} transferred 
+           out of ${taskSnapshot.totalBytes}`
+        );
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred 
+           out of ${taskSnapshot.totalBytes}`
+        );
+      });
+      task.then(() => {
+        alert("Ficha medica cargada correctamente");
+        setProcess("");
+      });
+      setFilePath({});
+    } catch (error) {
+      console.log("Error->", error);
+      alert(`Error-> ${error}`);
+    }
+    setLoading(false);
+  };
 
   // TERMINA LA LOGICA DE LA FOTO
   const renderAvatar = () => {
@@ -293,6 +371,23 @@ export default function EditProfile({ route, navigation }) {
                     items={rol}
                   />
                 </View>
+                <View style={{ padding: 10 }}>
+                <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
+                    Ver Ficha Medica
+                  </Button>
+                  </View>
+                <View style={{ padding: 10 }}>
+                    <Button 
+                      icon="medical-bag" 
+                      mode="contained" 
+                      color={'#B10909'} 
+                      style={styles.roundButton} 
+                      onPress={_chooseFile}
+                    >
+                      Subir Ficha Medica
+                            <Text>{process}</Text>
+                    </Button>
+                  </View>
                 <View style={{ padding: 10 }}>
                   <Button icon="floppy" color="#fff" uppercase={false} style={styles.roundButton}
                     onPress={() => updateProfile()}>Guardar</Button>

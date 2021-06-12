@@ -22,6 +22,7 @@ export default function CreateActivity({ navigation }) {
     //const [checkedItem, setICheckedItem] = useState();
     const [date, setDate] = useState(new Date());
     const [date2, setDate2] = useState(new Date());
+    const [fecha_creacion, setFecha_creacion] = useState(new Date());
     const refRBSheet = useRef();
     const tomarFotoCamara = () => {
         refRBSheet.current.close()
@@ -79,6 +80,7 @@ export default function CreateActivity({ navigation }) {
         checkedItem: [],
         checkedResp: [],
         destinatario: "",
+        fecha_creacion: fecha_creacion,
         date: date,
         date2: date2,
     })
@@ -145,6 +147,7 @@ export default function CreateActivity({ navigation }) {
             });
             await firestore().collection('Activity').add({
                 id: user.uid,
+                fecha_creacion: publicar.fecha_creacion,
                 date: publicar.date,
                 date2: publicar.date2,
                 titulo: publicar.titulo,
@@ -254,6 +257,7 @@ export default function CreateActivity({ navigation }) {
                                     }}
                                     onDateChange={(date) => {
                                         setDate(date);
+                                        handleChangeText("date", date)
                                     }}
                                 />
 
