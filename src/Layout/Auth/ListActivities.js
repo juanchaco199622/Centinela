@@ -1,5 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, StyleSheet, View, Text, Image, Alert, Pressable } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react'
+import {  
+        FlatList, 
+        StyleSheet, 
+        View, 
+        Text,  
+        Alert, 
+        TouchableOpacity 
+      } 
+from 'react-native';
+import {IconButton, Subheading} from 'react-native-paper'
 //Modal,
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -13,9 +22,13 @@ import { Picker } from '@react-native-picker/picker';
 import { useIsFocused } from '@react-navigation/native'
 //Button, Card, Icon, Avatar
 import moment from 'moment'
+
+import RBSheet from "react-native-raw-bottom-sheet";// LIBRERIA DEL MODAL
 import 'moment/locale/es'
 
 export default function ListActivities({ navigation }) {
+
+  const refRBSheet = useRef(); // FUNCION  PARA EL MODAL NUEVO
   const isFocused = useIsFocused()
   const user = auth().currentUser
   var checkedItem = [];
@@ -48,7 +61,7 @@ export default function ListActivities({ navigation }) {
 
 
   const functionCombined = (item) => {
-    toggleModal();
+    refRBSheet.current.open()
     setPost(item);
   };
 
@@ -65,7 +78,8 @@ export default function ListActivities({ navigation }) {
       firestore().doc(dPost).delete()
         .then(result => {
           //console.log('Successfully deleted document');
-          toggleModal();
+          refRBSheet.current.close()
+          navigation.navigate('Home')
           selectedPost = [];
         })
         .catch(err => {
@@ -91,6 +105,7 @@ export default function ListActivities({ navigation }) {
       })
         .then(result => {
           toggleModalReenviar();
+          refRBSheet.current.close()
           toggleModal();
           Alert.alert('Publicación enviada correctamente')
           selectedPost = [];
@@ -225,7 +240,7 @@ export default function ListActivities({ navigation }) {
 
       />
         
-        <Modal isVisible={isModalVisible}>
+        {/**<Modal isVisible={isModalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
@@ -255,7 +270,51 @@ export default function ListActivities({ navigation }) {
             
           </View>
         </View>
-      </Modal>
+      </Modal>**/}
+
+          <RBSheet
+              ref={refRBSheet}
+              closeOnDragDown={true}
+              closeOnPressMask={false}
+              height={180}
+              customStyles={{
+                  wrapper: {
+                      backgroundColor: 'rgba(0,0,0,0.5)',
+                  },
+                  draggableIcon: {
+                      backgroundColor: '#b31d1d'
+                  }
+              }}
+          >
+              <View style={{ flexDirection: 'column', justifyContent: 'center', alignContent: 'center', marginTop: '2%' }}>
+                  <TouchableOpacity
+                      onPress={() => alertAction(1)}
+                      style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginBottom: '2%'
+                      }}>
+                      <IconButton
+                          color='gray'
+                          icon='delete'
+                      />
+                      <Subheading>Eliminar</Subheading>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                      onPress={() => alertAction(2)}
+                      style={{
+                          flexDirection: 'row',
+                          alignItems: 'center'
+                      }}
+                  >
+                      <IconButton
+                          color='gray'
+                          icon='send'
+                      />
+                      <Subheading>Reenviar</Subheading>
+                  </TouchableOpacity>
+              </View>
+          </RBSheet>
 
       <Modal isVisible={isModaReenviarlVisible}>
         <View style={styles.centeredView2}>
