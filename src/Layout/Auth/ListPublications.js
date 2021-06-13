@@ -150,6 +150,7 @@
       useEffect(() => {
         const subscriber = firestore()
           .collection('Publication')
+          .orderBy('date', 'desc')
           .onSnapshot(querySnapshot => {
             const publications = [];
     
@@ -165,7 +166,6 @@
           });
         return () => subscriber();
       }, []);
-    
       useEffect(() => {
         //RAMAS
         firestore()

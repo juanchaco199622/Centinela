@@ -76,8 +76,7 @@ export default function ListUsers({ navigation }) {
     }
   }
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{flex: 1}}>
         <Header
           containerStyle={{
             backgroundColor: '#b31d1d'
@@ -117,7 +116,6 @@ export default function ListUsers({ navigation }) {
           )}
         >
         </FlatList>
-      </ScrollView>
     </SafeAreaView>
   );
 }
