@@ -1,5 +1,5 @@
 //import liraries
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, Component } from 'react';
 import { View, StyleSheet, FlatList, Image, LogBox, ImageBackground , Text} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -17,17 +17,6 @@ const Notifications = ({navigation}) => {
    /*var idLocale = require('moment/locale/es'); 
     moment.locale('es', idLocale)*/
     const user = auth().currentUser;
-
-
-    /*useEffect(() => {
-        //busquedausuario()
-        LogBox.ignoreAllLogs()
-        return () => {
-             //subscriber();
-            foregroundSubscriber();
-            backgroundSubscriber();
-        };
-    }, [])*/
  
     const [state, setState] = useState({
         doc_id: "",
@@ -56,14 +45,38 @@ const Notifications = ({navigation}) => {
             url:usuario.url,
             });
         });
+        busqueda()
         //Notificaciones();
-
+        //setLoading(false);
     }, [isFocused]);
 
     const [notificaciones, setNotifications] = useState([]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         const subscriber = firestore()
+        .collection('Usuario')
+        .doc(state.doc_id)
+        .collection('NotificationsUser')
+          .onSnapshot(querySnapshot => {
+            const noti = [];
+    
+            querySnapshot.forEach(documentSnapshot => {
+                noti.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
+            });
+    
+            setNotifications(noti);
+            setLoading(false);
+            console.log(noti+ ' datos de la notificacion ' )
+          });
+        return () => subscriber();
+      }, []);*/
+
+
+      const busqueda = async ()=>{
+         firestore()
         .collection('Usuario')
         .doc(state.doc_id)
         .collection('NotificationsUser')
@@ -81,12 +94,12 @@ const Notifications = ({navigation}) => {
             //setLoading(false);
             console.log(noti+ ' datos de la notificacion ' )
           });
-        return () => subscriber();
-      }, []);
-    
+      }
+     
 
 
 if(notificaciones != ''){
+    //setLoading(false);
         return (
             <Surface style={styles.surface}>
                 <ImageBackground source={{uri:'https://firebasestorage.googleapis.com/v0/b/resolvemos-ya.appspot.com/o/Wallpapers%2Fnotifications.png?alt=media&token=b892a0f3-6729-4d96-bf16-3f6547a942e1'}} style={styles.containerPrimary}>
