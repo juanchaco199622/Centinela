@@ -149,11 +149,11 @@ export default function Profile({ navigation }) {
         if (supported) {
           Linking.openURL(state.urlStorage);
         } else {
-          console.log("Error al abrir la ficha medica, intente nuevamente");
+          console.log("Error al abrir la ficha médica, intente nuevamente");
         }
       });
     }else{
-      alert("El usuario no tiene ficha medica");
+      alert("El usuario no tiene ficha médica");
     }
   };
   //Obtener datos de firestore
@@ -251,7 +251,7 @@ export default function Profile({ navigation }) {
                 <View style={{ padding: 10 }}>
                   <View style={{ padding: 5 }}>
                   <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={()=>{ handleClick()}} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
-                    Ver Ficha Medica
+                    Ver ficha médica
                   </Button>
                   </View>
                   <View style={{ padding: 5 }}>
