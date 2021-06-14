@@ -166,6 +166,7 @@
           });
         return () => subscriber();
       }, []);
+      
       useEffect(() => {
         //RAMAS
         firestore()

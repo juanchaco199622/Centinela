@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import React, { useEffect, useState, useRef } from 'react'
 import { Button, IconButton, Subheading, ProgressBar, Avatar, TextInput, HelperText } from 'react-native-paper'
-import { StyleSheet, Text, View, ScrollView, Alert, ImageBackground, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Alert, ImageBackground, TouchableOpacity, Linking } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import RNPickerSelect from 'react-native-picker-select';
@@ -26,6 +26,7 @@ export default function EditProfile({ route, navigation }) {
   //Declaracion de variables
   const LeftContent = props => <Avatar.Icon {...props} icon="account-circle" />
   const data = route.params.state;
+  console.log(data);
   const dir = route.params.page;
   const user = auth().currentUser;
   const [state, setState] = useState({
@@ -35,7 +36,8 @@ export default function EditProfile({ route, navigation }) {
     correo: data.correo,
     rol: data.rol ? data.rol : data.id_rol,
     grupo: data.grupo ? data.grupo : data.id_grupo,
-    url: data.url
+    url: data.url,
+    urlStorage: data.urlStorage ? data.urlStorage : null
   })
   const [validNombres, setValidNombres] = useState(false);
   const [validApellidos, setValidApellidos] = useState(false);
@@ -181,6 +183,13 @@ export default function EditProfile({ route, navigation }) {
       task.then(() => {
         alert("Ficha medica cargada correctamente");
         setProcess("");
+        reference.getDownloadURL().then(function(url) {
+          firestore().collection('Usuario').doc(state.doc_id).update(
+            {
+              urlStorage: url
+            }
+          );
+        });
       });
       setFilePath({});
     } catch (error) {
@@ -287,6 +296,19 @@ export default function EditProfile({ route, navigation }) {
       }
     }
   }
+  const handleClick = () => {
+    if(state.urlStorage){
+      Linking.canOpenURL(state.urlStorage).then(supported => {
+        if (supported) {
+          Linking.openURL(state.urlStorage);
+        } else {
+          console.log("Error al abrir la ficha médica, intente nuevamente");
+        }
+      });
+    }else{
+      alert("El usuario no tiene ficha médica");
+    }
+  };
   //--------------------VISTA
   if (rolUserAPP == 'Administrador') {
     return (
@@ -372,19 +394,19 @@ export default function EditProfile({ route, navigation }) {
                   />
                 </View>
                 <View style={{ padding: 10 }}>
-                <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
-                    Ver Ficha Medica
+                <Button icon="book-open-page-variant" color="#fff" uppercase={false} onPress={()=>{ handleClick()}} style={styles.roundButton}  >
+                    Ver ficha médica
                   </Button>
                   </View>
                 <View style={{ padding: 10 }}>
                     <Button 
                       icon="medical-bag" 
-                      mode="contained" 
-                      color={'#B10909'} 
+                      color="#fff"
+                      uppercase={false} 
                       style={styles.roundButton} 
                       onPress={_chooseFile}
                     >
-                      Subir Ficha Medica
+                      Subir ficha médica
                             <Text>{process}</Text>
                     </Button>
                   </View>
