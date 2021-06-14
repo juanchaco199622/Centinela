@@ -124,9 +124,12 @@ export default function CreateActivity({ navigation }) {
                 let datosUser = []
                 for (let i = 0; i < querySnapshot.size; i++) {
                     Usuario = querySnapshot.docs[i].data();
-                    datosUser.push({ itemResp: i, itemDescription: Usuario.nombres });
+                    datosUser.push({ itemResp: i, itemDescription: Usuario.nombres, idUsuario :querySnapshot.docs[i].id  });
+                    //id = querySnapshot.docs[i].id
+                    //console.log(id)
                 }
                 setUsers(datosUser);
+                //console.log(datosUser)
             });
     }, [])
 
@@ -148,6 +151,23 @@ export default function CreateActivity({ navigation }) {
             });
             var resp = '';
             publicar.checkedResp.map((itemResp) => {
+               console.log(itemResp.idUsuario +' valor destinatario')
+               //console.log(itemResp.itemid +'valor destinatario')
+
+                firestore().collection('Usuario').doc(itemResp.idUsuario)
+                .collection('NotificationsUser')
+                .add({
+                    fecha_creacion: publicar.fecha_creacion,
+                    date: publicar.date,
+                    date2: publicar.date2,
+                    titulo: publicar.titulo,
+                    cuerpo: publicar.cuerpo,
+                    responsable: itemResp.itemDescription,
+                    destinatario: destina,
+                    url: downloadURL || 'https://firebasestorage.googleapis.com/v0/b/centinela-8b7ed.appspot.com/o/PreRegister%2FImg_Predeterminada_Publicacion.png?alt=media&token=20c6f2a0-2e0c-4c5e-8bde-65cf9854e744',
+                }).then(() => {
+                    error = false
+                });
                 resp = resp + itemResp.itemDescription + ',';
             });
             await firestore().collection('Activity').add({
@@ -163,8 +183,7 @@ export default function CreateActivity({ navigation }) {
             }).then(() => {
                 error = false
             });
-            //console.log(Users.itemResp+'Id_del usuario')
-            //alert('Datos Guardados Correctamente')
+           
         }
         if (!error) {
 
