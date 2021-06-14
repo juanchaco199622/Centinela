@@ -67,11 +67,14 @@ const UploadFileScreen = () => {
       const reference = storage().ref(
         `/files/${filePath.name}`
       );
-      //console.log('esta es la referencia ' + reference);
+      console.log('esta es la referencia ' + reference);
+      global.urlAttach = reference;
       // Put File
       //console.log('este es la URI ' + filePath.uri);
       const fileUri = getPath(filePath.uri);
       const task = reference.putFile(fileUri);
+
+      
       /*const task = reference.putFile(
         filePath.uri.replace("file://", "")
       );*/
@@ -95,6 +98,7 @@ const UploadFileScreen = () => {
         setProcess("");
       });
       setFilePath({});
+
     } catch (error) {
       console.log("Error->", error);
       alert(`Error-> ${error}`);

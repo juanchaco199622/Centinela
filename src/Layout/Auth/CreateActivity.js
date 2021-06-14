@@ -143,6 +143,8 @@ export default function CreateActivity({ navigation }) {
             alert('Complete todos los campos')
         } else {
             var destina = '';
+            var attachement = global.urlAttach.path; // Set global variable value from uploadFileScreen
+            global.urlAttach = null; // Clear global variable from uploadFileScreen
             publicar.checkedItem.map((itemCheck) => {
                 destina = destina + itemCheck.itemDescription + ',';
             });
@@ -160,6 +162,7 @@ export default function CreateActivity({ navigation }) {
                 responsable: resp,
                 destinatario: destina, //itemCheck.itemDescription,
                 url: downloadURL || 'https://firebasestorage.googleapis.com/v0/b/centinela-8b7ed.appspot.com/o/PreRegister%2FImg_Predeterminada_Publicacion.png?alt=media&token=20c6f2a0-2e0c-4c5e-8bde-65cf9854e744',
+                adjunto: attachement
             }).then(() => {
                 error = false
             });

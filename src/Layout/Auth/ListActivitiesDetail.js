@@ -19,7 +19,7 @@ export default function ListActivitiesDetail({ route, navigation }) {
     const activity = route.params.items;
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', }
     //LO NUEVO PARA LISTAR
-    const [listData, setListData] = useState([]);
+    const [listData, setListData] = useState(); //useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -27,7 +27,8 @@ export default function ListActivitiesDetail({ route, navigation }) {
     }, []);
 
     const listFilesAndDirectories = (pageToken) => {
-        const reference = storage().ref("files");
+        //const reference = storage().ref("files");
+        const reference = storage().ref(activity.adjunto);
         reference.list({ pageToken }).then((result) => {
             result.items.forEach((ref) => {
                 console.log("ref  ->>  ", JSON.stringify(ref));
@@ -40,8 +41,10 @@ export default function ListActivitiesDetail({ route, navigation }) {
                 );
             }
             setListData(result.items);
+            //setListData(adjuntoFinal);
             setLoading(false);
         });
+        
     };
 
     const ItemView = ({ item }) => {

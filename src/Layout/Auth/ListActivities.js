@@ -50,6 +50,7 @@ export default function ListActivities({ navigation }) {
     fecha_creacion: "",
     date: "",
     date2: "",
+    adjunto: "",
   });
 
   const toggleModal = () => {
@@ -101,7 +102,8 @@ export default function ListActivities({ navigation }) {
         url: selectedPost.url,
         fecha_creacion: selectedPost.fecha_creacion,
         date: selectedPost.date,
-        date2: selectedPost.date2
+        date2: selectedPost.date2,
+        adjunto: selectedPost.adjunto
       })
         .then(result => {
           toggleModalReenviar();
@@ -385,7 +387,8 @@ export default function ListActivities({ navigation }) {
                     date: item.date,
                     date2: item.date2,
                     dest:item.destinatario,
-                    resp:item.responsable
+                    resp:item.responsable,
+                    adjunto:item.adjunto
                   }
                 })}
                 title="ver mas..."
