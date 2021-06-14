@@ -157,13 +157,6 @@ export default function EditProfile({ route, navigation }) {
       const reference = storage().ref(
         `/medical_info/${filePath.name}`
       );
-      reference.getDownloadURL().then(function(url) {
-        firestore().collection('Usuario').doc(state.doc_id).update(
-          {
-            urlStorage: url
-          }
-        );
-      });
       //console.log('esta es la referencia ' + reference);
       // Put File
       //console.log('este es la URI ' + filePath.uri);
@@ -190,6 +183,13 @@ export default function EditProfile({ route, navigation }) {
       task.then(() => {
         alert("Ficha medica cargada correctamente");
         setProcess("");
+        reference.getDownloadURL().then(function(url) {
+          firestore().collection('Usuario').doc(state.doc_id).update(
+            {
+              urlStorage: url
+            }
+          );
+        });
       });
       setFilePath({});
     } catch (error) {
