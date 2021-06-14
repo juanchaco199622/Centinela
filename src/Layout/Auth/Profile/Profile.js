@@ -6,7 +6,8 @@ import {
   Text,
   View,
   ImageBackground,
-  ScrollView
+  ScrollView,
+  Linking 
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
@@ -48,7 +49,8 @@ export default function Profile({ navigation }) {
     correo: "",
     id_rol: "",
     grupo: "",
-    url: ""
+    url: "",
+    urlStorage: null
   });
   useEffect(() => {
     firestore()
@@ -66,6 +68,7 @@ export default function Profile({ navigation }) {
           rol: usuario.id_rol,
           grupo: usuario.id_grupo,
           url: usuario.url,
+          urlStorage: usuario.urlStorage ? usuario.urlStorage : null
         });
       });
   }, [isFocused]);
@@ -140,7 +143,19 @@ export default function Profile({ navigation }) {
     }
     setLoading(false);
   };
-
+  const handleClick = () => {
+    if(state.urlStorage){
+      Linking.canOpenURL(state.urlStorage).then(supported => {
+        if (supported) {
+          Linking.openURL(state.urlStorage);
+        } else {
+          console.log("Error al abrir la ficha medica, intente nuevamente");
+        }
+      });
+    }else{
+      alert("El usuario no tiene ficha medica");
+    }
+  };
   //Obtener datos de firestore
   const renderAvatar = () => {
     if (state.url === null) {
@@ -235,7 +250,7 @@ export default function Profile({ navigation }) {
                 <Text style={styles.infoText}>{state.rol}</Text>
                 <View style={{ padding: 10 }}>
                   <View style={{ padding: 5 }}>
-                  <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={() => navigation.navigate('FilesListingScreen')} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
+                  <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={()=>{ handleClick()}} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
                     Ver Ficha Medica
                   </Button>
                   </View>
