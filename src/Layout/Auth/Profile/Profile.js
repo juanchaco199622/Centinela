@@ -250,15 +250,15 @@ export default function Profile({ navigation }) {
                 <Text style={styles.infoText}>{state.rol}</Text>
                 <View style={{ padding: 10 }}>
                   <View style={{ padding: 5 }}>
-                  <Button icon="book-open-page-variant" mode="contained" color={'#B10909'} onPress={()=>{ handleClick()}} style={{ height: 45, justifyContent: 'center', alignItems: 'center' }} >
+                  <Button icon="book-open-page-variant" color={'#fff'} uppercase={false} onPress={()=>{ handleClick()}} style={styles.roundButton} >
                     Ver ficha médica
                   </Button>
                   </View>
                   <View style={{ padding: 5 }}>
                     <Button 
                       icon="pencil" 
-                      mode="contained" 
-                      color={'#B10909'} 
+                      color={'#fff'} 
+                      uppercase={false} 
                       style={styles.roundButton}
                       onPress={() => navigation.navigate('EditProfile', { state, page: 'profile' })}
                     >
