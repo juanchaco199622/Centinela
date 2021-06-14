@@ -26,13 +26,14 @@ const CreateUser = ({ navigation }) => {
         email: "",
         id_rol: "",
         id_grupo: "",
+        urlStorage: null
     });
     const [validNombres, setValidNombres] = useState(false);
     const [validApellidos, setValidApellidos] = useState(false);
     const [validEmail, setValidEmail] = useState(false);
     const [validId_rol, setValidId_rol] = useState(false);
     const [validId_grupo, setValidId_grupo] = useState(false);
-    const [emailExist, setEmailExist] = useState(false);
+    const [urlStorage, setUrlStorage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [filePath, setFilePath] = useState({});
     const [process, setProcess] = useState("");
@@ -161,8 +162,11 @@ const CreateUser = ({ navigation }) => {
             );
           });
           task.then(() => {
-            alert("Ficha medica cargada correctamente");
+            alert("Ficha médica cargada correctamente");
             setProcess("");
+            reference.getDownloadURL().then(function(url) {
+                setUrlStorage(url);
+              });
           });
           setFilePath({});
         } catch (error) {
@@ -234,6 +238,7 @@ const CreateUser = ({ navigation }) => {
                                 email: state.email,
                                 id_rol: state.id_rol,
                                 id_grupo: state.id_grupo,
+                                urlStorage: urlStorage,
                                 url: imageLocal,
                             });
                             Alert.alert(
@@ -368,12 +373,12 @@ const CreateUser = ({ navigation }) => {
                             <View style={{ padding: 10 }}>
                     <Button 
                       icon="medical-bag" 
-                      mode="contained" 
-                      color={'#B10909'} 
+                      uppercase={false}
+                      color={'#fff'} 
                       style={styles.roundButton} 
                       onPress={_chooseFile}
                     >
-                      Subir Ficha Medica
+                      Subir ficha médica
                             <Text>{process}</Text>
                     </Button>
                   </View>
