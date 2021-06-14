@@ -77,7 +77,6 @@ const DeleteNotificationAsk = (props) => {
                     </View>
                     <View style={{flexDirection:'column'}}>
                         <Subheading style={{fontFamily:'ProductSans-Bold'}}>{props.data.titulo}</Subheading>
-                        <Text>{'Fin : ' + props.data.key}</Text>
                         {/**<Caption style={{ marginTop:'1%', marginBottom:'8%'}}>{timezone.tz(props.data.date, props.data.date2).tz(timezoneActual).fromNow()} </Caption>**/}
                         <View style={{flexDirection:'row',margin:5, padding:5}} >
                                 <Text>{'Inicio : ' + props.data.date+'  |  '}</Text>
@@ -106,11 +105,16 @@ const DeleteNotificationAsk = (props) => {
                                     > 
                                         Cerrar
                                     </Button>
-                                    <Text style={{fontFamily:'ProductSans-Bold', color:'white'}}>{' Título : ' +props.data.titulo}</Text>
+                                        <Text style={styles.modalTexto}>{' Título : '}<Text style={styles.modalTexto2}>{props.data.titulo}</Text></Text>
                                     <Image
                                         style={{ width: '97%', height: 270, margin: 7, alignSelf: 'center', borderRadius: 20, resizeMode: 'stretch' }}
                                         source={{ uri: props.data.url }}>
                                     </Image>
+                                    <View>
+                                        <Text style={styles.ModalCuerpo1}>{'Descripción : '}</Text>
+                                        <Text style={styles.ModalCuerpo2}>{props.data.cuerpo}</Text>
+                                    </View>
+                                   
                                 </View>
                             </Modal>
                         </View>
@@ -143,4 +147,28 @@ const styles = StyleSheet.create({
     width: 80,
     height: '100%',
   },
+  modalTexto:{
+    fontFamily:'ProductSans-Bold', 
+    color:'white',
+    marginTop:'5%',
+    fontSize: 18,
+  },
+  modalTexto2:{
+    fontFamily:'ProductSans-Bold', 
+    color:'white',
+    marginTop:'5%',
+    fontSize: 14,
+  },
+  ModalCuerpo1:{
+    fontFamily:'ProductSans-Bold', 
+    color:'white',
+    marginTop:'2%',
+    fontSize: 18,
+  },
+  ModalCuerpo2:{
+    fontFamily:'ProductSans-Bold', 
+    color:'white',
+    marginTop:'2%',
+    fontSize: 14,
+  }
 });
