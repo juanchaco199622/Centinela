@@ -20,6 +20,7 @@ import UploadFileScreen from '../Layout/Auth/UploadFileScreen';
 import Notifications from '../Layout/Notifications/Notifications';
 import ListActivities from '../Layout/Auth/ListActivities';
 import ListActivitiesDetail from '../Layout/Auth/ListActivitiesDetail';
+import DeleNotificationsAsk from '../Components/Notifications/DeleteNotificationAsk';
 import auth from '@react-native-firebase/auth'
 const AuthStack = createStackNavigator();
 
@@ -170,6 +171,7 @@ const RootStackScreen = () =>{
             <RootStack.Screen name="ListActivities" component={ListActivities}/>
             <RootStack.Screen name="FilesListingScreen" component={FilesListingScreen} />
             <RootStack.Screen name="ListActivitiesDetail" component={ListActivitiesDetail}/>
+            <RootStack.Screen name="DeleNotificationsAsk" component={DeleNotificationsAsk}/>
         </RootStack.Navigator>
     )
 }
