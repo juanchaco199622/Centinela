@@ -13,7 +13,8 @@ import { Subheading, List, Avatar, IconButton, Caption,  Button} from 'react-nat
 import * as RNLocalize from "react-native-localize";
 import moment from 'moment';
 import timezone from 'moment-timezone';
-import firestore from '@react-native-firebase/firestore';
+import Modal from 'react-native-modal';
+import { color } from 'react-native-elements/dist/helpers';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -24,7 +25,11 @@ const DeleteNotificationAsk = (props) => {
     const [loading,setLoading] = useState(true);
 
    
+    const [isModalVisible, setModalVisible] = useState(false);
 
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
 
     const leftSwipe = (progress, dragX) => {
         const scale = dragX.interpolate({
@@ -50,7 +55,7 @@ const DeleteNotificationAsk = (props) => {
 
         
         <Swipeable renderLeftActions={leftSwipe}>
-
+              
             <View style={styles.container}>
                 
                 <View style={{flexDirection:'row', justifyContent:'space-between', width:'80%'}}>
@@ -78,26 +83,37 @@ const DeleteNotificationAsk = (props) => {
                                 <Text>{'Inicio : ' + props.data.date+'  |  '}</Text>
                                 <Text>{'Fin : ' + props.data.date2}</Text> 
                         </View>
-                        <Button
-                            mode='contained'
-                            uppercase={false}
-                            labelStyle={{fontSize:16}}
-                            color={'#B10909'}  
-                            onPress={() => navigation.navigate('ListActivitiesDetail', {
-                                items: {
-                                  id: props.data.key,
-                                  title: props.data.titulo,
-                                  cuerpo: props.data.cuerpo,
-                                  url: props.data.url,
-                                  date: props.data.date,
-                                  date2: props.data.date2,
-                                  dest: 'vacio',
-                                  resp: props.data.responsable
-                                } 
-                            })}
-                        >
-                            Detalle    
-                        </Button>
+        
+                        <View style={{flex: 1}}>
+                            <Button  
+                                mode='contained'
+                                uppercase={false}
+                                labelStyle={{fontSize:16}}
+                                color={'#B10909'}  
+                                onPress={toggleModal} 
+                            >
+                                Detalle
+                            </Button>
+                            <Modal isVisible={isModalVisible}>
+                                <View style={{flex: 1}}>
+
+                                    <Button 
+                                        mode='contained'
+                                        uppercase={false}
+                                        labelStyle={{fontSize:16}}
+                                        color={'#B10909'}  
+                                        onPress={toggleModal}
+                                    > 
+                                        Cerrar
+                                    </Button>
+                                    <Text style={{fontFamily:'ProductSans-Bold', color:'white'}}>{' Título : ' +props.data.titulo}</Text>
+                                    <Image
+                                        style={{ width: '97%', height: 270, margin: 7, alignSelf: 'center', borderRadius: 20, resizeMode: 'stretch' }}
+                                        source={{ uri: props.data.url }}>
+                                    </Image>
+                                </View>
+                            </Modal>
+                        </View>
                     </View>    
                 </View>
             </View>
